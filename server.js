@@ -60,6 +60,7 @@ app.get ('/videos', function (req, res){
                 page_title: 'Challenge You All Videos',
                 need_ziggeo: 1,
                 videos: index,
+                user: req.user
             })
             return true;
         },
@@ -119,7 +120,7 @@ app.get ('/streams/:videoId', function (req, res){
     })
 })
 
-const v = 'xyz';
+
 app.get ('/record', function (req, res){
     res.render ('record',{
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
@@ -135,7 +136,7 @@ app.get ('/upload', function (req, res){
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
         page_title: 'Upload video',
         need_ziggeo: 1,
-        tags:'xyz'
+       
     })
 })
 
