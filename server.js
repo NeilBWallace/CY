@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.engine ('ejs', require('ejs-locals'));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
-
+app.use( express.static( "public" ) );
 // required for passport
 app.use(session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
