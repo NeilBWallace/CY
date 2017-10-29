@@ -1,5 +1,27 @@
 <% layout('layout') -%>
 <% block('title', page_title) %>
+<div class="row">
+        
+                <!-- LOCAL INFORMATION -->
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h3><span class="fa fa-user"></span> Local</h3>
+        
+                        <% if (user.local.email) { %>
+                            <p>
+                                <strong>id</strong>: <%= user._id %><br>
+                                <strong>email</strong>: <%= user.local.email %><br>
+                                <strong>password</strong>: <%= user.local.password %>
+                            </p>
+                            
+                            <a href="/unlink/local" class="btn btn-default">Unlink</a>
+                        <% } else { %>
+                            <a href="/connect/local" class="btn btn-default">Connect Local</a>
+                        <% } %>
+        
+                    </div>
+                </div>
+
 
             <div id="content" class="container">
                 <h1 class="page-header"><%=page_title%></h1>

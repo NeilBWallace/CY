@@ -125,9 +125,8 @@ app.get ('/record', function (req, res){
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
         page_title: req.params.video_id,
         need_ziggeo: 1,
-        tags: v
-        
-    })
+          user: req.user
+      })
 
 })
 
