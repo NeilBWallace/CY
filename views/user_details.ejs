@@ -1,0 +1,51 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Challenge You</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        .reading {
+             background-image: url(signup.png)  !important;
+           background-color:#A916BA;
+             background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left; 
+        }
+        body         { padding-top:80px; }
+    </style>
+</head>
+
+<body class='reading'>
+<div class="container text-right">
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> User</h1>
+    <% for(var i =0; i < userdetail.length; i++){ 
+        %><div>
+            <%= userdetail[i].username %>
+        </div>
+   <% }%>
+
+    <!-- LOGIN FORM -->
+    <form action="/insert_userdetails" method="post">
+        <div class="form-group">
+            <label>User Details</label>
+            <input type="text" class="form-control" name="userdetail">
+        </div>
+      
+
+        <button type="submit" class="btn btn-warning btn-lg">Create User Details</button>
+    </form>
+
+    <hr>
+
+   =   <p>Or go <a href="/">home</a>.</p>
+
+
+</div>
+</div>
+</body>
+</html>
+    

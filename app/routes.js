@@ -14,7 +14,7 @@ module.exports = function(app, passport) {
 //db.on('error',function(){
 //console.log(err);
 //});
-
+let UserDetails=require('./models/userdetails');
 let Group=require('./models/group');
 let Hobby=require('./models/hobby');
 // normal routes ===============================================================
@@ -46,6 +46,50 @@ let Hobby=require('./models/hobby');
    });
 });
     
+
+app.get('/user_details',function(req,res){
+   UserDetails.find({},function(err,userdetails){
+        if(err)
+        {
+            console.log('errror retrieving user details')
+        }else
+        {
+           console.log(userdetails);
+           
+           res.render('user_details',
+           {
+               user: req.user,
+               page_title: 'USer Detials',
+               userdetail:userdetails
+       
+           }
+           );
+        }
+   
+});
+});
+
+
+
+app.post('/insert_userdetails',function(req,res){
+    
+               // create the user
+ let newUserDetails   = new UserDetails();
+               
+   newUserDetails.username   = req.body.userdetail;
+   console.log(req.body.userdetails);
+ newUserDetails.save(function(err){
+   if(err){
+       console.log(err);
+       return
+   }else
+   {
+       res.redirect('/user_details');
+   }
+ });
+});                    
+
+
 
 app.post('/insert_group',function(req,res){
     
