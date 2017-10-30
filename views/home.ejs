@@ -1,10 +1,12 @@
+<% layout('layout') -%>
+<% block('title', page_title) %>
 <style>
         
       
         
                  .reading {
-                     background-image: url(home.png)  !important;
-                   background-color:#A916BA;
+                     background-image: url(home.png)   !important;
+                     height:200px;
                      background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: center; 
@@ -16,9 +18,7 @@
 
    
             <div id="content" class="container">
-                <h1 class="page-header">Challenge You</h1>
-                           <p class="text-success">Below is list of available pages</p>
-                <ul class="list-unstyled">
+                  <ul class="list-unstyled">
                     <li><a href="/" class="btn btn-md btn-link">Home</a></li>
          <li><a href="/record" class="btn btn-md btn-link">Set Challenge</a></li>
          <li><a href="/videos" class="btn btn-md btn-link">Challenge</a></li>
@@ -44,8 +44,7 @@
                                         <p>
                                             <strong>id</strong>: <%= user._id %><br>
                                             <strong>email</strong>: <%= user.local.email %><br>
-                                            <strong>password</strong>: <%= user.local.password %>
-                                        </p>
+                                          </p>
                                         
                                         <a href="/unlink/local" class="btn btn-default">Unlink</a>
                                     <% } else { %>
@@ -56,13 +55,5 @@
                             </div>
 
 
-            <div class="container">
-                
-                    <div class="jumbotron text-center">
-                 
-                        <p>Login or Register with:</p>
-                        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
-                    </div>
-                
-                </div>
+        
             </body>
