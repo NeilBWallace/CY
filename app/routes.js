@@ -15,7 +15,7 @@ module.exports = function(app, passport) {
 //console.log(err);
 //});
 
-
+let Group=require('./models/group');
 let Hobby=require('./models/hobby');
 // normal routes ===============================================================
 
@@ -24,18 +24,57 @@ let Hobby=require('./models/hobby');
         res.render('index.ejs');
     });
 
-    app.get('/get_groups',function(req,res){
-        res.render('groups',
-    {
-        user: req.user,
-        page_title: 'Groups',
-
-    }
-    );
-    });
-
+    app.get('/groups',function(req,res){
+        Group.find({},function(err,groups){
+            if(err)
+            {
+                console.log('errror retrieving groups')
+            }else
+            {
+               console.log(groups);
+               
+               res.render('groups',
+               {
+                   user: req.user,
+                   page_title: 'Groups',
+                   group:groups
+           
+               }
+               );
+            }
+       
+   });
+});
     
-    app.get('/get_hobbies',function(req,res){
+
+app.post('/insert_group',function(req,res){
+    
+               // create the user
+ let newGroup   = new Group();
+               
+   newGroup.group   = req.body.group;
+   console.log(req.body.group);
+ newGroup.save(function(err){
+   if(err){
+       console.log(err);
+       return
+   }else
+   {
+       res.redirect('/groups');
+   }
+ });
+                        
+
+
+
+});
+
+
+
+
+
+
+    app.get('/hobbies',function(req,res){
 
 
         
@@ -73,7 +112,7 @@ let Hobby=require('./models/hobby');
           return
       }else
       {
-          res.redirect('/get_hobbies');
+          res.redirect('/hobbies');
       }
     });
                            
