@@ -1,11 +1,110 @@
+
+
+
 module.exports = function(app, passport) {
 
+//const mongoose=require('mongoose');
+//mongoose.connect('mongodb://sa:sa@ds237475.mlab.com:37475/challengeyou');
+//let db = mongoose.connection;
+
+//db.once('open',function(){
+//console.log('console.db');
+//});
+
+//db.on('error',function(){
+//console.log(err);
+//});
+
+
+let Hobby=require('./models/hobby');
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
         res.render('index.ejs');
     });
+
+    app.get('/get_groups',function(req,res){
+        res.render('groups',
+    {
+        user: req.user,
+        page_title: 'Groups',
+
+    }
+    );
+    });
+
+    
+    app.get('/get_hobbies',function(req,res){
+
+
+        
+         Hobby.find({},function(err,hobbies){
+             if(err)
+             {
+                 console.log('errror retrieving hobbies')
+             }else
+             {
+                console.log(hobbies);
+                
+                res.render('hobbies',
+                {
+                    user: req.user,
+                    page_title: 'Hobbies',
+                    hobby:hobbies
+            
+                }
+                );
+             }
+        
+    });
+});
+
+    app.post('/insert_hobby',function(req,res){
+       
+                  // create the user
+    let newHobby   = new Hobby();
+                  
+      newHobby.hobby    = req.body.hobby;
+      console.log(req.body.hobby);
+    newHobby.save(function(err){
+      if(err){
+          console.log(err);
+          return
+      }else
+      {
+          res.redirect('/get_hobbies');
+      }
+    });
+                           
+
+
+
+});
+
+  
+
+    app.post('/update_hobby',function(req,res){
+        res.render('hobbies',
+    {
+        user: req.user,
+        page_title: 'Hobbies',
+
+    }
+    );
+    });
+
+
+    app.post('/delete_hobby',function(req,res){
+        res.render('hobbies',
+    {
+        user: req.user,
+        page_title: 'Hobbies',
+
+    }
+    );
+    });
+
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {

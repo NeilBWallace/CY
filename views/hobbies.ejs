@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -20,28 +21,22 @@
 <div class="container text-right">
 <div class="col-sm-6 col-sm-offset-3">
 
-    <h1><span class="fa fa-sign-in"></span> Signup</h1>
-
-    <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
+    <h1><span class="fa fa-sign-in"></span> Create Hobby</h1>
+    <% for(var i =0; i < hobby.length; i++){ 
+        %><div>
+            <%= hobby[i].hobby %>
+        </div>
+   <% }%>
 
     <!-- LOGIN FORM -->
-    <form action="/signup" method="post">
+    <form action="/insert_hobby" method="post">
         <div class="form-group">
-            <label>User name</label>
-            <input type="text" class="form-control" name="username">
+            <label>Hobby</label>
+            <input type="text" class="form-control" name="hobby">
         </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
+      
 
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
+        <button type="submit" class="btn btn-warning btn-lg">Create Hobby</button>
     </form>
 
     <hr>
@@ -54,3 +49,4 @@
 </div>
 </body>
 </html>
+           
