@@ -21,7 +21,7 @@ let Hobby=require('./models/hobby');
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
-        res.render('index.ejs');
+        res.render('login.ejs', { message: req.flash('loginMessage') });
     });
 
     app.get('/groups',function(req,res){
