@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
         .reading {
-             background-image: url(signup.png)  !important;
-           background-color:#A916BA;
-             background-repeat: no-repeat;
+              background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: left; 
         }
@@ -20,14 +18,10 @@
 <body class='reading'>
 <div class="container text-right">
 <div class="col-sm-6 col-sm-offset-3">
-
-    <h1><span class="fa fa-sign-in"></span> User</h1>
-    <% for(var i =0; i < userdetail.length; i++){ 
-        %><div>
-            <%= userdetail[i].username %>
-        </div>
-   <% }%>
-
+    <ul>
+        <li><a href="/user_image_upload" class="btn btn-md btn-link">Upload picture</a></li>
+     </ul>   
+ 
     <!-- LOGIN FORM -->
     <form action="/insert_userdetails" method="post">
         <div class="form-group">

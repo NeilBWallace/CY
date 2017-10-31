@@ -20,9 +20,19 @@ let Hobby=require('./models/hobby');
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
-    app.get('/', function(req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
+    app.get('/',isLoggedIn, function(req, res) {
+    
+        res.render('home.ejs', {
+            user: req.user,
+            page_title: 'Challenge You',
+            need_ziggeo: 0,
+            file:"/uploads/myImage.jpg",    
+             message: req.flash('loginMessage') 
+            });
+   
     });
+
+
 
     app.get('/groups',function(req,res){
         Group.find({},function(err,groups){
@@ -57,6 +67,29 @@ app.get('/user_image_upload',function(req,res){
 });
 
 
+app.get('/challenge_someone',function(req,res){
+    UserDetails.find({},function(err,userdetails){
+        if(err)
+        {
+            console.log('errror retrieving user details')
+        }else
+        {
+           console.log(userdetails);
+           
+           res.render('challenge_someone',
+           {
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
+               user: req.user,
+               page_title: 'USer Detials',
+               userdetail:userdetails,
+               need_ziggeo: 1,           
+           }
+           );
+           }
+         } );
+        
+   
+});
 
 
 
@@ -209,7 +242,9 @@ app.post('/insert_group',function(req,res){
         res.render('home', {
             user: req.user,
             page_title: 'Challenge You',
-            need_ziggeo: 0
+            need_ziggeo: 0,
+            file:"/uploads/myImage.jpg"
+            
         });
 
 
@@ -221,7 +256,7 @@ app.post('/insert_group',function(req,res){
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect('/login');
     });
 
 // =============================================================================
@@ -307,5 +342,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.redirect('/');
+    res.redirect('/login');
 }
