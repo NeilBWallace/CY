@@ -50,7 +50,7 @@ app.get('/user_image_upload',function(req,res){
             
            res.render('user_image_upload',
            {
-              
+              file:"/uploads/myImage.jpg"
        
            });
     

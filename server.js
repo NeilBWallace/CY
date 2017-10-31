@@ -20,9 +20,11 @@ var session      = require('express-session');
 // Set Storage Engine
 const storage = multer.diskStorage({
     destination: './public/uploads/',
-    filename: function(req, file, cb){
-      cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
+   filename: function(req, file, cb){
+     cb(null,file.fieldname + path.extname(file.originalname));
+ 
+
+}
   });
 
 
