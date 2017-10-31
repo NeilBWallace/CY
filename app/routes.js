@@ -46,6 +46,20 @@ let Hobby=require('./models/hobby');
    });
 });
     
+app.get('/user_image_upload',function(req,res){
+            
+           res.render('user_image_upload',
+           {
+              
+       
+           });
+    
+});
+
+
+
+
+
 
 app.get('/user_details',function(req,res){
    UserDetails.find({},function(err,userdetails){
