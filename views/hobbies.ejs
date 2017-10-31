@@ -8,18 +8,21 @@
     <style>
         .reading {
              background-image: url(signup.png)  !important;
-           background-color:#A916BA;
-             background-repeat: no-repeat;
+              background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: left; 
         }
         body         { padding-top:80px; }
     </style>
 </head>
-
+<% layout('layout') -%>
+<% block('title', page_title) %>
 <body class='reading'>
 <div class="container text-right">
 <div class="col-sm-6 col-sm-offset-3">
+
+        <%= typeof msg != 'undefined' ? msg : '' %>
+        
 
     <h1><span class="fa fa-sign-in"></span> Create Hobby</h1>
     <% for(var i =0; i < hobby.length; i++){ 

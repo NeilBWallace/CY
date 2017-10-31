@@ -26,6 +26,7 @@ let Hobby=require('./models/hobby');
             user: req.user,
             page_title: 'Challenge You',
             need_ziggeo: 0,
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',  
             file:"/uploads/myImage.jpg",    
              message: req.flash('loginMessage') 
             });
@@ -45,10 +46,12 @@ let Hobby=require('./models/hobby');
                
                res.render('groups',
                {
+                ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',      
                    user: req.user,
                    page_title: 'Groups',
-                   group:groups
-           
+                   group:groups,
+                   need_ziggeo: 1
+                   
                }
                );
             }
@@ -60,8 +63,10 @@ app.get('/user_image_upload',function(req,res){
             
            res.render('user_image_upload',
            {
-              file:"/uploads/myImage.jpg"
-       
+              file:"/uploads/myImage.jpg",
+              need_ziggeo: 1,
+              ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+              
            });
     
 });
@@ -105,6 +110,9 @@ app.get('/user_details',function(req,res){
            
            res.render('user_details',
            {
+            need_ziggeo: 1,
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+            
                user: req.user,
                page_title: 'USer Detials',
                userdetail:userdetails
@@ -179,10 +187,12 @@ app.post('/insert_group',function(req,res){
                 
                 res.render('hobbies',
                 {
+                    need_ziggeo: 1,           
                     user: req.user,
                     page_title: 'Hobbies',
-                    hobby:hobbies
-            
+                    hobby:hobbies,
+                    ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+                    
                 }
                 );
              }
@@ -199,8 +209,29 @@ app.post('/insert_group',function(req,res){
       console.log(req.body.hobby);
     newHobby.save(function(err){
       if(err){
-          console.log(err);
-          return
+        Hobby.find({},function(err,hobbies){
+            if(err)
+            {
+                console.log('errror retrieving hobbies')
+            }else
+            {
+               console.log(hobbies);
+               
+               res.render('hobbies',
+               {
+                need_ziggeo: 1,       
+                ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+                
+                   user: req.user,
+                   page_title: 'Try again',
+                   hobby:hobbies,
+                  msg:"Invalid entry try again"
+               }
+               );
+            }
+       
+   });
+        
       }else
       {
           res.redirect('/hobbies');
@@ -219,7 +250,8 @@ app.post('/insert_group',function(req,res){
     {
         user: req.user,
         page_title: 'Hobbies',
-
+        ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+        
     }
     );
     });
@@ -243,7 +275,8 @@ app.post('/insert_group',function(req,res){
             user: req.user,
             page_title: 'Challenge You',
             need_ziggeo: 0,
-            file:"/uploads/myImage.jpg"
+            file:"/uploads/myImage.jpg",
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
             
         });
 
