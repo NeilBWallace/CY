@@ -19,24 +19,31 @@
 <body class='reading'>
 <div class="container text-right">
 <div class="col-sm-6 col-sm-offset-3">
+<h1>User Details </h1>
     <ul>
         <li><a href="/user_image_upload" class="btn btn-md btn-link">Upload picture</a></li>
      </ul>   
  
     <!-- LOGIN FORM -->
-    <form action="/insert_userdetails" method="post">
+    <form action="/insert_userdetails/<%= user.local.email %>" method="post">
         <div class="form-group">
-            <label>User Details</label>
-            <input type="text" class="form-control" name="userdetail">
+                <%= typeof msg != 'undefined' ? msg : '' %>
+                
+
+                     <div> Username:   <input  type="text" value="<%= typeof username !='undefined' ? username  : '' %>" class="form-control" name="userdetail"> </div>   
+                     <%=   username %>
+                     <div> Email:<%=   user.local.email %></div>   
+               
+         
+
+         
         </div>
       
 
-        <button type="submit" class="btn btn-warning btn-lg">Create User Details</button>
+        <button type="submit" class="btn btn-warning btn-lg">Update User Details</button>
     </form>
 
     <hr>
-
-   =   <p>Or go <a href="/">home</a>.</p>
 
 
 </div>

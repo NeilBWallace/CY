@@ -96,27 +96,36 @@ app.get('/challenge_someone',function(req,res){
    
 });
 
-
-
+app.get('/delete_user/:id',function(req,res){
+    let query = {_id:req.params.id};
+    UserDetails.remove(query);
+});
 
 app.get('/user_details',function(req,res){
-   UserDetails.find({},function(err,userdetails){
+   UserDetails.find({email:req.user.local.email},function(err,userdetails){
         if(err)
         {
             console.log('errror retrieving user details')
         }else
         {
-           console.log(userdetails);
-           
+           console.log('email' + req.user.local.email + 'user details' +userdetails);
+          var un; 
+           for(var i =0; i < userdetails.length; i++){ 
+            
+                un =userdetails[i].username
+            
+        }
+
+
+
            res.render('user_details',
            {
             need_ziggeo: 1,
-            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
-            
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',           
                user: req.user,
-               page_title: 'USer Detials',
-               userdetail:userdetails
-       
+               page_title: 'User Detials',
+               username:un ,
+               msg:err         
            }
            );
         }
@@ -126,17 +135,28 @@ app.get('/user_details',function(req,res){
 
 
 
-app.post('/insert_userdetails',function(req,res){
+app.post('/insert_userdetails/:id',function(req,res){
     
                // create the user
  let newUserDetails   = new UserDetails();
-               
+   newUserDetails.email = req.params.id;
+   console.log("email:" + req.params.id);            
    newUserDetails.username   = req.body.userdetail;
-   console.log(req.body.userdetails);
  newUserDetails.save(function(err){
    if(err){
-       console.log(err);
-       return
+    console.log(err);
+    res.render('user_details',
+    {
+     need_ziggeo: 1,
+     ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',           
+        user: req.user,
+        page_title: 'User Detials',
+        username:req.body.userdetail,    
+        msg:err.errmsg       
+    });
+
+    
+       
    }else
    {
        res.redirect('/user_details');
@@ -331,14 +351,14 @@ app.post('/insert_group',function(req,res){
 // =============================================================================
 
     // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-        });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+  //      app.get('/connect/local', function(req, res) {
+  //          res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+  //      });
+  //      app.post('/connect/local', passport.authenticate('local-signup', {
+  //          successRedirect : '/profile', // redirect to the secure profile section
+  //          failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+  //          failureFlash : true // allow flash messages
+  //      }));
 
 
 
@@ -351,14 +371,14 @@ app.post('/insert_group',function(req,res){
 // user account will stay active in case they want to reconnect in the future
 
     // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
-        var user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
+//    app.get('/unlink/local', isLoggedIn, function(req, res) {
+//        var user            = req.user;
+//        user.local.email    = undefined;
+//        user.local.password = undefined;
+//        user.save(function(err) {
+//            res.redirect('/profile');
+//        });
+//    });
 
 
 

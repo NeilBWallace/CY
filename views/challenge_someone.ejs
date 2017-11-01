@@ -13,7 +13,10 @@
 <body class="reading">
         <% for(var i =0; i < userdetail.length; i++){ 
             %><div>
-                <%= userdetail[i].username %>
+ <%= userdetail[i].username %>
+              <a href="/delete_user/<%= userdetail[i].username %>" class="btn btn-xs btn-warning">Delete User</a>
+              
+     
             </div>
        <% }%>
     

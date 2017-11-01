@@ -74,7 +74,7 @@ module.exports = function(passport) {
         passwordField : 'password',
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
-    function(req, email, password, done) {
+    function(req, email, password,done) {
         if (email)
             email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
@@ -94,8 +94,7 @@ module.exports = function(passport) {
 
                         // create the user
                         var newUser            = new User();
-
-                        newUser.local.email    = email;
+                         newUser.local.email    = email;
                         newUser.local.password = newUser.generateHash(password);
 
                         newUser.save(function(err) {
