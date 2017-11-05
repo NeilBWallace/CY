@@ -1,0 +1,22 @@
+ <h2 class="page-header">Hobbies</h2>
+ 
+<body>
+		<form method="post" action="/hobbies" >
+			<input id="hobby-field" type="text" name="hobby">
+			<input type="submit">
+		</form>
+		<div>
+			<h1>Hobbies</h1>
+			<p>
+				{{#each hobbies}}
+				
+				<div class="hobby">
+					
+					<p><a href="edit_hobby/{{this.id}}/">{{this.hobby}}</a></p>
+					<p><a href="delete_hobby/{{this._id}}">delete</a></p>
+				</div>
+				
+				{{/each}}
+			</p>
+		</div>
+	</body>

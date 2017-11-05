@@ -14,6 +14,36 @@ const path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var expressValidator = require('express-validator');
+var router = express.Router(); 
+var LocalStrategy = require('passport-local').Strategy; 
+var flash = require('connect-flash');
+
+ 
+ // Express Validator 
+ app.use(expressValidator({ 
+   errorFormatter: function(param, msg, value) { 
+       var namespace = param.split('.') 
+       , root    = namespace.shift() 
+       , formParam = root; 
+ 
+ 
+     while(namespace.length) { 
+       formParam += '[' + namespace.shift() + ']'; 
+     } 
+     return { 
+       param : formParam, 
+       msg   : msg, 
+       value : value 
+     }; 
+   } 
+ })); 
+
+  
+app.use(flash()); 
+  
+  
+ 
 
 
 
@@ -75,6 +105,8 @@ app.engine ('ejs', require('ejs-locals'));
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.use( express.static( "public" ) );
+
+
 // required for passport
 app.use(session({
     secret: 'ilovescotchscotchyscotchscotch', // session secret
@@ -83,10 +115,434 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
 
-// routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+var User = require('./app/models/user');
+let UserDetails=require('./app/models/userdetails');
+let Group=require('./app/models/group');
+let Hobby=require('./app/models/hobby');
+// normal routes ===============================================================
+
+    //show the home page (will also have our login links)
+   app.get('/', ensureAuthenticated,function(req, res) {
+            {
+                res.render('home.ejs', {
+                    user: req.user,
+                    page_title: 'Challenge You',
+                    need_ziggeo: 0,
+                    ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',  
+                    file:"/uploads/myImage.jpg",    
+                       });
+           
+        
+            } 
+        });
+
+        function ensureAuthenticated(req, res, next){
+            if(req.isAuthenticated()){
+                return next();
+            } else {
+                //req.flash('error_msg','You are not logged in');
+                res.redirect('/login');
+            }
+        }
+           
+            
+   
+
+
+
+    app.get('/groups',function(req,res){
+        Group.find({},function(err,groups){
+            if(err)
+            {
+                console.log('errror retrieving groups')
+            }else
+            {
+               console.log(groups);
+               
+               res.render('groups',
+               {
+                ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',      
+                   user: req.user,
+                   page_title: 'Groups',
+                   group:groups,
+                   need_ziggeo: 1
+                   
+               }
+               );
+            }
+       
+   });
+});
+    
+app.get('/user_image_upload',function(req,res){
+            
+           res.render('user_image_upload',
+           {
+              file:"/uploads/myImage.jpg",
+              need_ziggeo: 1,
+              ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+              
+           });
+    
+});
+
+app.get('/challenge_id',function(req,res){
+    
+});
+
+
+app.get('/challenge_someone',function(req,res){
+    UserDetails.find({},function(err,userdetails){
+    
+        if(err)
+        {
+            console.log('errror retrieving user details')
+        }else
+        {
+           console.log(userdetails);
+           
+           res.render('challenge_someone',
+           {
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
+               user: req.user,
+               page_title: 'USer Detials',
+               userdetail:userdetails,
+               need_ziggeo: 1,           
+           }
+           );
+           }
+         } );
+        
+   
+});
+
+app.get('/delete_user/:id',function(req,res){
+    let query = {_id:req.params.id};
+    UserDetails.remove(query);
+});
+
+app.get('/user_details',function(req,res){
+   UserDetails.find({email:req.user.local.email},function(err,userdetails){
+        if(err)
+        {
+            console.log('errror retrieving user details')
+        }else
+        {
+           console.log('email' + req.user.local.email + 'user details' +userdetails);
+          var un; 
+           for(var i =0; i < userdetails.length; i++){ 
+            
+                un =userdetails[i].username
+            
+        }
+
+
+
+           res.render('user_details',
+           {
+            need_ziggeo: 1,
+            ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',           
+               user: req.user,
+               page_title: 'User Detials',
+               username:un ,
+               msg:err         
+           }
+           );
+        }
+   
+});
+});
+
+
+
+app.post('/insert_userdetails/:id',function(req,res){
+    
+               // create the user
+ let newUserDetails   = new UserDetails();
+   newUserDetails.email = req.params.id;
+   console.log("email:" + req.params.id);            
+   newUserDetails.username   = req.body.userdetail;
+ newUserDetails.save(function(err){
+   if(err){
+    console.log(err);
+    res.render('user_details',
+    {
+     need_ziggeo: 1,
+     ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',           
+        user: req.user,
+        page_title: 'User Detials',
+        username:req.body.userdetail,    
+        msg:err.errmsg       
+    });
+
+    
+       
+   }else
+   {
+       res.redirect('/user_details');
+   }
+ });
+});                    
+
+
+
+app.post('/insert_group',function(req,res){
+    
+               // create the user
+ let newGroup   = new Group();
+               
+   newGroup.group   = req.body.group;
+   console.log(req.body.group);
+ newGroup.save(function(err){
+   if(err){
+       console.log(err);
+       return
+   }else
+   {
+       res.redirect('/groups');
+   }
+ });
+                        
+
+
+
+});
+
+
+
+
+
+
+    app.get('/hobbies',function(req,res){
+
+
+        
+         Hobby.find({},function(err,hobbies){
+             if(err)
+             {
+                 console.log('errror retrieving hobbies')
+             }else
+             {
+                console.log(hobbies);
+                
+                res.render('hobbies',
+                {
+                    need_ziggeo: 1,           
+                    user: req.user,
+                    page_title: 'Hobbies',
+                    hobby:hobbies,
+                    ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+                    
+                }
+                );
+             }
+        
+    });
+});
+
+    app.post('/insert_hobby',function(req,res){
+       
+                  // create the user
+    let newHobby   = new Hobby();
+                  
+      newHobby.hobby    = req.body.hobby;
+      console.log(req.body.hobby);
+    newHobby.save(function(err){
+      if(err){
+        Hobby.find({},function(err,hobbies){
+            if(err)
+            {
+                console.log('errror retrieving hobbies')
+            }else
+            {
+               console.log(hobbies);
+               
+               res.render('hobbies',
+               {
+                need_ziggeo: 1,       
+                ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+                
+                   user: req.user,
+                   page_title: 'Try again',
+                   hobby:hobbies,
+                  msg:"Invalid entry try again"
+               }
+               );
+            }
+       
+   });
+        
+      }else
+      {
+          res.redirect('/hobbies');
+      }
+    });
+                           
+
+
+
+});
+
+  
+
+    app.post('/update_hobby',function(req,res){
+        res.render('hobbies',
+    {
+        user: req.user,
+        page_title: 'Hobbies',
+        ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+        
+    }
+    );
+    });
+
+
+    app.post('/delete_hobby',function(req,res){
+        res.render('hobbies',
+    {
+        user: req.user,
+        page_title: 'Hobbies',
+
+    }
+    );
+    });
+
+
+    // PROFILE SECTION =========================
+ //   app.get('/profile', function(req, res) {
+ //         UserDetails.find({email:req.user.local.email},function(err,userdetails){
+ //           console.log(userdetails);
+            
+  //          if(userdetails.length)
+  //          {
+  //              res.render('home.ejs', {
+  //                  user: req.user,
+  //                  page_title: 'Challenge You',
+  //                  need_ziggeo: 0,
+  //                  ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',  
+  //                  file:"/uploads/myImage.jpg",    
+  //                   message: req.flash('loginMessage') 
+  //                  });
+   //            }else
+     //       {
+              
+    //                 console.log('email' + req.user.local.email + 'user details' +userdetails);
+    //              var un; 
+    //               for(var i =0; i < userdetails.length; i++){ 
+    //                
+    //                    un =userdetails[i].username
+                    
+        //        }
+      //  
+        
+        
+      //             res.render('first_user_details',
+      //             {
+      //                 user: req.user,
+      //                 page_title: 'Please Enter User Detials',
+      //                 username:un ,
+      //                 msg:err , 
+      //                 first:true       
+      //             }
+      //             );
+      //          }
+      //      } );
+      //  });
+    
+ 
+
+
+// Register
+app.get('/signup', function(req, res){
+	res.render('signup');
+});
+
+// Login
+app.get('/login', function(req, res){
+	res.render('login');
+});
+
+// Register User
+app.post('/signup', function(req, res){
+	var name = req.body.name;
+	var email = req.body.email;
+	var username = req.body.username;
+	var password = req.body.password;
+	var password2 = req.body.password2;
+
+	// Validation
+	req.checkBody('name', 'Name is required').notEmpty();
+	req.checkBody('email', 'Email is required').notEmpty();
+	req.checkBody('email', 'Email is not valid').isEmail();
+	req.checkBody('username', 'Username is required').notEmpty();
+	req.checkBody('password', 'Password is required').notEmpty();
+	req.checkBody('password2', 'Passwords do not match').equals(req.body.password);
+
+	var errors = req.validationErrors();
+
+	if(errors){
+		res.render('signup',{
+			errors:errors
+		});
+	} else {
+		var newUser = new User({
+			name: name,
+			email:email,
+			username: username,
+			password: password
+		});
+
+		User.createUser(newUser, function(err, user){
+			if(err) throw err;
+			console.log(user);
+		});
+
+	
+		res.redirect('/login');
+	}
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+   User.getUserByUsername(username, function(err, user){
+   	if(err) throw err;
+   	if(!user){
+   		return done(null, false, {message: 'Unknown User'});
+   	}
+
+   	User.comparePassword(password, user.password, function(err, isMatch){
+   		if(err) throw err;
+   		if(isMatch){
+   			return done(null, user);
+   		} else {
+   			return done(null, false, {message: 'Invalid password'});
+   		}
+   	});
+   });
+  }));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+app.post('/login',
+  passport.authenticate('local', {successRedirect:'/', failureRedirect:'/login',failureFlash: true}),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+app.get('/logout', function(req, res){
+	req.logout();
+
+	res.redirect('/login');
+});
 
 
 app.post('/upload_image', (req, res) => {

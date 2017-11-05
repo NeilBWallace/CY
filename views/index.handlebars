@@ -1,0 +1,24 @@
+
+
+{{#each friend_request}}
+{{user}} {{status}}{{_id}}<a href="/make_friends/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Friend Request</a>
+
+{{/each}}
+<form method="get" action="/edit_profile">
+ <button type="submit" class="btn btn-default">Edit Profile</button>
+ </form>
+
+ <a href="/find_friends" class="btn btn-xs btn-warning">Find Friends</a>
+
+
+ 
+<form method="get" action="/my_hobbies/{{username}}">
+ <button type="submit" class="btn btn-default">Hobbies</button>
+ </form>
+<form method="get" action="/groups">
+ <button type="submit" class="btn btn-default">Groups</button>
+ </form>
+       <form method="get" action="/users">
+ <button type="submit" class="btn btn-default">Users</button>
+ </form>
+

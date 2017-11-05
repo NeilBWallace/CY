@@ -1,0 +1,24 @@
+ <h2 class="page-header">Groups</h2>
+ 
+
+ 
+<body>
+		<form method="post" action="/groups" >
+			<input id="group-field" type="text" name="group">
+			<input type="submit">
+		</form>
+		<div>
+			<h1>Groups</h1>
+			<p>
+				{{#each groups}}
+				
+				<div class="group">
+					
+					<p><a href="edit/{{this.id}}/">{{this.group}}</a></p>
+					<p><a href="delete/{{this._id}}">delete</a></p>
+				</div>
+				
+				{{/each}}
+			</p>
+		</div>
+	</body>

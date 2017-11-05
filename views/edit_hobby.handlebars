@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js" charset="utf-8"></script>
+
+		<script type='text/javascript' src="/js/app.js"></script>
+				<link rel="stylesheet" href="/css/app.css">
+
+	</head>
+	<!--______________________________________________________BEGIN APP-->
+	<body>
+
+
+
+
+<h1>Edit the hobbby </h1>
+
+
+
+	<form method="post" action="/update_hobby/{{hobbies.id}}"> 
+    <input id="hobby-field" type="text" name="updated_hobby" placeholder="{{hobbies.hobby}}">
+    <input type="submit" value="edit">
+	</form>
+
+
+
+	</body>
+	<!--______________________________________________________END APP-->
+</html>
