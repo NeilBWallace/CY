@@ -1,7 +1,9 @@
 
-
+{{#each Challenge}}
+<p> You have been challenged{{_id}}
+{{/each}}
 {{#each friend_request}}
-{{user}} {{status}}{{_id}}<a href="/make_friends/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Friend Request</a>
+<p>{{user}} {{status}}{{_id}}<a href="/make_friends/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Friend Request</a>
 
 {{/each}}
 <form method="get" action="/edit_profile">

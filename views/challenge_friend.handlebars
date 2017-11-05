@@ -1,2 +1,9 @@
 Challenge Friend
 
+ {{id}}
+ <p>Challenge:{{title}}
+ <p>logged in as{{user}}
+{{#each friend_request}}
+<p>friend: {{friend}} <a href="/challenge_this_friend/{{this.id}}/{{friend}}">Challenge this friend</a></p>
+	
+{{/each}}

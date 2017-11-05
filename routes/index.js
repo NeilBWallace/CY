@@ -9,7 +9,7 @@ let AddHobby=require('../models/addhobby');
 let Friends=require('../models/friends');
 let Group=require('../models/group');
 let User=require('../models/user');
-
+let Challenges=require('../models/challenges');
 
 const ZiggeoSdk = require ('ziggeo');
 
@@ -22,14 +22,20 @@ function home_page(req,res){
 
     Friends.find({"friend":req.user.username},function(err,fr)
     {
+        Challenges.find({},function(err,ch)
+        {
+
+            console.log("friends" + ch);
+            
     console.log("friends" + fr);
     res.render('index',
     {
         username: req.user.username,
-        friend_request:fr
+        friend_request:fr,
+        Challenge:ch
     });
     
-    
+});
     });
     
 }
@@ -279,18 +285,58 @@ router.get ('/send_friends', function (req, res){
 				});
 			});
 
+            router.get ('/challenge_this_friend/:id/:friend', function (req, res)
+                
+          {
+         
+        console.log('challengr this friend' + req.params.id + req.params.friend + 'kkk') ;
+        var id = req.params.id;
+        
+             
+            var challenge = new Challenges({
+                challenger: req.user.username,
+                friend: req.params.friend,
+                id: req.params.friend,
+                status:"Challenge made"
+            }).save(function(err) {
+               if(err)
+               {
+                console.log('problem here friend request' + err);
+                challengefriend(req,res);
+               }else
+               {
+                console.log('Saved ok');
+                challengefriend(req,res);                     
+               }
+            });
+    });
+    
+    
+    
+    
+       
+function challengefriend(req,res){
+    
+    Friends.find({"friend":req.user.username},function(err,fr)
+    {
+    console.log("friends" + fr);
+    res.render('challenge_friend',
+    {
+        id:req.params.id,
+        title:req.params.title,
+        user:req.params.user,
+        friend_request:fr
+    });
+        });
+};
 
+
+            
             router.get ('/challenge_friend/:id/:title/:user', function (req, res){
                 
                     console.log('challenge friends' + req.params.id + req.params.title + req.params.user + "sdfsd");
-                    
-                                res.render('challenge_friend', {
-                                       id:req.params.id,
-                                       title:req.params.title,
-                                       user:req.params.user
-                                 });
-                        });
-
+                      challengefriend(req,res);    
+                    });
 
 
             router.get ('/challenge/:title/:token/:user', function (req, res){
