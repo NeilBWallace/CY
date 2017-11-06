@@ -20,7 +20,7 @@ const ZiggeoSdk = require ('ziggeo');
 const storage = multer.diskStorage({
     destination: './public/uploads/',
    filename: function(req, file, cb){
-     cb(null,file.fieldname + path.extname(file.originalname));
+     cb(null,req.user.username + path.extname(file.originalname));
   
   
   }
@@ -42,6 +42,7 @@ function home_page(req,res){
     console.log("friends" + fr);
     res.render('index',
     {
+        pic:req.user.pic,
         username: req.user.username,
         friend_request:fr,
         Challenge:ch
@@ -59,8 +60,10 @@ home_page(req,res);
 });
 
 router.get('/describe_challenge', ensureAuthenticated, function(req, res){
-	res.render('describe_challenge',{
-		username:req.user.username
+
+    res.render('describe_challenge',{
+        username:req.user.username,
+       
 	});
 });
 
@@ -732,11 +735,38 @@ console.log('attempting upload');
         });
       } else {
         if(req.file == undefined){
-          res.render('index', {
+          res.render('edit_profile', {
             msg: 'Error: No File Selected!'
           });
         } else {
-          res.render('index', {
+
+            User.findOne({_id: req.user._id},function(err,foundObject)
+            {
+                    if(err)
+                    {
+                        console.log(err);
+                    }else
+                    {
+                        console.log(foundObject);
+                        foundObject.pic=req.file.filename
+                        foundObject.save(function(err,updatedObject){
+                            if(err){
+                                console.log(err);
+                                res.status(500).send();
+                            }else
+                            {
+                                console.log(updatedObject);
+                      
+                            }
+                                      });
+
+                    }
+            });
+
+
+
+
+          res.render('edit_profile', {
             msg: 'File Uploaded!',
             file: `uploads/${req.file.filename}`
           });
@@ -745,39 +775,6 @@ console.log('attempting upload');
     });
   });
   
-
-  
-router.post('/upload_image', (req, res) => {
-    upload(req, res, (err) => {
-      if(err){
-        res.render('user_image_upload', {
-          msg: err
-        });
-      } else {
-        if(req.file == undefined){
-          res.render('user_image_upload', {
-            msg: 'Error: No File Selected!'
-          });
-        } else {
-          res.render('user_image_upload', {
-            msg: 'File Uploaded!',
-            file: `uploads/${req.file.filename}`
-          });
-        }
-      }
-    });
-  });
-  
-router.get('/upload_image',function(req,res){
-	
-   res.render('upload_image',
-   {
-	  file:"/uploads/myImage.jpg",
-	  
-   });
-
-});
-
 
 
 
