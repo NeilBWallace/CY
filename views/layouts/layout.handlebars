@@ -4,8 +4,10 @@
 	<title>Challenge You</title>
 	<link rel="stylesheet" href="/css/bootstrap.css" />
 	<link rel="stylesheet" href="/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"> 
+ 
 
-    <script src="/public/jquery.min.js"></script>
+    <script src="/jquery.min.js"></script>
  
                 <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v2-stable/ziggeo.css" />
                 <script src="//assets-cdn.ziggeo.com/v2-stable/ziggeo.js"></script>
@@ -28,16 +30,33 @@
                 });
             </script>          
                 </script>
+<style>
+  .one {
+  background-image: url('../uploads/myImage.jpg');
+}
 
+
+  .user {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+</style>
 
 </head>
 <body>
 	<div class="container">
       <div class="header clearfix">
         <nav>
+
+
           <ul class="nav nav-pills pull-right">
             {{#if user}}
-                logged in as: {{user.username}}
                          <li role="presentation"><a href="/">Dashboard</a></li>
      
                    <li role="presentation"><a href="/videos">Challenges</a></li>
@@ -45,6 +64,15 @@
                   <li role="presentation"><a href="/admin">Admin</a></li>
       
                <li role="presentation"><a href="/users/logout">Logout</a></li>
+
+
+                    <li role="presentation">
+                      
+
+
+                      
+                      <a href="">{{user.username}} </a>  </li>
+        
             {{else}}
               <li role="presentation"><a href="/users/login">Login</a></li>
               <li role="presentation"><a href="/users/register">Register</a></li>

@@ -11,6 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const multer = require('multer');
+
 const ZiggeoSdk = require ('ziggeo');
 ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
 
@@ -36,7 +37,7 @@ app.engine('handlebars', exphbs({defaultLayout:'layout'}));
 
 
 app.set('view engine', 'handlebars');
-
+app.use(express.static('views/images')); 
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -44,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Set Static Folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Express Session
 app.use(session({
@@ -77,42 +78,6 @@ app.use(expressValidator({
 
 
 
-
-// Set Storage Engine
-const storage = multer.diskStorage({
-  destination: './public/uploads/',
- filename: function(req, file, cb){
-   cb(null,file.fieldname + path.extname(file.originalname));
-
-
-}
-});
-
-
-// Init Upload
-const upload = multer({
-  storage: storage,
-  limits:{fileSize: 1000000},
-  fileFilter: function(req, file, cb){
-    checkFileType(file, cb);
-  }
-}).single('myImage');
-
-// Check File Type
-function checkFileType(file, cb){
-  // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
-  // Check ext
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check mime
-  const mimetype = filetypes.test(file.mimetype);
-
-  if(mimetype && extname){
-    return cb(null,true);
-  } else {
-    cb('Error: Images Only!');
-  }
-}
 
 
 

@@ -1,26 +1,37 @@
 
+
+<div class="user one">
+</div>
+
 {{#each Challenge}}
-<p> You have been challenged{{_id}}
+<p> You have been challenged{{_id}}<a href="/accept_challenge/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Chalenge</a>
 {{/each}}
 {{#each friend_request}}
 <p>{{user}} {{status}}{{_id}}<a href="/make_friends/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Friend Request</a>
 
 {{/each}}
-<form method="get" action="/edit_profile">
- <button type="submit" class="btn btn-default">Edit Profile</button>
- </form>
-
- <a href="/find_friends" class="btn btn-xs btn-warning">Find Friends</a>
 
 
- 
-<form method="get" action="/my_hobbies/{{username}}">
- <button type="submit" class="btn btn-default">Hobbies</button>
- </form>
-<form method="get" action="/groups">
- <button type="submit" class="btn btn-default">Groups</button>
- </form>
-       <form method="get" action="/users">
- <button type="submit" class="btn btn-default">Users</button>
- </form>
+<p> <a href="/edit_profile" class="btn btn-xs btn-success">Edit Profile</a>
+ <p><a href="/find_friends" class="btn btn-xs btn-primary">Find Friends</a>
+ <p><a href="/my_hobbies/{{username}}" class="btn btn-xs btn-warning">Hobbies</a>
+  <p><a href="/groups" class="btn btn-xs btn-info">Groups</a>
+  <p><a href="/users" class="btn btn-xs btn-danger">Users</a>
 
+<style>
+  .one {
+  background-image: url('../uploads/myImage.jpg');
+}
+
+
+  .user {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+</style>

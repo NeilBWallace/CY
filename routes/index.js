@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 
 var async = require('async');
 
@@ -10,10 +11,21 @@ let Friends=require('../models/friends');
 let Group=require('../models/group');
 let User=require('../models/user');
 let Challenges=require('../models/challenges');
-
+const multer = require('multer');
 const ZiggeoSdk = require ('ziggeo');
 
 
+
+// Set Storage Engine
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+   filename: function(req, file, cb){
+     cb(null,file.fieldname + path.extname(file.originalname));
+  
+  
+  }
+  });
+  
 ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
 
 
@@ -351,6 +363,41 @@ function challengefriend(req,res){
                         
                         });
 
+router.get ('/accept_challenge/:user/:id', function (req, res){
+                            
+                                console.log('accept Challenge' + req.params.user + 'sdf' + req.params.id) ;
+                            Challenges.findOne({_id: req.params.id},function(err,foundObject)
+                            {
+                                    if(err)
+                                    {
+                                        console.log(err);
+                                    }else
+                                    {
+                                        console.log(foundObject);
+                                        foundObject.status="challenge accepted"
+                                        foundObject.save(function(err,updatedObject){
+                                            if(err){
+                                                console.log(err);
+                                                res.status(500).send();
+                                            }else
+                                            {
+                                                console.log(updatedObject);
+                                              home_page(req,res);
+            
+                                            }
+                                                      });
+            
+                                    }
+                            });
+            
+            
+                     
+                                    });
+
+
+
+
+
 
             router.get ('/make_friends/:user/:id', function (req, res){
                 
@@ -648,7 +695,56 @@ function successDecode (success_id){
 
 
 
+// Init Upload
+const upload = multer({
+    storage: storage,
+    limits:{fileSize: 1000000},
+    fileFilter: function(req, file, cb){
+      checkFileType(file, cb);
+    }
+  }).single('myImage');
+  
+  // Check File Type
+  function checkFileType(file, cb){
+    // Allowed ext
+    const filetypes = /jpeg|jpg|png|gif/;
+    // Check ext
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+  
+    if(mimetype && extname){
+      return cb(null,true);
+    } else {
+      cb('Error: Images Only!');
+    }
+  }
+  
 
+
+
+router.post('/upload_pic', (req, res) => {
+console.log('attempting upload');  
+    upload(req, res, (err) => {
+      if(err){
+        res.render('index', {
+          msg: err
+        });
+      } else {
+        if(req.file == undefined){
+          res.render('index', {
+            msg: 'Error: No File Selected!'
+          });
+        } else {
+          res.render('index', {
+            msg: 'File Uploaded!',
+            file: `uploads/${req.file.filename}`
+          });
+        }
+      }
+    });
+  });
+  
 
   
 router.post('/upload_image', (req, res) => {
