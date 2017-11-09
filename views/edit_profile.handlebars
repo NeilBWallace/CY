@@ -1,7 +1,28 @@
- <h2 class="page-header">Edit Profile</h2>
+ <h3 class="page-header">Edit Profile</h3>
  
+
+<div class="user one">
+</div>
+
+<style>
+  .one {
+  background-image: url('../uploads/{{pic}}');
+}
+
+
+  .user {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+</style>
 <div class="container">
-    <h1>File Upload</h1>
+    <h4>File Upload</h4>
    {{msg}}
     <form action="/upload_pic" method="POST" enctype="multipart/form-data">
       <div class="file-field input-field">

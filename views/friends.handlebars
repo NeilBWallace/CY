@@ -22,3 +22,10 @@
 			</p>
 		</div>
 	</body>
+
+
+	{{#each friend_request}}
+<p>{{user}} {{status}}{{_id}}<a href="/make_friends/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Friend Request</a>
+
+{{/each}}
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title>Challenge You</title>
+	<link rel="stylesheet" href="../css/bootstrap.css" />
+<!-- Compiled and minified CSS -->
+  <script src="../js/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    
+
+  
+ 
+                <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v2-stable/ziggeo.css" />
+                <script src="//assets-cdn.ziggeo.com/v2-stable/ziggeo.js"></script>
+                <script>// for Version 1 use ZiggeoApi.token = "<%=ziggeo_api_token%>";</script>
+                <script>var application = new ZiggeoApi.V2.Application({token: "r1e4a85dd1e7c33391c1514d6803b975" });
+                        application.on("error", function ( status_code, message ) {
+                    console.log(message)
+                });
+       
+                $(document).ready (function (){
+                    $('.delete-btn').click (function (){
+                        var video_id = $(this).data('videoid');
+                        $(this).html('Deleting...')
+                        $.ajax({url: '/video/'+video_id,method: "DELETE"}).done(function(){
+                            $('#container-'+video_id).fadeOut ("slow", function (){
+                                $('#container-'+video_id).remove(); 
+                            })
+                        });
+                    });
+                });
+            </script>          
+                </script>
+<style>
+  .one {
+  background-image: url('../uploads/myImage.jpg');
+}
+
+
+  .user {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+</style>
+
+</head>
+<body>
+	<div class="container">
+
+      <div class="header clearfix">
+ <nav  role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Challenge You</a>
+      <ul class="right hide-on-med-and-down">
+             {{#if user}}
+                         <li role="presentation"><a href="/">Dashboard</a></li>
+                   <li role="presentation"><span class="new badge">{{Challenge.length}}</span><a href="/videos">Challenges</a></li>
+                  <li role="presentation"><a href="/admin">Admin</a></li>
+               <li role="presentation"><a href="/users/logout">Logout</a></li>
+                    <li role="presentation">                   
+                      <a href="">{{user.username}} </a>  </li>
+        
+            {{else}}
+              <li role="presentation"><a href="/users/login">Login</a></li>
+              <li role="presentation"><a href="/users/register">Register</a></li>
+            {{/if}}
+          </ul>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>
+          {{/if}}
+
+          {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>
+          {{/if}}
+
+          {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+          {{/if}}
+          
+          {{{body}}}
+        </div>
+
+        
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2017 Neil Wallace.</p>
+      </footer>
+
+    </div> <!-- /container -->
+</body>
+</html>

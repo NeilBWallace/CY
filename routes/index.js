@@ -34,10 +34,11 @@ function home_page(req,res){
 
     Friends.find({"friend":req.user.username},function(err,fr)
     {
-        Challenges.find({},function(err,ch)
+        Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
 
-            console.log("friends" + ch);
+             
+            console.log("challenges" + ch);
             
     console.log("friends" + fr);
     res.render('index',
@@ -58,6 +59,18 @@ router.get('/', ensureAuthenticated, function(req, res){
     
 home_page(req,res);
 });
+
+router.get('/see_challenge_request/:user/:id', ensureAuthenticated, function(req, res){
+    
+        res.render('see_challenge_request',{
+            username:req.user.username,
+           
+        });
+    });
+    
+    
+
+
 
 router.get('/describe_challenge', ensureAuthenticated, function(req, res){
 
@@ -90,7 +103,8 @@ router.post('/challenge_someone', ensureAuthenticated, function(req, res){
 router.get('/edit_profile', ensureAuthenticated, function(req, res){
 	console.log('edit profile');
 	res.render('edit_profile',{
-			
+        username:res.user.username,
+        pic:res.user.pic
 	});
 });      
    
