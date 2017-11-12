@@ -7,7 +7,8 @@ var User = require('../models/user');
 
 // Register
 router.get('/register', function(req, res){
-	res.render('/users/register');
+	console.log('register');
+	res.render('register');
 });
 
 
