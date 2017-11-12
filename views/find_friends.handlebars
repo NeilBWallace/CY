@@ -2,17 +2,23 @@
  
 
  
-<body>
-		
-		<div>
-			<p>
-				{{#each friends}}
-				
-					
-					<p>{{this.username}}<a class="btn btn-xs btn-info" href="/find_friends/{{this.username}}">Send Friend Request</a></p>
-			
-				
-				{{/each}}
-			</p>
-		</div>
-	</body>
+
+	
+	
+       <!-- LEFT-CONTAINER -->
+            <div class="middle-container container">
+                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
+                    <h2 class="titular">Users</h2>
+
+                    <ul class="menu-box-menu">
+	{{#each friends}}
+
+                        <li>
+                            <a class="menu-box-tab" href="/find_friends/{{this.username}}">{{this.username}}</a>                            
+                        </li>
+        {{/each}}            
+
+                    </ul>
+                </div>
+
+     

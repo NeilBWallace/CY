@@ -1,10 +1,34 @@
- <h2 class="page-header">Describe Challenge</h2>
- {{username}}
-<form method="post" action="/challenge_someone/{{title}}">
-  <div class="form-group">
-    <label>Describe Challenge</label>
-    <input required="true" type="text" class="form-control" name="title" placeholder="describe challenge">
+
+
+  <div id="index-banner" class="parallax-container">
+   <h4 class="header left white-text ">Describe Challenge</h4>
+  <br><br/>
+  
+         
+    <div class="section no-pad-bot">
+      <div class="container">
+       
+           <br/>
+         <div class="row center">
+            <div id="wrapper"> 
+                <div id="login_div" class="teal lighten-1">
+   
+               <form method="post" action="/challenge_someone/{{title}}">
+                <div class="input-field">
+                    <label>1. Describe your Challenge:</label>
+                    <input  required="true" type="text"  name="title" placeholder="Describe Challenge">
+                  </div>
+                       <button type="submit" class="btn btn-default">Continue-></button>
+      
+                </form>
+       
+   </div>
+          
+        </div>
+         </div>
+        <br><br>
+
+      </div>
+    </div>
+    <div class="parallax"><img src="../background1.jpg" alt="Unsplashed background img 1"></div>
   </div>
- 
-  <button type="submit" class="btn btn-default">Challenge</button>
-</form>

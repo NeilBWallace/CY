@@ -9,8 +9,11 @@
 nav ul a,
 nav .brand-logo {
   color: #444;
+  background-color:white;
 }
-
+nav{
+  background-color:white;
+}
 p {
   line-height: 2rem;
 }
@@ -54,4 +57,11 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+
+nav {
+  z-index: 5000;
+  position: fixed;
+  top: 0;
+  
 }

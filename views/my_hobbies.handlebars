@@ -1,18 +1,47 @@
- <h2 class="page-header">My Hobbies</h2>
- 
-<body>
-	<form method="get" action="/add_hobbies/{{username}}">
- <button type="submit" class="btn btn-default">Add Hobbies</button>
- </form>
-		<div>
-      {{username}}
 
-	              {{#each hobbies}}
+
 	
-		<p>	{{hobby}} {{user}}
-			{{/each}}
-			</p>
-		</div>
+     <div class="container">
+       
+          
+         <div class="row center">
+            <div id="wrapper"> 
+                <div id="login_div" class="teal lighten-1">
+   
+               <form method="get" action="/add_hobbies/{{username}}">
+              
+                  <button type="submit" class="btn btn-default">Add Hobbies </button>
+      
+                </form>
+        
+   </div>
+          
+        </div>
+         </div>
+        
+
+      </div>
+     <!-- LEFT-CONTAINER -->
+            <div class="middle-container container">
+                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
+                    <h2 class="titular">My Hobbies</h2>
+                    <ul class="menu-box-menu">
+						{{#each hobbies}}
+                           <li>
+                            <a class="menu-box-tab" href="">{{hobby}}<{{user}}/a>
+                        </li>
+						{{/each}}
+                    </ul>
+                </div>
+
+       
 
 
-	</body>
+
+
+
+
+
+
+
+

@@ -6,13 +6,40 @@
  text-align:center;
  width:995px;
 }
+
+#videos_div
+{
+ background-color:#4CAF50;
+ padding:5px;
+ max-height:100px;
+ max-width:100px;
+ margin-left:5px;
+ margin-top:5px;
+ text-align:center;
+}
+
+
 #login_div
 {
  background-color:#4CAF50;
  padding:20px;
  max-width:300px;
  margin-left:30px;
+ margin-top:20px;
 }
+
+#register_div
+{
+ background-color:#4CAF50;
+ padding:20px;
+ max-width:300px;
+ margin-left:30px;
+margin-top:20px;
+z-index: -1;
+
+}
+
+
 #login_div button
 {
  margin-top:20px;

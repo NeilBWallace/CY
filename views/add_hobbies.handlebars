@@ -1,19 +1,22 @@
- <h2 class="page-header">Hobbies</h2>
- 
-<body>
-	
-		<div>
-			<h1>Hobbies</h1>
-			<p>User: {{user}}
-               {{#each hobbies}}
-		abc{{user}}
-		<p>	{{hobby}} <a href="/join_hobby/{{hobby}}">Add Hobby</a></p>
-			{{/each}}
-			</p>
-		</div>
 
-test{{docs}}
-		{{#each docs}}
-	un	{{username}}
-			{{/each}}
-	</body>
+
+
+	
+ <!-- LEFT-CONTAINER -->
+            <div class="middle-container container">
+                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
+                    <h2 class="titular">My Hobbies</h2>
+                    <ul class="menu-box-menu">
+						{{#each hobbies}}
+                           <li>
+                            <a class="menu-box-tab" href="/join_hobby/{{hobby}}">{{hobby}}{{user}}<Add Hobby</a>
+                        </li>
+						{{/each}}
+                    </ul>
+                </div>
+
+       
+
+
+
+

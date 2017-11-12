@@ -8,42 +8,78 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
- <link href="../css/login.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 
+
+  <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ <link href="../css/login.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
  
                 <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v2-stable/ziggeo.css" />
                 <script src="//assets-cdn.ziggeo.com/v2-stable/ziggeo.js"></script>
                 <script>// for Version 1 use ZiggeoApi.token = "<%=ziggeo_api_token%>";</script>
                   
-               
-
+        
 </head>
 <body>
-  <nav  role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo left">Challenge You</a>
-      <ul class="right">
-           {{#if user}}
-                         <li role="presentation"><a href="/">Dashboard</a></li>
-                   <li role="presentation"><a href="/videos">Challenges</a></li>
-                  <li role="presentation"><a href="/admin">Admin</a></li>
-               <li role="presentation"><a href="/users/logout">Logout</a></li>
-                
-        
-            {{else}}
-               <li role="presentation"><a href="/users/register">Register</a></li>
-            {{/if}}
-      </ul>
+            {{#if user}}     
+      
+<link href="../css/index.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-    </div>
-  </nav>
+
+       <!-- HEADER -->
+            <header class="block">
+                <ul class="header-menu horizontal-list">
+
+           <li>
+                        <a class="header-menu-tab" href="/">Challenge You</a>
+                    </li>
+               
+     
+                      <li>
+                        <a class="header-menu-tab" href="../"><span class="icon fontawesome-envelope scnd-font-color"></span>Dashboard</a>
+                     
+                    </li>
+        
+          <!--
+                   <li>
+                        <a class="header-menu-tab" href="../see_challenge_request/{{user}}"><span class="icon fontawesome-envelope scnd-font-color"></span>New Challenges</a>
+                        <a class="header-menu-number" href="#4">{{Challenge.length}}</a>
+                    </li>
+                    
+                    <li>
+                        <a class="header-menu-tab" href="/see_friend_request/{{user}}"><span class="icon fontawesome-star-empty scnd-font-color"></span>Friend Requests</a>
+                      <a class="header-menu-number" href="#4">{{Friend.length}}</a>
+                  
+                   </li>
+ -->
+                    <li>
+                        <a class="header-menu-tab" href="/users/logout"><span class="icon entypo-cog scnd-font-color"></span>Logout</a>
+                    </li>
+      
+                   <!--
+           <a class="header-menu-tab" href="/users/register"><span class="icon entypo-cog scnd-font-color"></span>Register</a>
+   -->
+            
+                 
+
+                </ul>
+                <div class="profile-menu">
+                    <p>{{user.username}} <a href="#26"><span class="entypo-down-open scnd-font-color"></span></a></p>
+                    <div class="profile-picture small-profile-picture">
+                        <img width="40px" alt="picture" src="../uploads/{{pic}}">
+                    </div>
+                </div>
+            </header>
+  {{/if}}
 
 {{{body}}}
-
+<!--
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">
@@ -61,6 +97,7 @@
       </div>
     </div>
   </footer>
+-->
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="../js/materialize.js"></script>

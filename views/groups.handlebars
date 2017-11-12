@@ -1,24 +1,47 @@
- <h2 class="page-header">Groups</h2>
- 
+     <div class="container">
+       
+           <br/>
+         <div class="row center">
+            <div id="wrapper"> 
+                <div id="login_div" class="teal lighten-1">
+   
+               <form method="post" action="/groups">
+                <div class="input-field">
+                    <label>Group</label>
+                    <input type="text"  name="group" placeholder="group">
+                  </div>
+                  <button type="submit" class="btn btn-default">Add</button>
+      
+                </form>
+        
+   </div>
+          
+        </div>
+         </div>
+        
 
- 
-<body>
-		<form method="post" action="/groups" >
-			<input id="group-field" type="text" name="group">
-			<input type="submit">
-		</form>
-		<div>
-			<h1>Groups</h1>
-			<p>
-				{{#each groups}}
-				
-				<div class="group">
-					
-					<p><a href="edit/{{this.id}}/">{{this.group}}</a></p>
-					<p><a href="delete/{{this._id}}">delete</a></p>
-				</div>
-				
-				{{/each}}
-			</p>
-		</div>
-	</body>
+      </div>
+     <!-- LEFT-CONTAINER -->
+            <div class="middle-container container">
+                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
+                    <h2 class="titular">Groups</h2>
+                    <ul class="menu-box-menu">
+						{{#each groups}}
+                           <li>
+                            <a class="menu-box-tab" href="edit_group/{{this.id}}/">{{this.group}}</a>
+                        </li>
+						{{/each}}
+                    </ul>
+                </div>
+
+       
+
+
+
+
+
+
+
+
+
+

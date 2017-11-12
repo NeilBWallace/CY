@@ -101,10 +101,10 @@ router.post('/challenge_someone', ensureAuthenticated, function(req, res){
 
   
 router.get('/edit_profile', ensureAuthenticated, function(req, res){
-	console.log('edit profile');
+
+    console.log('edit profile' + req.user.username);
 	res.render('edit_profile',{
-        username:res.user.username,
-        pic:res.user.pic
+       username:req.user.username
 	});
 });      
    

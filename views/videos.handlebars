@@ -1,36 +1,25 @@
 
-
-                <a href="/describe_challenge" class="btn btn-xs btn-success">Create Challenge</a>
-        
-<div class="row">
-        
-            <div id="content" class="container">
-                <div class="row">
-                <div>
-                 {{#each videos}}
+           
+           
+                
+                    {{#each videos}}
+                  
+                 
       
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                        <div class="thumbnail">
+                <span  class="card teal"  style="display: inline-block;width: 30%;padding:5px;margin:5px">
+                <span  class="card-content white-text center-text">
+                        <ziggeoplayer  ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
+                <span class="card-title">{{title}}</span>
+                </span>
+                 </span>
+                 
+                 
                             
-                       <ziggeoplayer ziggeo-height="30%"  ziggeo-width="30%" ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
-                            <div class="caption">
-                               <p>{{title}}
-                                    <!--
-                                    <a href="/video/{{token}}" class="btn btn-xs btn-success">Single Video</a>
-                                    <a href="/download-video/{{token}}" class="btn btn-xs btn-warning" download>Download Video</a>
-
-                                    <a href="/download-image/{{token}}" class="btn btn-xs btn-primary" download>Download Image</a>
-                                   -->
-                                  <p>  <a class="delete-btn btn btn-xs btn-danger" data-videoid="{{token}}">Delete Video</a>
-                                  <p></p>  <a href="/challenge/ {{title}}/{{token}}/{{tags}}" class="btn btn-xs btn-primary">Challenge Someone</a>
+                        
+                             
                               
-                              
-                                  </p>
-                            </div>
-                        </div>
-                    </div>
+                                
+                    
                 {{/each}}
 
-                </div>
-            </div>
-      
+            
