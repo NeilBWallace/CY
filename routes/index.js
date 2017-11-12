@@ -274,7 +274,7 @@ router.get ('/error/:errorId*?', function (req, res){
 })
 router.get ('/admin', function (req, res){
      
-    res.render ('/Admin', {
+    res.render ('admin', {
     })
 });
 
