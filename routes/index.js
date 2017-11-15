@@ -32,8 +32,9 @@ ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652
 function home_page(req,res){
 
 
-    Friends.find({"friend":req.user.username},function(err,fr)
+    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
     {
+
         Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
 
@@ -54,21 +55,102 @@ function home_page(req,res){
     
 }
 
+
+router.get('/see_friend_request', (req, res) => {
+    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
+    {
+        console.log(req.user.username + " xxx" + fr + " xxx");
+      res.render('see_friend_requests', {
+          friend:fr
+      });
+    });
+  });
+
+
+
+router.get('/find_friends', (req, res) => {
+    console.log('get');
+     User.find().limit(6).then(usrs => {
+       console.log('users' + usrs);
+      res.render('find_friends', {
+        pageTitle: 'Node Search',
+        users: usrs
+      });
+    }).catch(err => {
+        res.sendStatus(404);
+    });
+  });
+  
+  router.post('/search', (req, res) => {
+   
+    let q = req.body.query;
+    console.log('xyz' + q);
+    let query = {
+      "$or": [{"username": {"$regex": q, "$options": "i"}}, {"name": {"$regex": q, "$options": "i"}}]
+    };
+    let output = [];
+  console.log(query);
+    User.find(query).limit(6).then( usrs => {
+      console.log('sdfsdf' + usrs);
+        if(usrs && usrs.length && usrs.length > 0) {
+          console.log('erwerwerwr');
+            usrs.forEach(user => {
+              console.log(user);
+               let obj = {
+                  id: user.username,
+                  label: user.pic,
+                
+              };
+              output.push(obj);
+            });
+        }
+        res.json(output);
+    }).catch(err => {
+      res.sendStatus(404);
+    });
+  
+  });
+
+
+
+
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
     
 home_page(req,res);
 });
 
-router.get('/see_challenge_request/:user/:id', ensureAuthenticated, function(req, res){
+router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
     
+    Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
+    {
         res.render('see_challenge_request',{
+           challenges: ch,
             username:req.user.username,
-           
+        });      
         });
     });
     
     
+
+
+router.get ('/view_challenge', function (req, res){
+    res.render('view_challenge');
+     		});
+
+router.post('/browse_profile', ensureAuthenticated,function (req, res){
+
+//	console.log('Getting friends');
+	//
+			User.find({"username":req.body.q},function(err, arrayOfUsers) {
+			   console.log('users' + arrayOfUsers)
+			
+				res.render('browse_profile', {
+					friend: arrayOfUsers
+			});
+			});
+		});
+	
 
 
 
@@ -280,7 +362,7 @@ router.get ('/admin', function (req, res){
 
 
 
-router.get ('/find_friends/:id', function (req, res){
+router.get ('/request_make_friends/:id', function (req, res){
 	var id = req.params.id;
 	
 		console.log('Friend request sent' + id);
@@ -296,7 +378,8 @@ router.get ('/find_friends/:id', function (req, res){
            }else
            {
             console.log('Saved ok');
-            
+            res.render('index',{
+            });
            }
 		});
 });
@@ -416,66 +499,173 @@ router.get ('/accept_challenge/:user/:id', function (req, res){
 
 
 
-            router.get ('/make_friends/:user/:id', function (req, res){
-                
-                    console.log('make friends' + req.params.user + 'sdf' + req.params.id) ;
-                Friends.findOne({_id: req.params.id},function(err,foundObject)
-                {
-                        if(err)
-                        {
-                            console.log(err);
-                        }else
-                        {
-                            console.log(foundObject);
-                            foundObject.status="are now friends!"
-                            foundObject.save(function(err,updatedObject){
-                                if(err){
-                                    console.log(err);
-                                    res.status(500).send();
-                                }else
-                                {
-                                    console.log(updatedObject);
-                                  home_page(req,res);
-
-                                }
-                                          });
-
-                        }
-                });
+            router.get ('/make_friends', function (req, res){
+                home_page(req,res);
+     //               console.log('make friends' + req.params.user + 'sdf' + req.params.id) ;
+     //           Friends.findOne({_id: req.params.id},function(err,foundObject)
+     //           {
+     //                   if(err)
+     //                  {
+     //                       console.log(err);
+     //                   }else
+      //                  {
+      //                      console.log(foundObject);
+      //                      foundObject.status="are now friends!"
+      //                      foundObject.save(function(err,updatedObject){
+      //                          if(err){
+      //                              console.log(err);
+      //                              home_page(req,res);
+       //                         }else
+       //                         {
+       //                             console.log(updatedObject);
+       //                           home_page(req,res);
+       //                         }
+       //                                   });
+//
+    //                    }
+  //              });
 
 
          
                         });
 
+
+
+
+router.post('/search', (req, res) => {
+     consoloe.log("sdfsdfs" + req);
+    let q = req.body.query;
+    let query = {
+      "$or": [{"username": {"$regex": q, "$options": "i"}}, {"name.": {"$regex": q, "$options": "i"}}]
+    };
+    let output = [];
+  
+    Users.find(query).limit(6).then( usrs => {
+        if(usrs && usrs.length && usrs.length > 0) {
+            usrs.forEach(user => {
+              let obj = {
+                  id: username + ' ' + name,
+                  label: username + ' ' + name
+              };
+              output.push(obj);
+            });
+        }
+        res.render('find_friends', {
+            output: output
+        });
+    }).catch(err => {
+      res.sendStatus(404);
+    });
+  
+  });
+  
+
+
+
+
+  router.get('/search_member', function(req, res) {
+      console.log('search member');
+    var regex = new RegExp(req.query["term"], 'i');
+    var query = User.find({fullname: regex}, { 'fullname': 1 }).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+         
+       // Execute query in a callback and return users list
+   query.exec(function(err, users) {
+       if (!err) {
+          // Method to construct the json result set
+          var result = buildResultSet(users); 
+          res.send(result, {
+             'Content-Type': 'application/json'
+          }, 200);
+       } else {
+          res.send(JSON.stringify(err), {
+             'Content-Type': 'application/json'
+          }, 404);
+       }
+    });
+});
+
+
+
 function find_friends(res){
-	User.find(function(err, arrayOfUsers) {
+
+
+    User.find(function(err, arrayOfUsers) {
+
         console.log('users' + arrayOfUsers)
      
          res.render('find_friends', {
              friends: arrayOfUsers
          });
      });
+
+    
 };
 
-router.get ('/find_friends', function (req, res){
-	
-		console.log('Find friends');
-		find_friends(res);
-			
-			});
 
-router.get ('/friends', function (req, res){
 
-	console.log('Getting friends');
-	
-			User.find(function(err, arrayOfUsers) {
-			   console.log('users' + arrayOfUsers)
+router.get('/find_friends', (req, res) => {
+  
+     User.find().limit(6).then(usrs => {
+         res.render('find_friends', {
+        pageTitle: 'Node Search',
+        users: usrs
+      });
+    }).catch(err => {
+        res.sendStatus(404);
+    });
+  
+  });
+  
+  router.post('/search', (req, res) => {
+   
+    let q = req.body.query;
+    console.log('xyz' + q);
+    let query = {
+      "$or": [{"username": {"$regex": q, "$options": "i"}}, {"name": {"$regex": q, "$options": "i"}}]
+    };
+    let output = [];
+  console.log(query);
+    Users.find(query).limit(6).then( usrs => {
+      console.log('sdfsdf' + usrs);
+        if(usrs && usrs.length && usrs.length > 0) {
+          console.log('erwerwerwr');
+            usrs.forEach(user => {
+              console.log(user);
+              let obj = {
+                  id: user.username + ' ' + user.name,
+                  label: user.username + ' ' + user.name
+              };
+              output.push(obj);
+            });
+        }
+        res.json(output);
+    }).catch(err => {
+      res.sendStatus(404);
+    });
+  
+  });
+  
+  
+
+
+//
+//router.get ('/find_friends', function (req, res){
+//        console.log('Find friends');
+//		find_friends(res);
+//     		});
+
+//router.get ('/friends', function (req, res){
+
+//	console.log('Getting friends');
+	//
+	//		User.find(function(err, arrayOfUsers) {
+	//		   console.log('users' + arrayOfUsers)
 			
-				res.render('friends', {
-					friends: arrayOfUsers
-				});
-			});
-		});
+	//			res.render('friends', {
+	//				friends: arrayOfUsers
+//				});
+//			});
+//		});
 	
 
 	

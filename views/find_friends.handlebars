@@ -1,24 +1,42 @@
- <h2 class="page-header">Find Friends</h2>
- 
 
- 
-
-	
-	
-       <!-- LEFT-CONTAINER -->
-            <div class="middle-container container">
+ <div class="main-container">
+    
+  <!-- LEFT-CONTAINER -->
+            <div class="left-container container">
                 <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
-                    <h2 class="titular">Users</h2>
+                            
+                <form id="search" action="/browse_profile" method="post" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="q" name="q" placeholder="Search...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search users</button>
+                </form>               
+                </div>
+            </div>
 
+
+
+            <div class="middle-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">Some Challenge You Users</h2>
+                               
                     <ul class="menu-box-menu">
-	{{#each friends}}
-
-                        <li>
-                            <a class="menu-box-tab" href="/find_friends/{{this.username}}">{{this.username}}</a>                            
-                        </li>
-        {{/each}}            
-
+                       {{#each users}}
+                       <li class="menu-box-tab">
+                              <span>          <div class="profile-picture small-profile-picture clear">
+                        <img width="50px" alt="picture" src="../uploads/{{this.pic}}" >
+                    </div>
+        {{this.username}} </span>
+                          </li>
+                       {{/each}}
                     </ul>
                 </div>
+             </div>
 
-     
+
+
+</div>
+
+
+
+

@@ -1,14 +1,9 @@
 {
-  "name": "challengeyou",
+  "name": "Node.jsSearchAutocomplete",
   "version": "1.0.0",
-  "description": "Challenge You",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Brad Traversy",
-  "license": "ISC",
+  "private": true,
+  "description": "Node.js search with autocomplete",
+  "author": "Gabriele Romanato <gabriele@gabrieleromanato.com>",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "*",
@@ -30,6 +25,8 @@
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*",
-    "ziggeo": "0.0.20"
-  }
+    "ziggeo": "0.0.20",
+    "serve-favicon": "^2.4.2"
+  },
+  "license": "MIT"
 }

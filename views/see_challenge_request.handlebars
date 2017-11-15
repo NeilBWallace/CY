@@ -1,3 +1,20 @@
-{{#each Challenge}}
-<p> You have been challenged{{_id}}<a href="/accept_challenge/{{user}}/{{_id}}" class="btn btn-xs btn-warning">Accept Chalenge</a>
-{{/each}}
+See Challenges
+
+
+
+
+
+
+            <div class="middle-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">Some Challenge You Users</h2>
+                               
+                    <ul class="menu-box-menu">
+                       {{#each challenges}}
+                       <li class="menu-box-tab">
+                              <span>        <a href="/view_challenge" class="btn btn-xs btn-warning">View Chalenge</a> </span>
+                          </li>
+                       {{/each}}
+                    </ul>
+                </div>
+             </div>
