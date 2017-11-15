@@ -1,9 +1,14 @@
 {
   "name": "Node.jsSearchAutocomplete",
+  "main": "app.js",
   "version": "1.0.0",
   "private": true,
   "description": "Node.js search with autocomplete",
   "author": "Gabriele Romanato <gabriele@gabrieleromanato.com>",
+  "scripts": {
+    "start": " node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "*",
