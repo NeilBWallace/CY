@@ -1,0 +1,39 @@
+
+
+</section>
+<script src="/public/assets/jquery.min.js"></script>
+<script src="/public/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/public/assets/jquery.bootcomplete.js"></script>
+<script src="/public/assets/search.js"></script>
+
+
+   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<!--
+  <script src="../assets/jquery.min.js"></script>
+  -->
+<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/jquery.bootcomplete.js"></script>
+<script src="../assets/search.js"></script>
+  <script src="../js/materialize.js"></script>
+  <script src="../js/init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+    <script>var application = new ZiggeoApi.V2.Application({token: "r1e4a85dd1e7c33391c1514d6803b975" });
+                        application.on("error", function ( status_code, message ) {
+                    console.log(message)
+                });
+       
+                $(document).ready (function (){
+                    $('.delete-btn').click (function (){
+                        var video_id = $(this).data('videoid');
+                        $(this).html('Deleting...')
+                        $.ajax({url: '/video/'+video_id,method: "DELETE"}).done(function(){
+                            $('#container-'+video_id).fadeOut ("slow", function (){
+                                $('#container-'+video_id).remove(); 
+                            })
+                        });
+                    });
+                });
+            </script>    
+  </body>
+</html>
+

@@ -1,0 +1,18 @@
+<Friend Requests
+
+
+    <div class="middle-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">User requesting to be your friend</h2>
+                               
+                    <ul class="menu-box-menu">
+                       {{#each friend}}
+                       <li class="menu-box-tab">
+                              <span>        
+        {{this.user}}   <a href="/make_friends" class="btn btn-xs btn-warning">Accept</a>
+        </span>
+                          </li>
+                       {{/each}}
+                    </ul>
+                </div>
+             </div>>
