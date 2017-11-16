@@ -12,4 +12,5 @@ var friendSchema = mongoose.Schema({
 // 2 friends        
 });
 
+friendSchema.index({user:1,friend:1},{unique:true})
 let Friends = module.exports = mongoose.model('friend',friendSchema);

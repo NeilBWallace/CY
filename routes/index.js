@@ -24,7 +24,13 @@ ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652
 function home_page(req,res){
 
 
-    Friends.find({"friend":req.user.username},function(err,fr)
+
+
+    AddHobby.find({user:req.user.username},function(err, arrayOfHobbies) {   
+    Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
+    {
+        console.log("sdfsdf" + buddies);
+    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
     {
         Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
@@ -38,13 +44,89 @@ function home_page(req,res){
         pic:req.user.pic,
         username: req.user.username,
         friend_request:fr,
-        Challenge:ch
+        Challenge:ch,
+        Buddies:buddies,
+        Hobbies: arrayOfHobbies
     });
     
 });
     });
-    
+});
+    });
 }
+
+router.get('/my_friends', (req, res) => {
+
+    Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
+    {
+
+          res.render('my_friends', {
+        myfriends:buddies
+        });
+        });
+  });
+
+
+
+router.get('/see_friend_request', (req, res) => {
+    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
+    {
+         res.render('see_friend_requests', {
+          friend:fr,
+        });
+    });
+  });
+
+
+
+router.get('/find_friends', (req, res) => {
+    console.log('get');
+     User.find().limit(6).then(usrs => {
+       console.log('users' + usrs);
+      res.render('find_friends', {
+        pageTitle: 'Node Search',
+        users: usrs
+      });
+    }).catch(err => {
+        res.sendStatus(404);
+    });
+  });
+  
+  router.post('/search', (req, res) => {
+   
+    let q = req.body.query;
+    console.log('xyz' + q);
+    let query = {
+      "$or": [{"username": {"$regex": q, "$options": "i"}}, {"name": {"$regex": q, "$options": "i"}}]
+    };
+    let output = [];
+  console.log(query);
+    User.find(query).limit(6).then( usrs => {
+      console.log('sdfsdf' + usrs);
+        if(usrs && usrs.length && usrs.length > 0) {
+          console.log('erwerwerwr');
+            usrs.forEach(user => {
+              console.log(user);
+               let obj = {
+                  id: user.username,
+                  label: user.pic,
+                
+              };
+              output.push(obj);
+            });
+        }
+        res.json(output);
+    }).catch(err => {
+      res.sendStatus(404);
+    });
+  
+  });
+
+
+
+
+
+
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
@@ -52,17 +134,54 @@ router.get('/', ensureAuthenticated, function(req, res){
 home_page(req,res);
 });
 
-router.get('/see_challenge_request/:user/:id', ensureAuthenticated, function(req, res){
+
+router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
     
+    Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
+    {
         res.render('see_challenge_request',{
+           challenges: ch,
             username:req.user.username,
-           
+        });      
         });
     });
     
     
+    
+router.get ('/view_challenge', function (req, res){
+    res.render('view_challenge');
+     		});
+
+router.post('/browse_profile', ensureAuthenticated,function (req, res){
+
+//	console.log('Getting friends');
+	//
+			User.find({"username":req.body.q},function(err, arrayOfUsers) {
+			   console.log('users' + arrayOfUsers)
+			
+				res.render('browse_profile', {
+					friend: arrayOfUsers
+			});
+			});
+		});
+	
 
 
+
+        router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
+            
+         	console.log('Getting friends');
+                //
+                        User.find({"username":req.params.id},function(err, arrayOfUsers) {
+                           console.log('users' + arrayOfUsers)
+                        
+                            res.render('browse_profile', {
+                                friend: arrayOfUsers,
+                                viewing_friend_requester:1
+                        });
+                        });
+                    });
+                
 
 router.get('/describe_challenge', ensureAuthenticated, function(req, res){
 
@@ -272,12 +391,13 @@ router.get ('/admin', function (req, res){
 
 
 
-router.get ('/find_friends/:id', function (req, res){
+router.get ('/request_make_friends/:id', function (req, res){
 	var id = req.params.id;
 	
-		console.log('Friend request sent' + id);
-		
-		var friend = new Friends({
+	
+if(req.user.username != id)
+   {
+     var friend = new Friends({
 			user: req.user.username,
 			friend: req.params.id,
 			status:"is requesting to be your friend!"
@@ -288,10 +408,16 @@ router.get ('/find_friends/:id', function (req, res){
            }else
            {
             console.log('Saved ok');
-            
+            res.render('index');
            }
 		});
-});
+
+    }
+    else
+    {
+      res.render('index');
+    }
+    });
 
 router.get ('/send_friends', function (req, res){
 	
@@ -408,26 +534,27 @@ router.get ('/accept_challenge/:user/:id', function (req, res){
 
 
 
-            router.get ('/make_friends/:user/:id', function (req, res){
-                
-                    console.log('make friends' + req.params.user + 'sdf' + req.params.id) ;
-                Friends.findOne({_id: req.params.id},function(err,foundObject)
+            router.get ('/make_friends/:id', function (req, res){
+            
+                    console.log('make friends' + req.params.id) ;
+               Friends.findOne({user: req.params.id},function(err,foundObject)
                 {
                         if(err)
                         {
-                            console.log(err);
+                            console.log("qqq" + err);
                         }else
                         {
-                            console.log(foundObject);
+                           console.log(foundObject);
                             foundObject.status="are now friends!"
                             foundObject.save(function(err,updatedObject){
                                 if(err){
-                                    console.log(err);
+                                    console.log("1111" +err);
                                     res.status(500).send();
-                                }else
-                                {
-                                    console.log(updatedObject);
-                                  home_page(req,res);
+                            }else
+                                
+                            {
+                                console.log("werewr");
+                                   home_page(req,res);
 
                                 }
                                           });

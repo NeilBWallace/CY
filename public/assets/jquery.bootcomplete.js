@@ -77,8 +77,9 @@
                     success: function( json ) {
                         var results = ''
                         $.each( json, function(i, j) {
-                            results += '<a href="#" class="list-group-item" data-id="'+j.id+'" data-label="'+j.label+'">'+j.label+'</a>'
-                        });
+                            var a = "<img height='50px' width='50px' src='" + j.label + "'/>";                
+                            results += a + '<a href="#" class="list-group-item" data-id="'+j.id+'" data-label="'+j.id+'">'+j.id+'</a>'
+                            });
                         
                         $(that).next('.'+settings.menuClass).html(results)
                         $(that).next('.'+settings.menuClass).children().on("click", selectResult)
