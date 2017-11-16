@@ -1,42 +1,135 @@
 
- <div class="main-container">
-    
-  <!-- LEFT-CONTAINER -->
-            <div class="left-container container">
-                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
-                            
-                <form id="search" action="/browse_profile" method="post" class="form-inline">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="q" name="q" placeholder="Search...">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search users</button>
-                </form>               
-                </div>
-            </div>
+
+<ul id="users">
+  {{#each users}}
+
+    <li>
+        <i class="fa fa-user"></i>
+        <span>{{this.username}} {{this.name}}</span>
+    </li>
+
+  {{/each}}
+</ul>
+
+<form id="search" action="" method="post" class="form-inline">
+    <div class="form-group">
+        <input type="text" class="form-control" id="q" name="q" placeholder="Search...">
+    </div>
+    <button type="submit" class="btn btn-primary">Search users</button>
+</form>
 
 
 
-            <div class="middle-container container">
-                <div class="menu-box block"> 
-                    <h2 class="titular">Some Challenge You Users</h2>
-                               
-                    <ul class="menu-box-menu">
-                       {{#each users}}
-                       <li class="menu-box-tab">
-                              <span>          <div class="profile-picture small-profile-picture clear">
-                        <img width="50px" alt="picture" src="../uploads/{{this.pic}}" >
-                    </div>
-        {{this.username}} </span>
-                          </li>
-                       {{/each}}
-                    </ul>
-                </div>
-             </div>
+<!--
+
+ <h2 class="page-header">Find Friends</h2>
+ 
 
 
+<div class="ui-widget">
+
+  <label for="birds">Birds: </label>
+
+  <input id="search-query">
 
 </div>
 
+ 
+
+<div class="ui-widget" style="margin-top:2em; font-family:Arial">
+
+  Result:
+
+  <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
+
+</div>
+
+  {{output}}
 
 
 
+   <div id="wrapper"> 
+                <div id="login_div" class="teal lighten-1">
+    
+   {{#each users}} 
+ 
+ 
+     <li> 
+         <i class="fa fa-user"></i> 
+         <span>{{this.name.first}} {{this.name.last}}</span> 
+     </li> 
+ 
+ 
+   {{/each}} 
+ </ul> 
+ 
+ 
+	
+	
+            <div class="middle-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">Users</h2>
+
+                    <ul class="menu-box-menu">
+	{{#each friends}}
+
+                        <li>
+                            <a class="menu-box-tab" href="/find_friends/{{this.username}}">{{this.username}}</a>                            
+                        </li>
+        {{/each}}            
+
+                    </ul>
+                </div>
+
+
+
+
+
+
+
+     <script>
+      $(function () {
+
+   $("#search-query").autocomplete({
+       source: function (request, response) {
+          $.ajax({
+             url: "/search_member",
+             type: "GET",
+             data: request,  // request is the value of search input
+             success: function (data) {
+               // Map response values to fiedl label and value
+                response($.map(data, function (el) {
+                   return {
+                      label: el.fullname,
+                      value: el._id
+                   };
+                   }));
+                }
+             });
+          },
+          
+          // The minimum number of characters a user must type before a search is performed.
+          minLength: 3, 
+          
+          // set an onFocus event to show the result on input field when result is focused
+          focus: function (event, ui) { 
+             this.value = ui.item.label; 
+             // Prevent other event from not being execute
+             event.preventDefault();
+          },
+          select: function (event, ui) {
+             // Prevent value from being put in the input:
+             this.value = ui.item.label;
+             // Set the id to the next input hidden field
+             $(this).next("input").val(ui.item.value); 
+             // Prevent other event from not being execute            
+             event.preventDefault();
+             // optionnal: submit the form after field has been filled up
+             $('#quicksearch').submit();
+          }
+   });
+
+});
+     </script>
+
+     -->

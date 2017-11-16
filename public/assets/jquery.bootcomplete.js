@@ -76,9 +76,8 @@
                     dataType: "json",
                     success: function( json ) {
                         var results = ''
-                          $.each( json, function(i, j) {
-                            var a = "<img height='50px' width='50px' src='../uploads/" + j.label + "'/>";                
-                            results += a + '<a href="#" class="list-group-item" data-id="'+j.id+'" data-label="'+j.id+'">'+j.id+'</a>'
+                        $.each( json, function(i, j) {
+                            results += '<a href="#" class="list-group-item" data-id="'+j.id+'" data-label="'+j.label+'">'+j.label+'</a>'
                         });
                         
                         $(that).next('.'+settings.menuClass).html(results)

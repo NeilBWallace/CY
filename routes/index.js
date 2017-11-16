@@ -16,15 +16,7 @@ const ZiggeoSdk = require ('ziggeo');
 
 
 
-// Set Storage Engine
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-   filename: function(req, file, cb){
-     cb(null,req.user.username + path.extname(file.originalname));
-  
-  
-  }
-  });
+
   
 ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
 
@@ -32,9 +24,8 @@ ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652
 function home_page(req,res){
 
 
-    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
+    Friends.find({"friend":req.user.username},function(err,fr)
     {
-
         Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
 
@@ -55,102 +46,21 @@ function home_page(req,res){
     
 }
 
-
-router.get('/see_friend_request', (req, res) => {
-    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
-    {
-        console.log(req.user.username + " xxx" + fr + " xxx");
-      res.render('see_friend_requests', {
-          friend:fr
-      });
-    });
-  });
-
-
-
-router.get('/find_friends', (req, res) => {
-    console.log('get');
-     User.find().limit(6).then(usrs => {
-       console.log('users' + usrs);
-      res.render('find_friends', {
-        pageTitle: 'Node Search',
-        users: usrs
-      });
-    }).catch(err => {
-        res.sendStatus(404);
-    });
-  });
-  
-  router.post('/search', (req, res) => {
-   
-    let q = req.body.query;
-    console.log('xyz' + q);
-    let query = {
-      "$or": [{"username": {"$regex": q, "$options": "i"}}, {"name": {"$regex": q, "$options": "i"}}]
-    };
-    let output = [];
-  console.log(query);
-    User.find(query).limit(6).then( usrs => {
-      console.log('sdfsdf' + usrs);
-        if(usrs && usrs.length && usrs.length > 0) {
-          console.log('erwerwerwr');
-            usrs.forEach(user => {
-              console.log(user);
-               let obj = {
-                  id: user.username,
-                  label: user.pic,
-                
-              };
-              output.push(obj);
-            });
-        }
-        res.json(output);
-    }).catch(err => {
-      res.sendStatus(404);
-    });
-  
-  });
-
-
-
-
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
     
 home_page(req,res);
 });
 
-router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
+router.get('/see_challenge_request/:user/:id', ensureAuthenticated, function(req, res){
     
-    Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
-    {
         res.render('see_challenge_request',{
-           challenges: ch,
             username:req.user.username,
-        });      
+           
         });
     });
     
     
-
-
-router.get ('/view_challenge', function (req, res){
-    res.render('view_challenge');
-     		});
-
-router.post('/browse_profile', ensureAuthenticated,function (req, res){
-
-//	console.log('Getting friends');
-	//
-			User.find({"username":req.body.q},function(err, arrayOfUsers) {
-			   console.log('users' + arrayOfUsers)
-			
-				res.render('browse_profile', {
-					friend: arrayOfUsers
-			});
-			});
-		});
-	
 
 
 
@@ -362,7 +272,7 @@ router.get ('/admin', function (req, res){
 
 
 
-router.get ('/request_make_friends/:id', function (req, res){
+router.get ('/find_friends/:id', function (req, res){
 	var id = req.params.id;
 	
 		console.log('Friend request sent' + id);
@@ -378,8 +288,7 @@ router.get ('/request_make_friends/:id', function (req, res){
            }else
            {
             console.log('Saved ok');
-            res.render('index',{
-            });
+            
            }
 		});
 });
@@ -499,31 +408,32 @@ router.get ('/accept_challenge/:user/:id', function (req, res){
 
 
 
-            router.get ('/make_friends', function (req, res){
-                home_page(req,res);
-     //               console.log('make friends' + req.params.user + 'sdf' + req.params.id) ;
-     //           Friends.findOne({_id: req.params.id},function(err,foundObject)
-     //           {
-     //                   if(err)
-     //                  {
-     //                       console.log(err);
-     //                   }else
-      //                  {
-      //                      console.log(foundObject);
-      //                      foundObject.status="are now friends!"
-      //                      foundObject.save(function(err,updatedObject){
-      //                          if(err){
-      //                              console.log(err);
-      //                              home_page(req,res);
-       //                         }else
-       //                         {
-       //                             console.log(updatedObject);
-       //                           home_page(req,res);
-       //                         }
-       //                                   });
-//
-    //                    }
-  //              });
+            router.get ('/make_friends/:user/:id', function (req, res){
+                
+                    console.log('make friends' + req.params.user + 'sdf' + req.params.id) ;
+                Friends.findOne({_id: req.params.id},function(err,foundObject)
+                {
+                        if(err)
+                        {
+                            console.log(err);
+                        }else
+                        {
+                            console.log(foundObject);
+                            foundObject.status="are now friends!"
+                            foundObject.save(function(err,updatedObject){
+                                if(err){
+                                    console.log(err);
+                                    res.status(500).send();
+                                }else
+                                {
+                                    console.log(updatedObject);
+                                  home_page(req,res);
+
+                                }
+                                          });
+
+                        }
+                });
 
 
          
@@ -901,83 +811,123 @@ function successDecode (success_id){
 
 
 
+  var cloudinary = require('cloudinary'); 
 
-// Init Upload
-const upload = multer({
-    storage: storage,
-    limits:{fileSize: 1000000},
-    fileFilter: function(req, file, cb){
-      checkFileType(file, cb);
+  cloudinary.config({ 
+    cloud_name: 'dz1wt4zut', 
+    api_key: '114533942435592', 
+    api_secret: '6HVvZgHk1AfKUq2g2nVwTkBDm9c' 
+  });
+  
+
+  var storage = multer.diskStorage({
+    filename: function(req, file, callback) {
+      callback(null, Date.now() + file.originalname);
     }
-  }).single('myImage');
+  });
+  var imageFilter = function (req, file, cb) {
+      // accept image files only
+      if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+          return cb(new Error('Only image files are allowed!'), false);
+      }
+      cb(null, true);
+  };
+  var upload = multer({ storage: storage, fileFilter: imageFilter})
   
-  // Check File Type
-  function checkFileType(file, cb){
-    // Allowed ext
-    const filetypes = /jpeg|jpg|png|gif/;
-    // Check ext
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    // Check mime
-    const mimetype = filetypes.test(file.mimetype);
+router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (req, res) => {
   
-    if(mimetype && extname){
-      return cb(null,true);
-    } else {
-      cb('Error: Images Only!');
-    }
-  }
-  
-
-
-
-router.post('/upload_pic', (req, res) => {
-console.log('attempting upload');  
-    upload(req, res, (err) => {
-      if(err){
-        res.render('index', {
-          msg: err
-        });
+   cloudinary.uploader.upload(req.file.path, function(result) {
+    if (result.error) {
+       console.log('error uploading file');
+       res.render('index', {
+             msg: err
+               });
+       
+        // see result.error.message and result.error.http_code
       } else {
-        if(req.file == undefined){
-          res.render('edit_profile', {
-            msg: 'Error: No File Selected!'
-          });
-        } else {
 
-            User.findOne({_id: req.user._id},function(err,foundObject)
+        User.findOne({_id: req.user._id},function(err,foundObject)
             {
                     if(err)
                     {
                         console.log(err);
                     }else
-                    {
-                        console.log(foundObject);
-                        foundObject.pic=req.file.filename
+                   {
+                       console.log(foundObject);
+                        foundObject.pic=result.secure_url
                         foundObject.save(function(err,updatedObject){
                             if(err){
                                 console.log(err);
                                 res.status(500).send();
                             }else
                             {
-                                console.log(updatedObject);
-                      
-                            }
-                                      });
-
-                    }
+                         res.render('edit_profile', {
+                                  msg: 'File Uploaded!',
+                                file: result.secure_url
+                            });
+                        }
+                                     });
+                   }
             });
-
-
-
-
-          res.render('edit_profile', {
-            msg: 'File Uploaded!',
-            file: `uploads/${req.file.filename}`
-          });
-        }
       }
+  
+  
+  
+    console.log("tttt" + result);
+    // add cloudinary url for the image to the campground object under image property
+        console.log("eee"+ result.secure_url);
+        // add author to campground
+  //  console.log("sdfsdf" + result.secure.url);
     });
-  });
+    });
+
+//console.log('attempting upload');  
+ //   upload(req, res, (err) => {
+ //     if(err){
+ //       res.render('index', {
+ //         msg: err
+ //       });
+ //     } else {
+  //      if(req.file == undefined){
+  //        res.render('edit_profile', {
+  //          msg: 'Error: No File Selected!'
+  //        });
+  //      } else {
+
+  //          User.findOne({_id: req.user._id},function(err,foundObject)
+  //          {
+  //                  if(err)
+  //                  {
+  //                      console.log(err);
+  //                  }else
+  //                  {
+  //                      console.log(foundObject);
+  //                      foundObject.pic=req.file.filename
+  //                      foundObject.save(function(err,updatedObject){
+  //                          if(err){
+  //                              console.log(err);
+  //                              res.status(500).send();
+  //                          }else
+  //                          {
+  //                              console.log(updatedObject);
+                      
+    //                        }
+ //                                     });
+///
+   //                 }
+     //       });
+
+
+
+
+//          res.render('edit_profile', {
+//            msg: 'File Uploaded!',
+//            file: `uploads/${req.file.filename}`
+//          });
+//        }
+//      }
+//    });
+//  });
   
 
 

@@ -316,7 +316,7 @@ h1, h2, p, a, span{
 		/******************************************** LEFT CONTAINER *****************************************/
 		.left-container {}
 			.menu-box {
-				height: 500px;
+				height: 360px;
 			}
 				.menu-box .titular {
 					background: #11a8ab;
