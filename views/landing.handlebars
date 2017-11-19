@@ -1,0 +1,246 @@
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+	<style type="text/css">
+	*{
+		margin:0;
+		padding:0;
+	}
+	#container {
+		width:100%;
+		position:relative;s
+		}
+	#slideshow {
+		height:100%;
+		width:100%;
+		}
+	#slideshow img {
+		height:100%;
+		width:100%;
+		position: absolute;
+		z-index:10;
+		min-width:100%;
+		min-height:100%;
+		}
+	#pager {
+		height:120px; 
+		width:100%;
+		background:rgba(0,0,0,0.5);
+		position:absolute;
+		bottom:5%;
+		z-index:1000;
+		text-align:center;
+		opacity:0;
+		transition:all .2s ease-in-out 0s;
+		}
+	#pager:hover {
+		opacity:1;
+		}
+	#pager img {
+		margin: 10px 5px;
+		opacity:0.3;
+		transition:all .3s ease-in-out 0s;
+		}
+	#pager img:hover {
+		opacity:1;
+		transform:scale(1.05);
+		z-index:100;
+		}
+	#prev_c {
+		height:100%;
+		width:200px;
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:100;
+		}
+		#prev_c img {
+			height:120px;
+			width:120px;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			margin:auto 0px;
+			}
+		
+	#next_c {
+		height:100%;
+		width:200px;
+		position:absolute;
+		right:0;
+		top:0;
+		z-index:100;
+		}
+		#next_c img {
+			height:120px;
+			width:120px;
+			position:absolute;
+			top:0;
+			bottom:0;
+			right:0;
+			margin:auto 0px;
+			}
+		#next #prev { visibility:hidden;}
+		#next,#prev:hover {
+			cursor:pointer;
+			}
+		#next_c,#prev_c:hover #next,#prev { visibility:visible;}
+		
+	</style>
+<div id="container">
+ 
+
+ 
+<script type="text/javascript">
+
+function height() {
+	var h = window.innerHeight;
+	var a = document.getElementById('container');
+	a.style.height = h+"px";
+	}
+	
+window.addEventListener('load',height);
+window.addEventListener('resize',height);
+</script>
+
+
+
+  <div id="index-banner" class="parallax-container">
+   <h4 class="header left white-text ">Challenge You</h4>
+  <br><br/>
+  
+         
+    <div class="section no-pad-bot">
+      <div class="container">
+       
+           <br/>
+         <div class="row center">
+           <div id="wrapper"> 
+                <div id="login_div" class="teal lighten-1">
+    
+               <form method="post" action="/users/login">
+                <div class="input-field">
+                    <label>Username</label>
+                    <input type="text"  name="username" placeholder="Username">
+                  </div>
+                  <div class="input-field">
+                    <label>Password</label>
+                    <input type="password"  name="password" placeholder="Password">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+      
+                </form>
+             <div class="row center">  
+                   <p> <a class="header-menu-tab white-text " style="text-decoration:underline" href="/users/register">Register now</a>
+            </div>
+   </div>
+          
+        </div>
+         </div>
+        <br><br>
+
+      </div>
+    </div>
+<div id="slideshow" class="cycle-slideshow" 
+ data-cycle-fx="fade" 
+ data-cycle-manual-fx="scrollHorz" 
+ data-cycle-pager-fx = "fade" 
+ data-cycle-manual-speed="5000"
+ data-cycle-prev="#prev"  	
+ data-cycle-next="#next"
+ data-cycle-speed="5000"  
+ data-cycle-timeout="3000" 
+ data-cycle-pager = "#pager" 
+ data-cycle-pager-template="<a href='#'><img src='{{src}}' width=150 height=100></a>"
+   
+      
+        <img src="../background1.jpg" id="intro_img"/>
+        <img src="../background2.jpg" id="intro_img"/>
+        <img src="../background3.jpg" id="intro_img"/>
+         <img src="../background4.jpg" id="intro_img"/>
+        </div>
+
+          
+ </div>
+
+  <!--  <div class="parallax"></div>
+  <!--  <div class="parallax"><img src="../background1.jpg" alt="Unsplashed background img 1"></div>-->
+  <!--</div>-->
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Speeds up development</h5>
+
+            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">User Experience Focused</h5>
+
+            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Easy to work with</h5>
+
+            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="../background2.jpg" alt="Unsplashed background img 2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>Contact Us</h4>
+          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="../background3.jpg" alt="Unsplashed background img 3"></div>
+  </div>
+
+
+     <script src="https://code.jquery.com/jquery-git2.min.js"></script>
+    <script src="../js/cycle2.js"></script>

@@ -1,20 +1,29 @@
-ee Challenges
 
+  <style type="text/css">
+.home_page_top {
+    background-image: url('../purple_background.png');
+   background-repeat: no-repeat;
+   background-size:100%;
 
+}
+</style>
+  
 
+  <body class="home_page_top">
 
 
 
             <div class="middle-container container">
                 <div class="menu-box block"> 
-                    <h2 class="titular">Some Challenge You Users</h2>
+                    <h2 class="titular">You have been challenged</h2>
                                
                     <ul class="menu-box-menu">
                        {{#each challenges}}
                        <li class="menu-box-tab">
-                              <span>        <a href="/view_challenge" class="btn btn-xs btn-warning">View Chalenge</a> </span>
+                              <span>        <a href="/view_challenge" class="btn btn-xs btn-warning">View Challenge</a> </span>
                           </li>
                        {{/each}}
                     </ul>
                 </div>
              </div>
+</body>

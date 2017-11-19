@@ -24,27 +24,27 @@ ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652
 function home_page(req,res){
 
 
-
+   
 
     AddHobby.find({user:req.user.username},function(err, arrayOfHobbies) {   
     Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
     {
-        console.log("sdfsdf" + buddies);
     Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
     {
+          req.session.friends=fr;
         Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
-
-             
-            console.log("challenges" + ch);
+        
+             req.session.challenges = ch;
+            console.log("challenges" +req.session.challenges);
             
-    console.log("friends" + fr);
+              req.session.pic= req.user.pic;
     res.render('index',
     {
         pic:req.user.pic,
         username: req.user.username,
         friend_request:fr,
-        Challenge:ch,
+        Challenge:req.session.challenges,
         Buddies:buddies,
         Hobbies: arrayOfHobbies
     });
@@ -61,7 +61,11 @@ router.get('/my_friends', (req, res) => {
     {
 
           res.render('my_friends', {
-        myfriends:buddies
+        myfriends:buddies,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
         });
         });
   });
@@ -73,6 +77,10 @@ router.get('/see_friend_request', (req, res) => {
     {
          res.render('see_friend_requests', {
           friend:fr,
+          user: req.user,
+          Challenge:req.session.challenges,
+          pic:req.session.pic,
+          friend_request:req.session.friends 
         });
     });
   });
@@ -85,7 +93,11 @@ router.get('/find_friends', (req, res) => {
        console.log('users' + usrs);
       res.render('find_friends', {
         pageTitle: 'Node Search',
-        users: usrs
+        users: usrs,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
       });
     }).catch(err => {
         res.sendStatus(404);
@@ -142,15 +154,24 @@ router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
         res.render('see_challenge_request',{
            challenges: ch,
             username:req.user.username,
+            user: req.user,
+            Challenge:req.session.challenges,
+            pic:req.session.pic,
+            friend_request:req.session.friends 
         });      
         });
     });
     
-    
+ 
     
 router.get ('/view_challenge', function (req, res){
-    res.render('view_challenge');
+    res.render('view_challenge',{
+    user: req.user,
+    Challenge:req.session.challenges,
+    pic:req.session.pic,
+    friend_request:req.session.friends 
      		});
+        });
 
 router.post('/browse_profile', ensureAuthenticated,function (req, res){
 
@@ -160,12 +181,27 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
 			   console.log('users' + arrayOfUsers)
 			
 				res.render('browse_profile', {
-					friend: arrayOfUsers
+                    friend: arrayOfUsers,
+                    user: req.user,
+                    Challenge:req.session.challenges,
+                    pic:req.session.pic,
+                    friend_request:req.session.friends 
+                    
 			});
 			});
 		});
 	
-
+        router.get ('/view_video/:id/:title',ensureAuthenticated ,function (req, res){
+            console.log('view video');
+            res.render('view_video',{
+                       token:req.params.id,
+                       title:req.params.title,
+                       user: req.user,
+                       Challenge:req.session.challenges,
+                       pic:req.session.pic,
+                       friend_request:req.session.friends 
+                     });
+                    });
 
 
         router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
@@ -177,7 +213,11 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                         
                             res.render('browse_profile', {
                                 friend: arrayOfUsers,
-                                viewing_friend_requester:1
+                                viewing_friend_requester:1,
+                                user: req.user,
+                                Challenge:req.session.challenges,
+                                pic:req.session.pic,
+                                friend_request:req.session.friends 
                         });
                         });
                     });
@@ -187,6 +227,10 @@ router.get('/describe_challenge', ensureAuthenticated, function(req, res){
 
     res.render('describe_challenge',{
         username:req.user.username,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
        
 	});
 });
@@ -196,7 +240,11 @@ router.get('/describe_challenge/:username/', ensureAuthenticated, function(req, 
 	res.render('challenge_someone',{
         username:req.params.username,
 		ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
-		ziggeo_title:req.body.describe_challenge
+        ziggeo_title:req.body.describe_challenge,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
 	});
 });
 
@@ -206,7 +254,11 @@ router.post('/challenge_someone', ensureAuthenticated, function(req, res){
 	res.render('challenge_someone',{
 		ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
         username:req.user.username,
-        title:req.body.title
+        title:req.body.title,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
 	});
 });
 
@@ -215,7 +267,11 @@ router.get('/edit_profile', ensureAuthenticated, function(req, res){
 
     console.log('edit profile' + req.user.username);
 	res.render('edit_profile',{
-       username:req.user.username
+       username:req.user.username,
+       user: req.user,
+       Challenge:req.session.challenges,
+       pic:req.session.pic,
+       friend_request:req.session.friends 
 	});
 });      
    
@@ -227,14 +283,21 @@ router.get ('/videos',ensureAuthenticated, function (req, res){
 
     ZiggeoSdk.Videos.index ({tags:req.user.username}, {
         success: function (index) {
-	              console.log(index);
+	             // console.log(index);
 
 			res.render('videos', {
                 ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
                 page_title: 'Challenge You All Videos',
                 need_ziggeo: 1,
                 videos: index,
-                user: req.user
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends 
             })
             return true;
         },
@@ -252,8 +315,11 @@ router.get ('/video/:videoId', function (req, res){
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
         page_title: 'Single video',
         video_id: video_id,
-        need_ziggeo: 1
-        
+        need_ziggeo: 1,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
     })
 })
 
@@ -265,7 +331,11 @@ router.get ('/video/:videoId/stream/:stream_id', function (req, res){
         page_title: 'Single stream',
         video_id: video_id,
         stream_id: stream_id,
-        need_ziggeo: 1
+        need_ziggeo: 1,
+         user: req.user,
+    Challenge:req.session.challenges,
+    pic:req.session.pic,
+    friend_request:req.session.friends 
     })
 })
 
@@ -285,7 +355,11 @@ router.get ('/streams/:videoId', function (req, res){
                 page_title: ' Single Streams',
                 need_ziggeo: 1,
                 video_token: video_id,
-                videos: index
+                videos: index,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends 
             })	
         },
         failure: function(){
@@ -300,7 +374,11 @@ router.get ('/record', function (req, res){
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
         page_title: req.params.video_id,
         need_ziggeo: 1,
-          user: req.user
+          user: req.user,
+          user: req.user,
+          Challenge:req.session.challenges,
+          pic:req.session.pic,
+          friend_request:req.session.friends 
       })
 
 })
@@ -310,7 +388,10 @@ router.get ('/upload', function (req, res){
         ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
         page_title: 'Upload video',
         need_ziggeo: 1,
-       
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
     })
 })
 
@@ -321,7 +402,11 @@ router.get ('/approve', function (req, res){
                 ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
                 page_title: 'Approve Videos',
                 need_ziggeo: 1,
-                videos: index
+                videos: index,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends 
             })
             return true;
         },
@@ -380,12 +465,20 @@ router.get ('/error/:errorId*?', function (req, res){
     res.render ('error', {
         page_title: 'Error',
         message: message,
-        need_ziggeo: 0
+        need_ziggeo: 0,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
     })
 })
 router.get ('/admin', function (req, res){
      
     res.render ('admin', {
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
     })
 });
 
@@ -427,7 +520,11 @@ router.get ('/send_friends', function (req, res){
 				   console.log('users' + arrayOfUsers)
 				
 					res.render('find_friends', {
-						friends: arrayOfUsers
+                        friends: arrayOfUsers,
+                        user: req.user,
+                        Challenge:req.session.challenges,
+                        pic:req.session.pic,
+                        friend_request:req.session.friends 
 					});
 				});
 			});
@@ -472,7 +569,11 @@ function challengefriend(req,res){
         id:req.params.id,
         title:req.params.title,
         user:req.params.user,
-        friend_request:fr
+        friend_request:fr,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
     });
         });
 };
@@ -493,7 +594,11 @@ function challengefriend(req,res){
                                 res.render('challenge', {
                                        title: req.params.title,
                                        token: req.params.token,
-                                       user: req.params.user
+                                       user: req.params.user,
+                                       user: req.user,
+                                       Challenge:req.session.challenges,
+                                       pic:req.session.pic,
+                                       friend_request:req.session.friends 
                                  });
                         
                         });
@@ -631,7 +736,11 @@ function find_friends(res){
         console.log('users' + arrayOfUsers)
      
          res.render('find_friends', {
-             friends: arrayOfUsers
+             friends: arrayOfUsers,
+             user: req.user,
+             Challenge:req.session.challenges,
+             pic:req.session.pic,
+             friend_request:req.session.friends 
          });
      });
 
@@ -645,7 +754,11 @@ router.get('/find_friends', (req, res) => {
      User.find().limit(6).then(usrs => {
          res.render('find_friends', {
         pageTitle: 'Node Search',
-        users: usrs
+        users: usrs,
+        user: req.user,
+        Challenge:req.session.challenges,
+        pic:req.session.pic,
+        friend_request:req.session.friends 
       });
     }).catch(err => {
         res.sendStatus(404);
@@ -713,7 +826,11 @@ console.log('Getting groups');
 
 		Group.find(function(err, arrayOfGroups) {
 			res.render('groups', {
-				groups: arrayOfGroups
+                groups: arrayOfGroups,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends 
 			});
 		});
 	});
@@ -723,7 +840,11 @@ console.log('Getting hobbies');
 
 		Hobby.find(function(err, arrayOfHobbies) {
 			res.render('hobbies', {
-				hobbies: arrayOfHobbies
+                hobbies: arrayOfHobbies,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends 
 			});
 		});
 	});
@@ -734,6 +855,10 @@ console.log('Getting hobbies');
                   res.render('my_hobbies', {          
                            username: req.params.username,
                             hobbies: arrayOfHobbies,
+                            user: req.user,
+                            Challenge:req.session.challenges,
+                            pic:req.session.pic,
+                            friend_request:req.session.friends 
                         });
             });
        
@@ -747,6 +872,10 @@ console.log('Getting hobbies');
             Hobby.find(function(err, arrayOfHobbies) {
                   res.render('add_hobbies', {                
                             hobbies: arrayOfHobbies,
+                            user: req.user,
+                            Challenge:req.session.challenges,
+                            pic:req.session.pic,
+                            friend_request:req.session.friends 
                         });
             });
         });
@@ -967,7 +1096,11 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
     if (result.error) {
        console.log('error uploading file');
        res.render('index', {
-             msg: err
+             msg: err,
+             user: req.user,
+             Challenge:req.session.challenges,
+             pic:req.session.pic,
+             friend_request:req.session.friends 
                });
        
         // see result.error.message and result.error.http_code

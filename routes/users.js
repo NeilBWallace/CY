@@ -11,7 +11,10 @@ router.get('/register', function(req, res){
 	res.render('register');
 });
 
-
+// Login
+router.get('/find_out_more', function(req, res){
+	res.render('info');
+});
 
 // Login
 router.get('/login', function(req, res){
@@ -94,6 +97,8 @@ passport.deserializeUser(function(id, done) {
 router.post('/login',
   passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
   function(req, res) {
+	
+
     res.redirect('/');
   });
 

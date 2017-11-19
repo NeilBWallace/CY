@@ -1,4 +1,4 @@
-const favicon = require('serve-favicon');
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -13,7 +13,7 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const multer = require('multer');
 
-
+var favicon = require('serve-favicon');
 const ZiggeoSdk = require ('ziggeo');
 ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
 
@@ -51,6 +51,7 @@ app.use(cookieParser());
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, '/public')));
+
 
 // Express Session
 app.use(session({

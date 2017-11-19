@@ -1,45 +1,60 @@
-  <div id="index-banner" class="parallax-container">
-    
-         
-      <div class="container">
-             <div id="wrapper"> 
-                <div id="register_div" class="teal lighten-1">
-                  <h4>Register</h4>
-                      {{#if errors}}
-                       {{#each errors}}
-                        <div class="alert alert-danger">{{msg}}</div>
-                      {{/each}}
-                        {{/if}}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    body {
+    /*background: url(https://images.unsplash.com/photo-1414016642750-7fdd78dc33d9?dpr=2&fit=crop&fm=jpg&h=825&ixlib=rb-0.3.5&q=50&w=1450);*/
+    /*background: url(https://images.unsplash.com/photo-1444012236767-1b471c68781c?dpr=2&fit=crop&fm=jpg&h=825&ixlib=rb-0.3.5&q=50&w=1450);*/
+    /*background: url(https://images.unsplash.com/photo-1444012104069-996724bf4a0a?dpr=2&fit=crop&fm=jpg&h=825&ixlib=rb-0.3.5&q=50&w=1450);*/
+    background: url(../background2.jpg);
+    background-size: cover;
+    background-position: center; 
+    transition: background 1.5s linear;
+    -webkit-backface-visibility: hidden;
+    webkit-transition: background-image 1.5s linear;
+    -webkit-transform:translate3d(0,0,0);
+}
+</style>
 
-                      <form method="post" action="/users/register">
-                        <div class="input-field">
-                          <label>Name</label>
-                          <input type="text"  placeholder="Name" name="name">
+<body>
+  
+  <div id="index-banner" class="parallax-container">
+   <br/><br/>
+  <img src="../logo.png"/>
+  <br/><br/>
+  </div>
+
+    <div class="section no-pad-bot">
+      <div class="container">
+      
+            <div class="loginBox">
+              <div class="glass">
+                  <div class="row center">  
+                 <h2 class="header center teal-text ">Register</h2>
+               <form method="post" action="/users/register">
+                        <div class="inputBox">
+                            <input type="text"  placeholder="Name" name="name">
                         </div>
-                        <div class="input-field">
-                          <label>Username</label>
-                          <input type="text"  placeholder="Username" name="username">
+                        <div class="inputBox">
+                           <input type="text"  placeholder="Username" name="username">
                         </div>
-                        <div class="input-field">
-                          <label>Email</label>
-                          <input type="email"  placeholder="Email" name="email">
+                        <div class="inputBox">
+                           <input type="email"  placeholder="Email" name="email">
                         </div>
-                        <div class="input-field">
-                          <label>Password</label>
-                          <input type="password"  placeholder="Password" name="password">
+                        <div class="inputBox">
+                             <input type="password"  placeholder="Password" name="password">
                         </div>
-                        <div class="input-field">
-                          <label>Confirm Password</label>
-                          <input type="password"  placeholder="Password" name="password2">
+                        <div class="inputBox">
+                           <input type="password"  placeholder="Confirm Password" name="password2">
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                       </form>
-                      </div>
-                 </div>
+
+             <div class="row center">  
+                   <p> <a class="header-menu-tab orange-text " style="text-decoration:underline" href="/">Back</a>
+            </div>
    </div>
-          
         </div>
+        </div>
+        </div>
+     <script src="https://code.jquery.com/jquery-git2.min.js"></script>
   
-    <div class="parallax"><img src="../background1.jpg" alt="Unsplashed background img 1"></div>
-
-
+         <script src="../scripts/background.js"></script>
