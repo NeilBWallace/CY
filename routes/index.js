@@ -57,11 +57,16 @@ function home_page(req,res){
 
 router.get('/my_friends', (req, res) => {
 
-    Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
+    Friends.find({"friend":req.user.username,status:"are now friends!"},function(err,buddies1)
     {
+        Friends.find({"user":req.user.username,status:"are now friends!"},function(err,buddies2)
+        {
+   
 
           res.render('my_friends', {
-        myfriends:buddies,
+             
+        myfriends:buddies1,
+        myfriends2:buddies2,
         user: req.user,
         Challenge:req.session.challenges,
         pic:req.session.pic,
@@ -70,7 +75,7 @@ router.get('/my_friends', (req, res) => {
         });
   });
 
-
+});
 
 router.get('/see_friend_request', (req, res) => {
     Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
@@ -646,10 +651,13 @@ router.get ('/accept_challenge/:user/:id', function (req, res){
                 {
                         if(err)
                         {
-                            console.log("qqq" + err);
                         }else
                         {
-                           console.log(foundObject);
+
+                            
+
+
+                            console.log(foundObject);
                             foundObject.status="are now friends!"
                             foundObject.save(function(err,updatedObject){
                                 if(err){
@@ -658,8 +666,7 @@ router.get ('/accept_challenge/:user/:id', function (req, res){
                             }else
                                 
                             {
-                                console.log("werewr");
-                                   home_page(req,res);
+                                    home_page(req,res);
 
                                 }
                                           });

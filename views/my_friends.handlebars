@@ -7,7 +7,7 @@
 
 }
 </style>
-  
+  {{Friend}}
 
   <body class="home_page_top">
    <div class="middle-container container">
@@ -17,7 +17,12 @@
                     <ul class="menu-box-menu">
                        {{#each myfriends}}
                        <li class="menu-box-tab">
-                              <span>  {{user}} {{friend}} </span>
+                              <span>  {{user}} </span>
+                          </li>
+                       {{/each}}
+                          {{#each myfriends2}}
+                       <li class="menu-box-tab">
+                              <span>  {{friend}} </span>
                           </li>
                        {{/each}}
                     </ul>
