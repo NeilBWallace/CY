@@ -83,49 +83,7 @@ a {
 h1, h2, p, a, span{
 	color: black;
 }
-	.scnd-font-color {
-		color: #9099b7;
-	}
 
-.input-container {
-	position: relative;
-}
-	input[type=text]{
-		width: 260px;
-		height: 50px;
-		margin-left: 20px;
-		margin-bottom: 20px;
-		padding-left: 45px;
-		background: #50597b;
-		color: #fff;
-		border: solid 1px #1f253d;
-		border-radius: 5px;		
-	}
-		input[type=text]::-webkit-input-placeholder { /* WebKit browsers */
-	   		color: #fff;	   		
-	   	}
-		input[type=text]:-moz-input-placeholder { /* Mozilla Firefox 4 to 18 */
-	   		color: #fff;	   
-	   	}
-		input[type=text]::-moz-input-placeholder { /* Mozilla Firefox 19+ */
-	   		color: #fff;
-	   	}
-		input[type=text]:-ms-input-placeholder { /* Internet Explorer 10+ */
-	   		color: #fff;	   	
-	   	}
-	   	input[type=text]:focus {
-	   		outline: none; /* removes the default orange border when focus */
-	   		border: 1px solid #11a8ab;
-	   	}
-	.input-icon {
-		font-size: 22px;
-		position: absolute;
-		left: 31px;
-		top: 10px;
-	}
-		.input-icon.password-icon {
-			left: 35px;
-		}
 
 .horizontal-list {
 	margin: 0;
@@ -153,21 +111,8 @@ h1, h2, p, a, span{
 	border-top-right-radius: 5px;
 }
 
-.button {
-	display: block;
-	width: 175px;
-	line-height: 50px;
-	font-size: 16px;
-	font-weight: 700;
-	text-align: center;
-	margin: 0 auto;
-	border-radius: 5px;
-	-webkit-transition: background .3s;
-	transition: background .3s;
-}
-	.button:hover {
-		text-decoration: none;
-	}
+
+
 
 .arrow-btn-container {
 	position: relative;
@@ -214,30 +159,34 @@ h1, h2, p, a, span{
 }
 	.big-profile-picture {
 	
-		margin: 0 auto;		
-		border: 5px solid #50597b;
-		width: 100px;
-		height: 100px;
+		margin: 0 auto;	
+		margin-top:5px;	
+		border: 5px solid #57DF0C;
+		width: 85px;
+		height: 85px;
 
 	}
 	.small-profile-picture {
-		border: 2px solid #50597b;
+		border: 2px solid #57DF0C;
 		width: 35px;
 		height: 35px;
 	}
+.g{
 
+	color:#57DF0C
+}
 
 /** MAIN CONTAINER **/
 
 .main-container {
 	font-family: 'Ubuntu', sans-serif;
-	width: 950px;
+	
 	height: 1725px;
 
 }	
 	/*********************************************** HEADER ***********************************************/
 	header {
-		height: 40px;
+		height: 60px;
 	}
 		.header-menu {
 			font-size: 14px;
@@ -283,7 +232,7 @@ h1, h2, p, a, span{
 					}
 		.profile-menu {
 			float: right;
-			height: 360px;
+			
 			padding-right: 20px;
 		}
 			.profile-menu p {
@@ -316,11 +265,7 @@ h1, h2, p, a, span{
 			
 		}
 
-		.block_nav {
-			margin-bottom: 25px;
-			background: white;
-			border-radius: 5px;
-		}
+		
 
 		/******************************************** LEFT CONTAINER *****************************************/
 			/************************************************** MIDDLE CONTAINER **********************************/

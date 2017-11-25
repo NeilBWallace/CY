@@ -1,87 +1,56 @@
-<style type="text/css">
-.home_page_top {
-    background-image: url('../home_page_top.png');
-   background-repeat: no-repeat;
-   background-size:100%;
-width:100%;
-}
-.gr {
-  /*  background-image: url('../cy_index.png');*/
-   background: linear-gradient(to bottom, #00ff00 0%, #99ff66 100%);
-   background-repeat: no-repeat;
-   background-size:100%;
 
-}
 
-.flex-container {
-  display: flex;
-  justify-content: space-around;
-  background-color:white;
-} 
-.box-1{
 
-}
-.box-2{
-
-}
-.box-3{
-
-width:40%;
-}
-
-.img{
-    height:30px;
-}
-</style>
 
 <body class="home_page_top">
 
-    <div class="flex-container">
-      <div class="box-1">
-                <ul class="profile-options ">
-                    <li><a  href="#40"><span class="icon  "><img class="img" src="../location.png" ></span>Location</li></a>
-                    <li><a  href="#40"><span class="icon  "><img class="img" src="../star.png" ></span>Mastered Challenges</li></a>
-                    <li><a  href="#40"><span class="icon  "><img class="img" src="../half_star.png" ></span>Open Challenges</li></a>
-                </ul>  
+     <div class="flex-container">
 
+         <div class="box-0"></div>
+      
 
-  
+         <div class="box-2">
+        
    
+             <div  style="margin:5px"  > 
+      
+       <form id="search" action="/browse_profile" method="post" class="form-inline">
+                   <span>
+                        <button style="background-color:white;border:none;width:40px;" type="submit" > <img  style="width:40px" class="img" src="../glass.png" > </button>
+                 <input required type="text" style="width:80px" id="q" name="q" placeholder="Search...">            
+                  <span></span>
+              
+                 </form> 
+                            <a style="float:right;margin:10px" href="../edit_profile"><img class="img" src="../green_cog.png" ></a>   
+          
+              </div>
+              <div class="profile-picture big-profile-picture clear">  
+                        <img width="80px" alt="picture" src="{{pic}}" />
+              </div>
+                                  
+               <h1 class="user-name">{{user.username}}</h1>
+               <div style="background-color:#57DF0C;border-bottom-left-radius:10px;  " >
+                     <a href="/videos"><img class="img" src="../challenges.png"><a>
+                        <a style="float:right" href="/challenge_someone"><img class="img" src="../record_challenge.png"></a>
+            
+              </div>
+         </div>
+       
+         <div class="box-3" style="background-color:white">
+                     <ul class=" b1">
+                    <li ><a  style="font-size:10px" href="#40"><span class=""><img class="img" src="../location.png" ></span><span style="float:right;color:black">Location {{location}}</span></a> </li>
+                    <li><a   style="font-size:10px" href="#40"><span class=""><img class="img" src="../star.png" ></span><span style="float:right">Mastered Challenges</span></a></li>
+                    <li><a   style="font-size:10px" href="#40"><span class=""><img class="img" src="../half_star.png" ></span><span style="float:right">Open Challenges</span></a></li>
+                    <li><a   style="font-size:10px" href="#40"><span class=""><img class="img" src="../heart.png" ></span><span style="float:right">{{hobby1}},{{hobby2}},{{hobby3}}</span></a></li>
+                    <li><a   style="font-size:10px" href="/my_friends"><span class=""><img class="img" src="../friends.png" ></span><span style="float:right">Friends {{Buddies.length}} </span></a></li>
+                    <li><a   style="font-size:10px" href="/add_groups"><span class=""><img class="img" src="../clubs.png" ></span><span style="float:right">Clubs</span></a></li>
+  
+                </ul> 
+       
+              
+                     </div>
+           <div class="box-4"></div>
+     </div>
 
-
-      </div>
-       <div class="box-2">
-                <li><a href="/edit_profile"><p><span class="icon "><img class="img" align="right" src="../green_cog.png"></span> </li></a> 
-               
-          <div class="profile-picture big-profile-picture clear">  
-                        <img width="150px" alt="picture" src="{{pic}}" />
-                    </div>
-                    <h1 class="user-name">{{user.username}}</h1>
-     <div class="gr">
-      <ul class="profile-options2">
-                        <li><a href="/videos"><p><span class="icon "><img class="img" src="../challenges.png"></span>Challenges </li></a> 
-                        <li><a  href="/describe_challenge"><sapn class="icon  "><img class="img" src="../record_challenge.png"></sapn>Create Challenge</a> </li>
-                       </ul>
-    </div>
-     
-     
-     
-     
-     
-     
-     
-      </div>
-       <div class="box-3">
-                     <ul class="profile-options">
-                        <li><a  href="/my_friends"><span class="icon "><img class="img" src="../friends.png"></span>Friends {{Buddies.length}}</li></a>
-                        <li><a  href="/my_hobbies/{{username}}"><span class="icon "><img class="img" src="../heart.png"></span>  {{#each Hobbies}} {{hobby}}{{/each}}</li></a>
-                        <li><a href="/groups"><span class="icon  "><img class="img" src="../clubs.png"></span>Clubs</li></a>
-                     </ul>
-     
-     
-     
-     
-     
-      </div>
-    </div>
+    
 </body>

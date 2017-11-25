@@ -7,53 +7,161 @@ var async = require('async');
 let Hobby=require('../models/hobby');
 
 let AddHobby=require('../models/addhobby');
+let AddGroup=require('../models/addgroup');
+
 let Friends=require('../models/friends');
 let Group=require('../models/group');
 let User=require('../models/user');
 let Challenges=require('../models/challenges');
+let Challenge=require('../models/challenge');
 const multer = require('multer');
-const ZiggeoSdk = require ('ziggeo');
+//const ZiggeoSdk = require ('ziggeo');
 
 
 
 
   
-ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
+//ZiggeoSdk.init ('r1e4a85dd1e7c33391c1514d6803b975', 'r19a0428a61b2f9b20a871f3652f6cc0')
+
+
+function edit_profile(req,res){
+    console.log('edit profile' + req.user.username + 'sdfsdf' + req.session.location);
+ 
+    AddGroup.findOne(function(err, g) {
+        req.session.group1="";
+        req.session.group2="";
+        req.session.group3="";
+        if(g !=null){
+            req.session.group1=g.group1;
+            req.session.group2=g.group2;
+            req.session.group3=g.group3;
+        }
+    AddHobby.findOne(function(err,h) {
+         req.session.hobby1="";
+       req.session.hobby2="";
+       req.session.hobby3="";
+        if(h !=null){
+            req.session.hobby1=h.hobby1;
+            req.session.hobby2=h.hobby2;
+            req.session.hobby3=h.hobby3;
+        }
+        Group.find(function(err, arrayOfGroups) {
+    Hobby.find(function(err, arrayOfHobbies) {
+        
+	res.render('edit_profile',{
+        location:req.session.location,
+        username:req.user.username,
+       user: req.user,
+       Challenge:req.session.challenges,
+       pic:req.session.pic,
+       friend_request:req.session.friends, 
+       hobby1: req.session.hobby1,
+       hobby2: req.session.hobby2,
+       hobby3: req.session.hobby3,
+       group1:req.session.group1,
+       group2:req.session.group2,
+       group3:req.session.group3,
+       hobbies:arrayOfHobbies,
+       groups:arrayOfGroups
+    });
+});
+    });
+    });
+});
+}
 
 
 function home_page(req,res){
-
-
-   
-
-    AddHobby.find({user:req.user.username},function(err, arrayOfHobbies) {   
-    Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
+    
+    
+    
+    Hobby.find(function(err, hobbies) {
+         User.findOne({username:req.user.username},function(err,u){
+                req.session.location=u.location;
+                req.session.user_id = u._id;
+                AddHobby.findOne({user:req.user._id},function(err, arrayOfHobbies) {   
+                 req.session.hobby1='';
+                req.session.hobby2='';
+                req.session.hobby3='';
+                if (err) { console.log(err) };
+            if (arrayOfHobbies==null)
+                {
+                    console.log('seeeees');
+                }
+     else
+        {
+            req.session.hobby1=arrayOfHobbies.hobby1;
+            req.session.hobby2=arrayOfHobbies.hobby2;
+            req.session.hobby3=arrayOfHobbies.hobby3;
+        };
+          Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
     {
-    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
+        req.session.made_buddies=buddies;
+        Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
     {
           req.session.friends=fr;
-        Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
+        Challenges.find({challenged:req.user.username},{"status":"Challenge made"},function(err,ch)
         {
         
              req.session.challenges = ch;
             console.log("challenges" +req.session.challenges);
             
               req.session.pic= req.user.pic;
-    res.render('index',
+            req.session.username=req.user.username;
+              res.render('index',
     {
         pic:req.user.pic,
         username: req.user.username,
         friend_request:fr,
         Challenge:req.session.challenges,
         Buddies:buddies,
-        Hobbies: arrayOfHobbies
+        hobby1: req.session.hobby1,
+        hobby2:req.session.hobby2,
+        hobby3:req.session.hobby3,
+        location:u.location,
+        hobbies:hobbies
     });
     
 });
     });
 });
     });
+});
+    });
 }
+
+
+
+router.post('/update_location', (req, res) => {
+     console.log('location' + req.body.location + 'abc' + req.session.username )
+    User.findOne({username: req.session.username},function(err,foundObject)
+    {
+            if(err)
+            {
+                console.log(err);
+            }else
+            {
+                console.log(foundObject);
+                foundObject.location=req.body.location
+                foundObject.save(function(err,updatedObject){
+                    if(err){
+                        console.log(err);
+                        res.status(500).send();
+                    }else
+                    {
+                     req.session.location=req.body.location;                      
+                      home_page(req,res);
+
+                    }
+                              });
+
+            }
+    });
+
+});    
+
+
+
 
 router.get('/my_friends', (req, res) => {
 
@@ -78,9 +186,12 @@ router.get('/my_friends', (req, res) => {
 });
 
 router.get('/see_friend_request', (req, res) => {
+  
+  
     Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
     {
-         res.render('see_friend_requests', {
+   
+        res.render('see_friend_requests', {
           friend:fr,
           user: req.user,
           Challenge:req.session.challenges,
@@ -147,14 +258,14 @@ router.get('/find_friends', (req, res) => {
 
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
-    
+
 home_page(req,res);
 });
 
 
 router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
     
-    Challenges.find({id:req.user.username},{"status":"Challenge made"},function(err,ch)
+    Challenges.find({challenge:req.user.username},{"status":"Challenge made"},function(err,ch)
     {
         res.render('see_challenge_request',{
            challenges: ch,
@@ -162,19 +273,21 @@ router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
             user: req.user,
             Challenge:req.session.challenges,
             pic:req.session.pic,
-            friend_request:req.session.friends 
+            friend_request:req.session.friends,
+            
         });      
         });
     });
     
  
     
-router.get ('/view_challenge', function (req, res){
+router.get ('/view_challenge/:id', function (req, res){
     res.render('view_challenge',{
     user: req.user,
     Challenge:req.session.challenges,
     pic:req.session.pic,
-    friend_request:req.session.friends 
+    friend_request:req.session.friends,
+    id:req.params.id 
      		});
         });
 
@@ -196,15 +309,18 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
 			});
 		});
 	
-        router.get ('/view_video/:id/:title',ensureAuthenticated ,function (req, res){
-            console.log('view video');
-            res.render('view_video',{
+        router.get ('/view_video/:id',ensureAuthenticated ,function (req, res){
+            console.log('view video' + req.session.friends);
+            req.session.token=req.params.id;
+            res.render('challenge_someone',{
                        token:req.params.id,
                        title:req.params.title,
                        user: req.user,
                        Challenge:req.session.challenges,
                        pic:req.session.pic,
-                       friend_request:req.session.friends 
+                       friend_request:req.session.friends,
+                       buddies:req.session.made_buddies,
+                       rec:'none'
                      });
                     });
 
@@ -228,91 +344,80 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                     });
                 
 
-router.get('/describe_challenge', ensureAuthenticated, function(req, res){
-
-    res.render('describe_challenge',{
-        username:req.user.username,
-        user: req.user,
-        Challenge:req.session.challenges,
-        pic:req.session.pic,
-        friend_request:req.session.friends 
-       
-	});
-});
 
 
-router.get('/describe_challenge/:username/', ensureAuthenticated, function(req, res){
+
+
+router.get('/challenge_someone', ensureAuthenticated, function(req, res){
+
+
+    console.log("challenge someone" + req.body.title + "sdf");
 	res.render('challenge_someone',{
-        username:req.params.username,
-		ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
-        ziggeo_title:req.body.describe_challenge,
-        user: req.user,
-        Challenge:req.session.challenges,
-        pic:req.session.pic,
-        friend_request:req.session.friends 
-	});
-});
-
-
-router.post('/challenge_someone', ensureAuthenticated, function(req, res){
-    console.log("challenge someone2st" + req.body.title + "sdf");
-	res.render('challenge_someone',{
-		ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',        
         username:req.user.username,
         title:req.body.title,
         user: req.user,
         Challenge:req.session.challenges,
         pic:req.session.pic,
-        friend_request:req.session.friends 
+        friend_request:req.session.friends,
+        player:'none',
 	});
 });
 
-  
+
+
+
 router.get('/edit_profile', ensureAuthenticated, function(req, res){
-
-    console.log('edit profile' + req.user.username);
-	res.render('edit_profile',{
-       username:req.user.username,
-       user: req.user,
-       Challenge:req.session.challenges,
-       pic:req.session.pic,
-       friend_request:req.session.friends 
-	});
-});      
+    edit_profile(req,res);
+ });      
    
-
-
 router.get ('/videos',ensureAuthenticated, function (req, res){
-	
-	
-
-    ZiggeoSdk.Videos.index ({tags:req.user.username}, {
-        success: function (index) {
-	             // console.log(index);
-
-			res.render('videos', {
-                ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+	 Challenge.find({"user_id":req.session.user_id},function(err, c) {
+         console.log('qqq' + c + 'rrr' + req.session.user_id);
+    	res.render('videos', {
                 page_title: 'Challenge You All Videos',
                 need_ziggeo: 1,
-                videos: index,
+                videos: c,
                 user: req.user,
                 Challenge:req.session.challenges,
                 pic:req.session.pic,
                 friend_request:req.session.friends,
                 user: req.user,
-                Challenge:req.session.challenges,
-                pic:req.session.pic,
-                friend_request:req.session.friends 
-            })
-            return true;
-        },
-        failure: function (args, error) {
-            console.log("failed: " + error);
-            renderError(1)
-            return false;
-        }
-    });
+             
+            });
 });
+});
+
+//router.get ('/videos',ensureAuthenticated, function (req, res){
+	
+	
+
+  //  ZiggeoSdk.Videos.index ({tags:req.user.username}, {
+ //       success: function (index) {
+	             // console.log(index);
+
+	//		res.render('videos', {
+      //          ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
+   //             page_title: 'Challenge You All Videos',
+   //             need_ziggeo: 1,
+   //             videos: index,
+   //             user: req.user,
+   //             Challenge:req.session.challenges,
+   //             pic:req.session.pic,
+   //             friend_request:req.session.friends,
+   //             user: req.user,
+   //             Challenge:req.session.challenges,
+   //             pic:req.session.pic,
+   //             friend_request:req.session.friends 
+   //         })
+   //         return true;
+   //     },
+   //     failure: function (args, error) {
+   //         console.log("failed: " + error);
+   //         renderError(1)
+   //         return false;
+   //     }
+//    });
+//});
 
 router.get ('/video/:videoId', function (req, res){
     var video_id = req.params.videoId
@@ -534,28 +639,49 @@ router.get ('/send_friends', function (req, res){
 				});
 			});
 
-            router.get ('/challenge_this_friend/:id/:friend', function (req, res)
+
+
+            router.post ('/ch', function (req, res)
+       {
+            console.log('ddd' + req.session.user_id);
+	var h = new Challenge({
+                        challenge:   req.body.challenge_text,
+                        id:    req.body.challenge_id,
+                        user_id:     req.session.user_id
+                    }).save(function(err) {
+                          console.log('problem creating challenge' + err);
+                    });     
+             
+
+  home_page(req,res);
+        
+       });  
+
+
+
+
+
+            router.get ('/challenge_this_friend/:friend', function (req, res)
                 
           {
-         
-        console.log('challengr this friend' + req.params.id + req.params.friend + 'kkk') ;
-        var id = req.params.id;
+    
         
              
             var challenge = new Challenges({
                 challenger: req.user.username,
-                friend: req.params.friend,
-                id: req.params.friend,
+                 
+                challenged: req.params.friend,
+                id: req.session.token,
                 status:"Challenge made"
             }).save(function(err) {
                if(err)
                {
                 console.log('problem here friend request' + err);
-                challengefriend(req,res);
+               home_page(req,res);
                }else
                {
                 console.log('Saved ok');
-                challengefriend(req,res);                     
+                home_page(req,res);                     
                }
             });
     });
@@ -848,27 +974,26 @@ console.log('Getting hobbies');
 		Hobby.find(function(err, arrayOfHobbies) {
 			res.render('hobbies', {
                 hobbies: arrayOfHobbies,
-                user: req.user,
-                Challenge:req.session.challenges,
-                pic:req.session.pic,
-                friend_request:req.session.friends 
+            
 			});
 		});
 	});
 
-    router.get('/my_hobbies/:username/', function(req, res) {    
+    router.get('/my_hobbies', function(req, res) {    
     console.log('Get my hobbies' + req.user);
-            AddHobby.find({user:req.user.username},function(err, arrayOfHobbies) {
-                  res.render('my_hobbies', {          
-                           username: req.params.username,
-                            hobbies: arrayOfHobbies,
+    Hobby.find(function(err, toHobby) {    
+        console.log(toHobby + req.session.username)
+            AddHobby.find({user:req.session.username},function(err, arrayOfHobbies) {
+                  res.render('my_hobbies', {   
+                           h: toHobby,       
+                             hobbies: arrayOfHobbies,
                             user: req.user,
                             Challenge:req.session.challenges,
                             pic:req.session.pic,
                             friend_request:req.session.friends 
                         });
             });
-       
+        });
         });
 
 
@@ -903,16 +1028,65 @@ console.log('Getting hobbies');
 		})
 		
 		
-		
-		router.post('/update_hobby/:id', function(req, res) {
-			var id = req.params.id;
-			Hobby.findById(id, function(err, hobby) {
-		
-		
-				hobby.hobby = req.body.updated_hobby
+		router.post('/update_group', function(req, res) {
+            var id = req.user._id;
+            console.log('user_id' + req.user._id);
+          
+            AddGroup.findById(id, function(err, group) {
+		            
+		         if (group==null){
+                	var h = new AddGroup({
+                        group1:   req.body.group1,
+                        group2:    req.body.group2,
+                        group3:   req.body.group3,
+                        user:     req.user._id
+                    }).save(function(err) {
+                          console.log('problem creating groups for user' + err);
+                    });     
+                }else
+                 {
+                group.group1 = req.body.group1;
+                group.group2 = req.body.group2;
+              group.hobby3 = req.body.group3;
 				hobby.save();
+                 };
+                 req.session.group1=req.body.group1;
+                 req.session.group2=req.body.group2;
+                 req.session.group3=req.body.group3;
+				edit_profile(req,res);
 		
-				return res.redirect('/hobbies');
+			});
+		
+		
+		})
+		
+		
+		router.post('/update_hobby', function(req, res) {
+            var id = req.user._id;
+            console.log('user_id' + req.user._id);
+          
+            AddHobby.findById(id, function(err, hobby) {
+		            
+		         if (hobby==null){
+                	var h = new AddHobby({
+                        hobby1:   req.body.hobby1,
+                        hobby2:    req.body.hobby2,
+                        hobby3:   req.body.hobby3,
+                        user:     req.user._id
+                    }).save(function(err) {
+                          console.log('problem creating hobbies for user' + err);
+                    });     
+                }else
+                 {
+                hobby.hobby1 = req.body.hobby1;
+                hobby.hobby2 = req.body.hobby2;
+                hobby.hobby3 = req.body.hobby3;
+				hobby.save();
+                 };
+                 req.session.hobby1=req.body.hobby1;
+                 req.session.hobby2=req.body.hobby2;
+                 req.session.hobby3=req.body.hobby3;
+				edit_profile(req,res);
 		
 			});
 		
@@ -942,6 +1116,26 @@ console.log('Getting hobbies');
 		
 
 
+        router.post('/hobbies', function(req, res) {
+            
+                var hobby = new Hobby({
+                    hobby: req.body.hobby
+                }).save(function(err) {
+                      console.log('problem saving group');
+                    //______________________________|BEGIN
+                Hobby.find(function(err, toHobby) {
+            
+                        hobbies: toHobby
+            
+                    });
+                    //______________________________|END
+            
+                    res.redirect('/hobbies');
+            
+                });
+            
+            });
+    
 
 	router.post('/groups', function(req, res) {
 		
@@ -1103,6 +1297,7 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
     if (result.error) {
        console.log('error uploading file');
        res.render('index', {
+           
              msg: err,
              user: req.user,
              Challenge:req.session.challenges,
@@ -1128,10 +1323,8 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
                                 res.status(500).send();
                             }else
                             {
-                         res.render('edit_profile', {
-                                  msg: 'File Uploaded!',
-                                file: result.secure_url
-                            });
+                                req.session.pic=result.secure_url;
+                            edit_profile(req,res);
                         }
                                      });
                    }

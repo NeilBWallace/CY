@@ -1,31 +1,30 @@
 
-  <style type="text/css">
-.home_page_top {
-    background-image: url('../purple_background.png');
-   background-repeat: no-repeat;
-   background-size:100%;
+<body class="home_page_top">
 
-}
-</style>
-  
+     <div class="flex-container">
 
-  <body class="home_page_top">
+         <div class="box-0"></div>
 
 
-    <div class="middle-container container">
-                <div class="menu-box block"> 
-                    <h2 class="titular">User requesting to be your friend</h2>
-                               
-                    <ul class="menu-box-menu">
-                       {{#each friend}}
+
+   
+           
+        
+         <div class="box-34" style="background-color:white">
+                               {{#each friend}}
                        <li class="menu-box-tab">
                               <span>        
-   <a href="/browse_profile/{{this.user}}">  {{this.user}} </a>  <a href="/make_friends" class="btn btn-xs btn-warning">Accept</a>
+   <a class="btn btn-xs btn-warning" href="/browse_profile/{{this.user}}">View  </a>{{this.user}}  is requesting to be your friend 
+   <a href="/make_friends/{{this.user}}" class="btn btn-xs btn-warning">Accept</a>
+   <a href="/reject_friends" class="btn btn-xs btn-warning">Reject</a>
         </span>
                           </li>
                        {{/each}}
-                    </ul>
-                </div>
-             </div>>
+      
+                     </div>
+           <div class="box-4"></div>
+     </div>
 
-             </body>
+    
+</body>
+

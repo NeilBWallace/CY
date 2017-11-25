@@ -16,13 +16,13 @@
                 <div class="menu-box block"> 
                     <h2 class="titular">My Challenges</h2>
                                
-                    <ul class="menu-box-menu">
+                  
                        {{#each videos}}
-                       <li class="menu-box-tab">
-                              <span> <a href="/view_video/{{token}}/{{title}}">  {{title}}{{image}} </a></span>
-                          </li>
+                      
+                              <span> <a class="btn" href="/view_video/{{id}}">  {{challenge}} </a></span>
+                       
                        {{/each}}
-                    </ul>
+                  
                 </div>
              </div>
 

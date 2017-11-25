@@ -4,7 +4,9 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var addhobbySchema = mongoose.Schema({
-        hobby:    {type:   String},
+        hobby1:    {type:   String},
+        hobby2:    {type:   String},
+        hobby3:    {type:   String},
         user:    {type:   String}
 });
 

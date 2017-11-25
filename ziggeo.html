@@ -1,0 +1,33 @@
+<html>
+<head>
+ <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+
+
+
+
+
+<link rel="stylesheet" href="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
+<script src="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
+
+   <script>ZiggeoApi.token="r1e4a85dd1e7c33391c1514d6803b975";
+ZiggeoApi.v2app().on("ready",function(){
+  var recorderElement = $("#recorder");
+var recorder=ZiggeoApi.V2.Recorder.findByElement(recorderElement);
+recorder.on("verified",function(){
+alert(recorder.get("video"));
+});
+
+});
+
+
+</script>
+</head>
+<body>
+ <ziggeorecorder ziggeo-theme="modern" ziggeo-width="400" ziggeo-height="300" id="recorder"></ziggeorecorder>
+
+<script>
+
+</script> 
+</body>
+</html>

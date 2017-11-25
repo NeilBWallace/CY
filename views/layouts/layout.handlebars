@@ -7,10 +7,9 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+<link rel="stylesheet" href="../css/materialize.css">
 
 
   <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -19,11 +18,11 @@
   
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
- 
-                <link rel="stylesheet" href="//assets-cdn.ziggeo.com/v2-stable/ziggeo.css" />
-                <script src="//assets-cdn.ziggeo.com/v2-stable/ziggeo.js"></script>
-                <script>// for Version 1 use ZiggeoApi.token = "<%=ziggeo_api_token%>";</script>
-                  
+
+
+
+
+                    
         
 </head>
 <body>
@@ -42,93 +41,60 @@
                
      
                       <li>
-                        <a class="header-menu-tab" href="../"><span class="icon fontawesome-envelope scnd-font-color"></span></a>
+                        <a class="header-menu-tab gr" href="../"><span  class="icon fa fa-home g"></span></a>
                      
                     </li>
         
                         <li>
-                        <a class="header-menu-tab" href="/see_challenge_request"><span class="icon fa fa-comment-o scnd-font-color"></span></a>
+                        <a class="header-menu-tab" href="/see_challenge_request"><span class="icon fa fa-comment-o g"></span></a>
                         <a class="header-menu-number" href="/see_challenge_request">{{Challenge.length}}</a>
                     </li>
                     
                  <li>
                  
-                        <a class="header-menu-tab" href="/see_friend_request"><span class="icon fa fa-user-plus scnd-font-color"></span></a>
+                        <a class="header-menu-tab" href="/see_friend_request"><span class="icon fa fa-user-plus g"></span></a>
                       <a class="header-menu-number" href="/see_friend_request">{{friend_request.length}}</a>
                   </li>
 
                    <li>
-                      <a class="header-box-tab" href="/admin"><span class="icon fontawesome-envelope scnd-font-color"></span></a>                            
+                      <a class="header-box-tab" href="/admin"><span class="icon fontawesome-envelope g"></span></a>                            
                   </li>
       
                     <li>
-                        <a class="header-menu-tab" href="/users/logout"><span class="icon fa fa-sign-out scnd-font-color"></span></a>
+                        <a class="header-menu-tab" href="/users/logout"><span class="icon fa fa-sign-out g"></span></a>
                     </li>
         
       
-                   <!--
-           <a class="header-menu-tab" href="/users/register"><span class="icon entypo-cog scnd-font-color"></span>Register</a>
-   -->
             
                  
 
                 </ul>
                 <div class="profile-menu">
                     <p>{{user.username}} <a href="#26"><span class="entypo-down-open scnd-font-color"></span></a></p>
-                    <div class="profile-picture small-profile-picture">
-                       <img width="40px" alt="picture" src="{{pic}}">
+                    <span class="profile-picture small-profile-picture">
+                     <img width="40px" alt="picture" src="{{pic}}">
+                      </span>
                     </div>
                 </div>
             </header>
   {{/if}}
 
 {{{body}}}
-<!--
-  <footer class="page-footer teal">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4"></p>
 
 
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
--->
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery.bootcomplete.js"></script>
+  <script src="../js/scripts.js"></script>
+ <script src="../js/search.js"></script>
 
-   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<!--
-  <script src="../assets/jquery.min.js"></script>
-  -->
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/jquery.bootcomplete.js"></script>
-<script src="../assets/search.js"></script>
-  <script src="../js/materialize.js"></script>
   <script src="../js/init.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-    <script>var application = new ZiggeoApi.V2.Application({token: "r1e4a85dd1e7c33391c1514d6803b975" });
-                        application.on("error", function ( status_code, message ) {
-                    console.log(message)
-                });
-       
-                $(document).ready (function (){
-                    $('.delete-btn').click (function (){
-                        var video_id = $(this).data('videoid');
-                        $(this).html('Deleting...')
-                        $.ajax({url: '/video/'+video_id,method: "DELETE"}).done(function(){
-                            $('#container-'+video_id).fadeOut ("slow", function (){
-                                $('#container-'+video_id).remove(); 
-                            })
-                        });
-                    });
-                });
-            </script>    
+  
+  
+    <script>
+  
+            </script>
+
+              
   </body>
 </html>

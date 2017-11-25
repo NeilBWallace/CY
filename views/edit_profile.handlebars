@@ -1,31 +1,133 @@
-  
-  <style type="text/css">
-.home_page_top {
-    background-image: url('../blue_background.png');
-   background-repeat: no-repeat;
-   background-size:100%;
 
-}
-</style>
   
 
-  <body class="home_page_top">
-  
-  <div class="row">
-        <h1 style="text-align: center">Add your Picture here</h1>
-        <div style="width: 30%; margin: 25px auto;">
+
+
+
+<body class="home_page_top">
+
+     <div class="flex-container">
+
+         <div class="box-0"></div>
+         <div class="box-1">
+            
+               My Groups
+
+   <span>
+       </span>            
+
+
+
+ <form method="post" action="/update_group" id="inputform" ENCTYPE="text/plain" >
+
+<select id="group1" name="group1">
+     
+{{#each groups}}
+<option value={{group}}>{{group}}</option>
+{{/each}}
+
+</select>
+
+
+<button type="submit" class="">Submit!</button>
+</form>
+<!--
+<select form="inputform" name="group2">
+  <option value={{group2}} selected>{{group2}}</option>   
+{{#each groups}}
+<option value={{group}}>{{group}}</option>
+{{/each}}
+</select>
+
+<select form="inputform" name="group3">
+   <option value={{group3}} selected>{{group3}}</option>  
+{{#each groups}}
+<option value={{group}}>{{group}}</option>
+{{/each}}
+</select>
+
+-->
+ 
+         </div>
+
+
+         <div class="box-2">
+        
+   
+             <div  style="margin:5px"  > 
+    
+  	<form method="post" action="/update_location"> 
+    <label>Location:</label><input id="location" type="text" name="location" value={{location}}>
+    <input type="submit" value=" Save Location">
+	</form>
+
             <form action="/upload_user_profile" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="image">Image</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
+                      <input type="file" id="image" name="image" accept="image/*" required>
                 </div>
              
                 <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    <button class="">Submit!</button>
                 </div>
             </form>
-            <a href="/index">Go Back</a>
-        </div>
-    </div>
+          
 
-    </body>
+
+              </div>
+             
+         </div>
+      
+         <div class="box-33" style="background-color:white">
+                   <div class="profile-picture big-profile-picture clear">  
+                            <img width="80px" alt="picture" src="{{pic}}" />
+              </div>
+
+
+          </div>
+           <div class="box-4"style="background-color:white" >
+
+               My Hobbies
+
+   <span>
+       </span>            
+
+
+ <form method="post" action="/update_hobby/" id="inputform">
+<select form="inputform" name="hobby1">
+     <option value={{hobby1}} selected>{{hobby1}}</option>
+{{#each hobbies}}
+
+<option value={{hobby}}>{{hobby}}</option>
+{{/each}}
+</select>
+<select form="inputform" name="hobby2">
+  <option value={{hobby2}} selected>{{hobby2}}</option>   
+{{#each hobbies}}
+<option value={{hobby}}>{{hobby}}</option>
+{{/each}}
+</select>
+<select form="inputform" name="hobby3">
+   <option value={{hobby3}} selected>{{hobby3}}</option>  
+{{#each hobbies}}
+<option value={{hobby}}>{{hobby}}</option>
+{{/each}}
+</select>
+
+<button class="">Submit!</button>
+</form>
+
+                
+ 
+           </div>
+     </div>
+
+    
+
+
+	
+
+
+
+</body>
+

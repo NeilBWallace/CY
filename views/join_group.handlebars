@@ -1,25 +1,25 @@
 
-{{each hobbies}}
-Hobby 1: {{hobby1}}
-Hobby 2: {{hobby2}}
-Hobby 3: {{hobby3}}
+{{each groups}}
+Group 1: {{group1}}
+Group 2: {{group2}}
+Group 3: {{group3}}
 {{/each}}
 
 	
  <!-- LEFT-CONTAINER -->
             <div class="middle-container container">
                 <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
-                    <h2 class="titular">My Hobbies</h2>
+                    <h2 class="titular">My Groups</h2>
                     <ul class="menu-box-menu">
-{{each hobbies}}
-Hobby 1: {{hobby1}}
-Hobby 2: {{hobby2}}
-Hobby 3: {{hobby3}}
+{{each groups}}
+Group 1: {{group1}}
+Group 2: {{group2}}
+Group 3: {{group3}}
 {{/each}}
 
 						{{#each h}}
                            <li>
-                            <a class="menu-box-tab" href="/join_hobby/{{h}}">{{h}}{{user}}<Add Hobby</a>
+                            <a class="menu-box-tab" href="/join_group/{{h}}">{{h}}{{user}}add Group</a>
                         </li>
 						{{/each}}
                     </ul>

@@ -18,6 +18,9 @@ var UserSchema = mongoose.Schema({
 	},
 	pic:{
 		type:String
+	},
+	location:{
+		type:String
 	}
 });
 

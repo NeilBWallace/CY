@@ -1,45 +1,113 @@
-<style type="text/css">
-.home_page_top {
-    background-image: url('../record_challenge_page.png');
-   background-repeat: no-repeat;
-   background-size:100%;
 
-}{{!--  --}}
+<html>
+<head>
+ <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<link rel="stylesheet" href="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
+<script src="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
+   <script>ZiggeoApi.token="r1d3ffca0738877b5b993904b579130f";
+ZiggeoApi.v2app().on("ready",function(){
+  var recorderElement = $("#recorder");
+var recorder=ZiggeoApi.V2.Recorder.findByElement(recorderElement);
+recorder.on("verified",function(){
+
+var a=recorder.get("video");
+
+ document.getElementById("challenge_id").value =a;
+document.getElementById('test').click();
+
+});
+
+});
 
 
-.flex-container {
-  display: flex;
-  justify-content: center;
- 
-} 
+</script>
+
+<style>
+
+.b {
+    display: block;
+    width: 115px;
+    height: 25px;
+    background-color: #4E9CAF !important;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.b1{
+  flex:1;
+}
+.b2{
+  flex:1;
+  background:white;
+  padding:5px;
+}
+.b3{
+  flex:1;
+  background:white;
+  padding:5px;
+  width:200px;
+}
+.b4{
+  flex:1;
+}
 </style>
+</head>
+<body class="home_page_top" >
+<script type="text/javascript">
+$(document).ready(function () {
 
-<body class="home_page_top">
+if( document.getElementById("input_recorder").value !='none')
+{
+  var person = prompt("Please enter your Challenge", "");
 
-
-
-	<div class="flex-container">
-     <div class="main-container">    
-            <!-- LEFT-CONTAINER -->
-            <div class="left-container container">
-                <div class="menu-box block"> <!-- MENU BOX (LEFT-CONTAINER) -->
-                    <h2 class="titular">Challenge Someone</h2>
-                    <ul class="menu-box-menu">
-                        <li>
-                            <a class="menu-box-tab" href="/"><span class="icon fontawesome-envelope scnd-font-color"></span>Challenge:{{title}}</a>                            
-                        </li>
-                    </ul>
-
-                    
-              <ziggeorecorder ziggeo-title="{{title}}" ziggeo-tags="{{username}}" ziggeo-theme="modern"></ziggeorecorder>
+  if (person == null || person == "") {
+      window.history.go(-1); return false;
+  } else {
+      document.getElementById("challenge_text").value =person;
+  }
+} 
+});
  
-                </div>
 
-               
-               
+</script>
+<div id="div_recorder" style="display:{{rec}}">
+  <input id="input_recorder" value="{{rec}}"/>
+ <ziggeorecorder ziggeo-theme="modern" ziggeo-width="400" ziggeo-height="300" id="recorder"></ziggeorecorder>
+ </div>     
+<div style="display:none">
+ <form action="/ch" method="post">
+    <input type="text" name="challenge_text" id="challenge_text" />
+     <input type="text" name="challenge_id" id="challenge_id" />
+    <button  id="test" type="submit" class="btn btn-default">Save</button>
+</form>
+</div>
+  <div class="flex-container">
+
+         <div class="b1"></div>
+          <div class="b2">         
+              <div style="display:{{player}};">
+              <ziggeoplayer  ziggeo-width="200px" ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
+              
+             
+           </div>
+           </div>
+           <div class="b3">
+<p>Challenge</p>
+ {{#each buddies}}
+              <p>  <a class="btn" href="/challenge_this_friend/{{friend}}">{{friend}}</a></p>
+                
+              {{/each}}
+           </div>
+            <div class="b4">
+
             </div>
 
-                </div> <!-- end calendar-month block -->
-    </div>
-  
+
+        </div>
+
+<div>
 </body>
+</html>
