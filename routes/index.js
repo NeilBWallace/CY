@@ -64,11 +64,11 @@ function home_page(req,res){
                        {
                          req.session.friends=fr;
                       
-                         c.find({challenged:req.user.username},{"status":"Challenge made"},function(err,ch)
+                         c.find({"challenged":req.user.username,"status":"Challenge made"},function(err,ch)
                          {
                             req.session.challenges = ch;
                             
-                            c.find({challenged:req.user.username},{"status":"Challenge accepted"},function(err,ca){
+                            c.find({"challenged":req.user.username,"status":"Challenge accepted"},function(err,ca){
                              console.log("challenges" +req.session.challenges);
                              
                             req.session.pic= req.user.pic;
@@ -165,6 +165,36 @@ router.post('/save_challenge', (req, res) => {
 });
 
 
+
+
+
+
+
+
+router.get('/my_open_challenges', (req, res) => {
+
+
+    var a =  c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
+        
+        console.log('ooo' + a);
+        
+          
+         //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
+         ///   {
+         //       console.log('qqq' + c);
+               res.render('see_challenge_request',{
+                  challenges: a,
+                    username:req.user.username,
+                    user: req.user,
+                    Challenge:req.session.challenges,
+                    pic:req.session.pic,
+                    friend_request:req.session.friends,
+               });
+         //       });      
+                });
+
+ console.log('my challenges');
+});
 
 router.get('/my_friends', (req, res) => {
 
@@ -387,7 +417,7 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                         }else
                         {
                             console.log("object found:" + foundObject);
-                            foundObject.status="Challenge rejected";
+                            foundObject.status="Challenge completed";
                                 foundObject.save(function(err,updatedObject){
                                 if(err){
                                     console.log(err);
