@@ -67,18 +67,53 @@ if( document.getElementById("input_recorder").value !='none')
       window.history.go(-1); return false;
   } else {
       document.getElementById("challenge_text").value =person;
+      document.getElementById("challenge").value =person;
+      
+ 
   }
 } 
 });
  
 
 </script>
-<div id="div_recorder" style="display:{{rec}}">
-  <input id="input_recorder" value="{{rec}}"/>
- <ziggeorecorder ziggeo-theme="modern" ziggeo-width="400" ziggeo-height="300" id="recorder"></ziggeorecorder>
- </div>     
+<style>
+  .fc{
+ display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  .t{
+    flex:2;
+  }
+  .y{
+
+      flex:1;
+  }
+  .z{
+    flex:1;
+  }
+</style>
+  <div class="fc">
+     <div class="t">
+       <div style="margin-left:50px">
+         <input style="background-color:white;width:100px;" disabled id="challenge" />
+      </div>
+       </div>
+     <div class="y">
+        <div id="div_recorder" style="display:{{rec}}">      
+        <ziggeorecorder ziggeo-theme="modern" ziggeo-width="300"  ziggeo-height="300" id="recorder"></ziggeorecorder>
+      <input disabled id="input_recorder" value="{{rec}}" style="border:0"/>
+        
+ 
+        </div>     
+     </div>
+     <div class="z">
+
+     </div>
+  </div>
+
 <div style="display:none">
- <form action="/ch" method="post">
+ <form action="/save_challenge" method="post">
     <input type="text" name="challenge_text" id="challenge_text" />
      <input type="text" name="challenge_id" id="challenge_id" />
     <button  id="test" type="submit" class="btn btn-default">Save</button>
@@ -87,27 +122,35 @@ if( document.getElementById("input_recorder").value !='none')
   <div class="flex-container">
 
          <div class="b1"></div>
-          <div class="b2">         
-              <div style="display:{{player}};">
+          <div class="b2" style="display:{{player}};">         
+              <div >
               <ziggeoplayer  ziggeo-width="200px" ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
               
              
            </div>
            </div>
-           <div class="b3">
-<p>Challenge</p>
- {{#each buddies}}
+           <div style="display:{{player}};" class="b3">
+             <p>Challenge</p>
+              {{#each buddies}}
               <p>  <a class="btn" href="/challenge_this_friend/{{friend}}">{{friend}}</a></p>
                 
               {{/each}}
            </div>
             <div class="b4">
-
+        <div style="display:{{challenged}}"></div>      
+              <a class="btn" href="/accept_challenge/{{id}}">Accept Challenge</a>
+               <a class="btn" href="/reject_challenge/{{id}}">Reject Challenge</a>
+               <a class="btn" href="/challenge_completed/{{id}}">Challenge Completed</a>
+      
+         </div>
             </div>
 
 
         </div>
 
-<div>
+<div style="display:{{challenged}}">
+ 
+     <ziggeoplayer  ziggeo-width="200px"  ziggeo-height="400px" ziggeo-video="{{id}}" ziggeo-theme="modern"></ziggeoplayer>
+  </div>    
 </body>
 </html>

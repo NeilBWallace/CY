@@ -1,5 +1,36 @@
+<style>
+    .s{
+  background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+    }
 
-  
+
+.b33
+{
+ border-top-left-radius:10px;
+width:80px;
+border-bottom-left-radius:10px;   
+  background-color:white;
+  flex:1;
+  box-size: border-box;
+}
+.b44
+{
+ border-top-right-radius:10px;
+width:40px;
+border-bottom-right-radius:10px;   
+  background-color:white;
+  flex:1;
+  box-size: border-box;
+}
+</style>
 
 
 
@@ -9,58 +40,11 @@
      <div class="flex-container">
 
          <div class="box-0"></div>
-         <div class="box-1">
-            
-               My Groups
 
-   <span>
-       </span>            
-
-
-
- <form method="post" action="/update_group" id="inputform" ENCTYPE="text/plain" >
-
-<select id="group1" name="group1">
-     
-{{#each groups}}
-<option value={{group}}>{{group}}</option>
-{{/each}}
-
-</select>
-
-
-<button type="submit" class="">Submit!</button>
-</form>
-<!--
-<select form="inputform" name="group2">
-  <option value={{group2}} selected>{{group2}}</option>   
-{{#each groups}}
-<option value={{group}}>{{group}}</option>
-{{/each}}
-</select>
-
-<select form="inputform" name="group3">
-   <option value={{group3}} selected>{{group3}}</option>  
-{{#each groups}}
-<option value={{group}}>{{group}}</option>
-{{/each}}
-</select>
-
--->
- 
-         </div>
-
-
-         <div class="box-2">
-        
-   
-             <div  style="margin:5px"  > 
-    
-  	<form method="post" action="/update_location"> 
-    <label>Location:</label><input id="location" type="text" name="location" value={{location}}>
-    <input type="submit" value=" Save Location">
-	</form>
-
+         <div class="b33" style="background-color:white">
+                   <div class="profile-picture big-profile-picture clear">  
+                            <img width="80px" alt="picture" src="{{pic}}" />
+              </div>
             <form action="/upload_user_profile" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="image">Image</label>
@@ -68,58 +52,99 @@
                 </div>
              
                 <div class="form-group">
-                    <button class="">Submit!</button>
+                    <button class="">Change Image</button>
                 </div>
             </form>
-          
+
 
 
               </div>
-             
+         <div class="b44">
+ 	         <form method="post" action="/update_location"> 
+                  <label>Location:</label>
+                  <input style="width:100px" id="location" type="text" name="location" value={{location}}>
+    
+                <div class="s">
+                    <label>Group1:</label>
+                    <select class="input-field" id="group1" name="group1">
+                <option selected="selected">
+                {{group1}}
+                </option>
+                {{#each groups}} 
+                <option value="{{group}}">{{group}}</option>
+                {{/each}}
+                </select>
+                </div>
+                <div class="s">
+                    <label>Group2:</label>
+                    <select id="group2" name="group2">
+                        <option selected="selected">
+                        {{group2}}
+                        </option>
+                        {{#each groups}}
+                        <option value="{{group}}">{{group}}</option>
+                        {{/each}}
+                        </select>
+               </div>
+               <div class="s">
+                   <label>Group3:</label>
+                    <select id="group3" name="group3">
+                        <option selected="selected">
+                        {{group3}}
+                        </option>
+                        {{#each groups}}
+                        <option value="{{group}}">{{group}}</option>
+                        {{/each}}
+                        </select>
+               </div>   
+ 
+               <div class="s">
+                   <label>Hobby1:</label>
+                    <select id="hobby1" name="hobby1">
+                        <option selected="selected">
+                        {{hobby1}}
+                        </option>
+                        {{#each hobbies}}
+                        <option value="{{hobby}}">{{hobby}}</option>
+                        {{/each}}
+                        </select>
+                </div>  
+                <div class="s"> 
+                    <label>Hobby2:</label>
+                    <select id="hobby2" name="hobby2">
+                        <option selected="selected">
+                        {{hobby2}}
+                        </option>
+                        {{#each hobbies}}
+                        <option value="{{hobby}}">{{hobby}}</option>
+                        {{/each}}
+                        </select>
+               </div>
+               <div class="s" >    
+                       <label>Hobby3:</label>    
+                    <select id="hobby3" name="hobby3">
+                        <option selected="selected">
+                        {{hobby3}}
+                        </option>
+                        {{#each hobbies}}
+                        <option value="{{hobby}}">{{hobby}}</option>
+                        {{/each}}
+                        </select>
+                 </div>   
+
+    <input type="submit" value="Update Details">
+	</form>
+ 
          </div>
+
+
+        
       
-         <div class="box-33" style="background-color:white">
-                   <div class="profile-picture big-profile-picture clear">  
-                            <img width="80px" alt="picture" src="{{pic}}" />
-              </div>
+         
 
 
           </div>
-           <div class="box-4"style="background-color:white" >
-
-               My Hobbies
-
-   <span>
-       </span>            
-
-
- <form method="post" action="/update_hobby/" id="inputform">
-<select form="inputform" name="hobby1">
-     <option value={{hobby1}} selected>{{hobby1}}</option>
-{{#each hobbies}}
-
-<option value={{hobby}}>{{hobby}}</option>
-{{/each}}
-</select>
-<select form="inputform" name="hobby2">
-  <option value={{hobby2}} selected>{{hobby2}}</option>   
-{{#each hobbies}}
-<option value={{hobby}}>{{hobby}}</option>
-{{/each}}
-</select>
-<select form="inputform" name="hobby3">
-   <option value={{hobby3}} selected>{{hobby3}}</option>  
-{{#each hobbies}}
-<option value={{hobby}}>{{hobby}}</option>
-{{/each}}
-</select>
-
-<button class="">Submit!</button>
-</form>
-
-                
- 
-           </div>
+          
      </div>
 
     

@@ -21,7 +21,27 @@ var UserSchema = mongoose.Schema({
 	},
 	location:{
 		type:String
-	}
+	},
+	hobby1:{
+		type:String
+	},
+	hobby2:{
+		type:String
+	},
+	hobby3:{
+		type:String
+	},
+
+	group1:{
+		type:String
+	},
+	group2:{
+		type:String
+	},
+	group3:{
+		type:String
+	},
+
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
