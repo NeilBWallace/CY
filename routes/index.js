@@ -200,14 +200,28 @@ router.get('/my_friends', (req, res) => {
 
     Friends.find({"friend":req.user.username,status:"are now friends!"},function(err,buddies1)
     {
+
+       
+
+
         Friends.find({"user":req.user.username,status:"are now friends!"},function(err,buddies2)
         {
-   
-
+            var a =[];
+            buddies2.forEach(function(child){
+                console.log("users" + child.user);
+                a.push(child.user);
+               });
+            buddies1.forEach(function(child){
+                console.log("users" + child.user);
+                a.push(child.user);
+               });
+            User.find( { "username" :  { $in : a } }, function(err,u)
+              {
+                  console.log('jjjj' + u);
           res.render('my_friends', {
              
-        myfriends:buddies1,
-        myfriends2:buddies2,
+        myfriends:u,
+      
         user: req.user,
         Challenge:req.session.challenges,
         pic:req.session.pic,
@@ -215,7 +229,7 @@ router.get('/my_friends', (req, res) => {
         });
         });
   });
-
+    });
 });
 
 router.get('/see_friend_request', (req, res) => {

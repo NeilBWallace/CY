@@ -6,26 +6,45 @@
    background-size:100%;
 
 }
+
+.c{
+     padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid silver;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+    flex-wrap:wrap;
+
+
+}
+.box1{
+    text-align:center;
+  flex:1;
+  background:white;
+  padding:5px;
+}
 </style>
-  {{Friend}}
+ 
 
   <body class="home_page_top">
-   <div class="middle-container container">
-                <div class="menu-box block"> 
-                    <h2 class="titular">My friends</h2>
-                               
-                    <ul class="menu-box-menu">
-                       {{#each myfriends}}
-                       <li class="menu-box-tab">
-                              <span>  {{user}} </span>
-                          </li>
+       <div class="box1">
+      <h1 style="text-align:center">My Friends</h1>
+      </div>
+                              <div class="c">
+
+                        {{#each myfriends}}
+                    <div class="box1">
+                             <img height="50px" src='{{pic}}'/>
+                             <div style="text-align:center">{{username}}</div>
+                         </div>
                        {{/each}}
-                          {{#each myfriends2}}
-                       <li class="menu-box-tab">
-                              <span>  {{friend}} </span>
-                          </li>
-                       {{/each}}
-                    </ul>
+                                
                 </div>
-             </div>
+           
 </body>
