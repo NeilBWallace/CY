@@ -1,56 +1,189 @@
 
+<style>
+.fc {
+  display: flex;
+}
 
-
+.fc1{
+  display: flex;  
+ justify-content: center; /* align horizontal */
+align-items: center; /* align vertical */
+display: -webkit-box;
+display: -webkit-flex;
+display: -moz-box;
+display: -ms-flexbox;
+display: flex;
+-webkit-flex-align: center;
+-ms-flex-align: center;
+-webkit-align-items: center;
+align-items: center;
+}
+.b0,.b1,.b4{
+    flex:1;
+   font-size:10px;
+}
+.b2{
+    flex:2;
+    background:white;
+}
+.b3{
+ background:white;
+box-sizing: border-box;
+width:40px;
+}
+</style>
 
 <body class="home_page_top">
 
-     <div class="flex-container">
 
-         <div class="box-0"></div>
-      
-
-         <div class="box-2">
-        
-   
-             <div  style="margin:5px"  > 
-      
-       <form id="search" action="/browse_profile" method="post" class="form-inline">
+<div class="fc">
+  <div class='b0'></div>
+  <div class='b1'></div>
+  <div class='b2'>
+      <form id="search" action="/browse_profile" method="post" class="form-inline">
                    <span>
                         <button style="background-color:white;border:none;width:40px;" type="submit" > <img  style="width:40px" class="img" src="../glass.png" > </button>
-                 <input required type="text" style="width:80px" id="q" name="q" placeholder="Search...">            
-                  <span></span>
-              
-                 </form> 
-                            <a style="float:right;margin:10px" href="../edit_profile"><img class="img" src="../green_cog.png" ></a>   
-          
-              </div>
-              <div class="profile-picture big-profile-picture clear">  
-                        <img width="80px" alt="picture" src="{{pic}}" />
-              </div>
-                                  
-               <h1 class="user-name">{{user.username}}</h1>
-               <div style="background-color:#57DF0C;border-bottom-left-radius:10px;  " >
-                     <a href="/videos"><img class="img" src="../challenges.png"><a>
-                        <a style="float:right" href="/challenge_someone"><img class="img" src="../record_challenge.png"></a>
-            
-              </div>
-         </div>
-       
-         <div class="box-3" style="background-color:white">
-                     <ul class=" b1">
-                    <li ><a  style="font-size:10px" href="#40"><span class=""><img class="img" src="../location.png" ></span><span style="float:right;color:black">Location {{location}}</span></a> </li>
-                    <li><a   style="font-size:10px" href="/my_mastered_challenges"><span class=""><img class="img" src="../star.png" ></span><span style="float:right">Mastered Challenges</span></a></li>
-                    <li><a   style="font-size:10px" href="/my_open_challenges"><span class=""><img class="img" src="../half_star.png" ></span><span style="float:right">Open Challenges{{challengesaccepted.length}}</span></a></li>
-                    <li><a   style="font-size:10px" href="#40"><span class=""><img class="img" src="../heart.png" ></span><span style="float:right">{{hobby1}},{{hobby2}},{{hobby3}}</span></a></li>
-                    <li><a   style="font-size:10px" href="/my_friends"><span class=""><img class="img" src="../friends.png" ></span><span style="float:right">Friends {{Buddies.length}} </span></a></li>
-                    <li><a   style="font-size:10px" href="#40"><span class=""><img class="img" src="../clubs.png" ></span><span style="float:right">Clubs:<p>{{group1}}</p><p>{{group2}}</p><p>{{group3}}</p></span></a></li>
-  
-                </ul> 
-       
-              
-                     </div>
-           <div class="box-4"></div>
-     </div>
+                         <input required type="text" style="width:200px" id="q" name="q" placeholder="Search...">            
+                      </span>
+                    </form>       
 
+ 
+  </div>
+  <div class='b3'>  
+     <a style="" href="../edit_profile"><img class="img" src="../green_cog.png" ></a> 
+</div>
+  <div class='b4'></div>
+</div>
+
+
+<div class="fc">
+  <div class='b0'></div>
+  <div class='b1'></div>
+  <div class='b2'>
     
+ <div class="fc">
+     <div class='b2'>
+<div class="profile-picture big-profile-picture clear">  
+            <img width="80px" alt="picture" src="{{pic}}" />
+        </div>
+     </div>
+        <div class='b2'>
+<h1 class="user-name">{{user.username}}</h1>
+     </div>
+ </div>
+  </div>
+  <div class='b3'>  
+  </div>
+  <div class='b4'></div>
+</div>
+
+
+<div class="fc">
+ <div class='b0'></div>
+  <div class='b1'></div>
+    <div class='b2'>
+        <div class="fc1" >
+            <div class="b0" style="background-color:white">
+               <img align="center" class="img" src="../location.png" >
+           </div>     
+           <div class="b0" style="background-color:white">
+                <img class="img" src="../star.png" >
+           </div>
+           <div class="b0" style="background-color:white">
+               <img class="img" src="../half_star.png" >
+           </div>
+          </div>
+         <div class="fc1" >
+            <div class="b0" style="background-color:white">
+              {{location}}
+           </div>     
+           <div class="b0" style="background-color:white">
+               Mastered Challenges
+           </div>
+           <div class="b0" style="background-color:white">
+              Open Challenges
+           </div>
+          </div>
+           <div class="fc1" >
+            <div class="b0" style="background-color:white">
+        
+           </div>     
+           <div class="b0" style="background-color:white">
+              {{challengesaccepted.length}}
+           </div>
+           <div class="b0" style="background-color:white">
+             
+           </div>
+          </div>
+    </div>   
+<div class='b3'>  </div>
+  <div class='b4'></div>
+</div>
+
+<div class="fc">
+ <div class='b0'></div>
+  <div class='b1'></div>
+    <div class='b2'>
+        <div class="fc1" >
+            <div class="b0" style="background-color:white">
+              <img class="img" src="../friends.png" >
+            </div>     
+           <div class="b0" style="background-color:white">
+                <img class="img" src="../heart.png" >
+           </div>
+           <div class="b0" style="background-color:white">
+               <img class="img" src="../clubs.png" >
+           </div>
+          </div>
+         <div class="fc1" >
+            <div class="b0" style="background-color:white">
+              friends
+           </div>     
+           <div class="b0" style="background-color:white">
+            <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div>
+           </div>
+           <div class="b0" style="background-color:white">
+             <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div>
+           </div>
+          </div>
+           <div class="fc1" >
+            <div class="b0" style="background-color:white">
+              {{Buddies.length}}
+           </div>     
+           <div class="b0" style="background-color:white">
+       
+           </div>
+           <div class="b0" style="background-color:white">
+             
+           </div>
+          </div>
+    </div>   
+<div class='b3'>  </div>
+  <div class='b4'></div>
+</div>
+
+
+
+<div class="fc">
+ <div class='b0'></div>
+  <div class='b1'></div>
+    <div class='b2' style="background-color:#57DF0C;border-bottom-left-radius:10px;" >
+
+     <div class="fc1" >
+            <div class="b0">
+                 <a href="/videos"><img class="img" src="../challenges.png"><a></a>
+            </div>
+               <div class="b0">
+                    <a  href="/challenge_someone"><img class="img" src="../record_challenge.png"></a>  
+            </div>
+     </div>
+     
+                       
+    </div>   
+<div class='b3' style="background-color:#57DF0C;border-bottom-right-radius:10px;" >  </div>
+  <div class='b4'></div>
+</div>
+
+
+
 </body>
