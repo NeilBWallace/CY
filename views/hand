@@ -1,44 +1,42 @@
 
-
+<!doctype html>
+<html>
 <head>
 <meta charset="UTF-8">
 <title>HTML 5, CSS 3, jQuery Log-in & Registration</title>
 <link href='http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-
-
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function() {
-
- $("#cc").click(function() {
-var k =$('#ch').val();
-alert(k);
-var fr="";
-$('input[type=checkbox]').each(function () {
-           if (this.checked) {
-               fr=fr + $(this).val() + ";"; 
-           }
-});
-$('#fr').val(fr);
- $("#submit_button").click();
- });
-
-
-    $("a").click(function() {
-      $("div.fc3 a").css("background-color", "blue");
-           $(this).css("background-color", "yellow");
-    var a= $(this).data('index');
-    
-    var bb=$(this).text();
-    
-      var b = "<ziggeoplayer ziggeo-width='300' ziggeo-video=" + a + "></ziggeoplayer>";
- $('#zp').html(b);
-  $("#ch").val(bb);
- $("#challenge_id").val(a);
-
+ event.preventDefault();
+           $(".overlay").fadeToggle("fast");
+           
+    $("#loginLink").click(function( event ){
+           event.preventDefault();
+           $(".overlay").fadeToggle("fast");
+     });
+     
+    $(".overlayLink").click(function(event){
+        event.preventDefault();
+        var action = $(this).attr('data-action');
+         
+        $("#loginTarget").load("ajax/" + action);
+         
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(".close").click(function(){
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(document).keyup(function(e) {
+        if(e.keyCode == 27 && $(".overlay").css("display") != "none" ) { 
+            event.preventDefault();
+            $(".overlay").fadeToggle("fast");
+        }
     });
 });
 </script>
-
 <style>
 /*
 *    RESET
@@ -94,29 +92,6 @@ a.close {
 /*
 *    LOG-IN BOX
 */
-
-div.overlay2 {
-    background-color: rgba(0,0,0,.25);
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-div.overlay2 {
-    background-color: rgba(0,0,0,.25);
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
 div.overlay {
     background-color: rgba(0,0,0,.25);
     bottom: 0;
@@ -135,23 +110,7 @@ div.overlay {
         padding: 6px;
         width: 450px;
     }
-   
-   
-    div.overlay2> div.login-wrapper2 {
-        align-self: center;
-        background-color: rgba(0,0,0,.25);
-        border-radius: 2px;
-        padding: 6px;
-        width: 450px;
-    }
-   
-
-      div.overlay2 > div.login-wrapper2 > div.login-content2{
-            background-color: rgb(255,255,255);
-            border-radius: 2px;
-            padding: 24px;    
-            position: relative;
-        }
+     
         div.overlay > div.login-wrapper > div.login-content {
             background-color: rgb(255,255,255);
             border-radius: 2px;
@@ -159,14 +118,6 @@ div.overlay {
             position: relative;
         }
          
-  div.overlay2 > div.login-wrapper2 > div.login-content2 > h3 {
-                color: rgb(0,0,0);
-                font-family: 'Varela Round', sans-serif;
-                font-size: 1.8em;
-                margin: 0 0 1.25em;
-                padding: 0;
-            }
-
             div.overlay > div.login-wrapper > div.login-content > h3 {
                 color: rgb(0,0,0);
                 font-family: 'Varela Round', sans-serif;
@@ -240,95 +191,35 @@ form button {
         background-color: #1bc5b3;
         cursor: pointer;
     }
-
-.home_page_top {
-    background-image: url('../home_page_top.png');
-   background-repeat: no-repeat;
-   background-size:100%;
-width:100%;
-}
-
-
-
-
-.fc {
-  display: flex;
-}
-
-.fc1{
- flex:1;
-}
-.fc2{
-flex:1;
-background-color: white;
-}
-.fc3{
-  flex:1;  
-
-}
 </style>
 </head>
  
-<body class="home_page_top"  >
-<button id="cc" style="height:50px;background-color:red">Challenge!</button>
-
-     <div class="fc">
-         <div class="fc3" style="background-color:white">
-             Choose Challenge
-    {{#each videos}}
-    
-                          <div><p> <a  data-index={{id}}   class="btn" >  {{challenge}} </a></p></div>
-                   <!--
-                              <span> <a name='challenge' id={{id}} class="btn" href="/view_video2/{{id}}">  {{challenge}} </a></span>
-                       -->
-                       {{/each}}
-
-
-         </div>
-   
-
-    <div class="f2">
- <div style="background-color:white" >
-Challenge Friend
-
-{{#each friend_request}}
-
-<p><input type="checkbox" id={{this}} name="subscribe" value={{this}}>
-    <label for={{this}}>{{this}}</label>
-</p>
-{{/each}}
-    </div>
-</div>
-
-
-
-   <div class="fc3" >
-       <div >
-       <form action="/challenge_folks" method="post" style="display: none;" >
-     <div> <input  name="ch" type="text" id="ch" style="color:Black"/></div>
-     <div>  <input name="fr" type="text" id="fr" style="color:Black"/></div>
-         <div>  <input name="challenge_id" type="text" id="challenge_id" style="color:Black"/></div>
-       <button type="submit" id="submit_button">Submit</button>
-        </form>
-    </div>
-<div id="zp">
-
-
-</div>
-
-   </div>
-
-
-
+<body>
+<div class="test"></div>
+<p>Here's some content.</p>
+<a href="login.php" id="loginLink">Login</a>
+<ul>
+    <li><a href="login.php" class="overlayLink" data-action="login-form.html">Log-in</a></li>
+    <li><a href="register.php" class="overlayLink" data-action="registration-form.html">Register</a></li>
+</ul>
+<div class="overlay" style="display: none;">
+    <div class="login-wrapper">
+        <div class="login-content" id="loginTarget">
+            <a class="close">x</a>
+            <h3>Sign in</h3>
+            <form method="post" action="login.php">
+                <label for="username">
+                    Username:
+                    <input type="text" name="username" id="username" placeholder="Username must be between 8 and 20 characters" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{8,20}$" required />
+                </label>
+                <label for="password">
+                    Password:
+                    <input type="password" name="password" id="password" placeholder="Password must contain 1 uppercase, lowercase and number" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required />
+                </label>
+                <button type="submit">Sign in</button>
+            </form>
         </div>
-
-
-       
-
-
-
-
-
-
-
+    </div>
+</div>
 </body>
+</html>

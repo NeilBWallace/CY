@@ -57,9 +57,23 @@ function home_page(req,res){
                req.session.group1=u.group1;
                req.session.group2=u.group2;
                req.session.group3=u.group3;
-               Friends.find( {$or:[{"friend":req.user.username},{"user":req.user.username}],status:"are now friends!"},function(err,buddies)
+
+
+               Friends.find({"friend":req.user.username,status:"are now friends!"},function(err,buddies1)
                {
-                  req.session.made_buddies=buddies;
+                   Friends.find({"user":req.user.username,status:"are now friends!"},function(err,buddies2)
+                   {
+                       var a =[];
+                       buddies2.forEach(function(child){
+                           console.log("users" + child.user);
+                           a.push(child.user);
+                          });
+                       buddies1.forEach(function(child){
+                           console.log("users" + child.user);
+                           a.push(child.user);
+                          });
+                req.session.made_buddies=a;
+                  console.log('ll' + a);
                    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
                        {
                          req.session.friends=fr;
@@ -79,7 +93,7 @@ function home_page(req,res){
                                     username: req.user.username,
                                     friend_request:fr,
                                     Challenge:req.session.challenges,
-                                    Buddies:buddies,
+                                    Buddies:a,
                                     hobby1: req.session.hobby1,
                                     hobby2:req.session.hobby2,
                                     hobby3:req.session.hobby3,
@@ -104,7 +118,7 @@ function home_page(req,res){
     
             });
     });
-   
+});
  };
 
 
@@ -383,7 +397,24 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
 			});
 			});
 		});
-	
+    
+        router.get ('/view_video2/:id',ensureAuthenticated ,function (req, res){
+            console.log('view video2' + req.session.friends);
+            req.session.token=req.params.id;
+            res.render('challenge_someone2',{
+                       token:req.params.id,
+                       title:req.params.title,
+                       user: req.user,
+                       Challenge:req.session.challenges,
+                       pic:req.session.pic,
+                       friend_request:req.session.friends,
+                       buddies:req.session.made_buddies,
+                       rec:'none',
+                       challenged:'none'
+                     });
+                    });
+
+
         router.get ('/view_video/:id',ensureAuthenticated ,function (req, res){
             console.log('view video' + req.session.friends);
             req.session.token=req.params.id;
@@ -531,7 +562,34 @@ router.get('/challenge_someone', ensureAuthenticated, function(req, res){
 });
 
 
+router.post('/challenge_folks', ensureAuthenticated, function(req, res){
+    
+  //  console.log('ddd' + req.session.user_id);
+  var fr= req.body.fr;
+  var f="";
+    var array = fr.split(';');
 
+    for(let i=0;i<array.length;i++)
+    {
+        var a = array[i];
+         var challenge = new c({
+           challenger: req.session.username,  
+           challenged:a,             
+            id: req.body.challenge_id,
+            status:"Challenge made"
+        }).save(function(err) {
+          if(err)
+           {
+            console.log('problem here friend request' + err);
+            }else
+           {
+            console.log('Saved ok');
+           }
+        });
+    
+    }
+    home_page(req,res);
+ });    
 
 router.get('/edit_profile', ensureAuthenticated, function(req, res){
     edit_profile(req,res);
@@ -539,7 +597,7 @@ router.get('/edit_profile', ensureAuthenticated, function(req, res){
    
 router.get ('/videos',ensureAuthenticated, function (req, res){
 	 Challenge.find({"user_id":req.session.user_id},function(err, c) {
-         console.log('qqq' + c + 'rrr' + req.session.user_id);
+         console.log('qqq' + c + 'rrr' +req.session.made_buddies);
     	res.render('videos', {
                 page_title: 'Challenge You All Videos',
                 need_ziggeo: 1,
@@ -547,7 +605,7 @@ router.get ('/videos',ensureAuthenticated, function (req, res){
                 user: req.user,
                 Challenge:req.session.challenges,
                 pic:req.session.pic,
-                friend_request:req.session.friends,
+                friend_request:req.session.made_buddies,
                 user: req.user,
              
             });

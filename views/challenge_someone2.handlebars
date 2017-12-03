@@ -1,44 +1,21 @@
 
-
+<!doctype html>
+<html >
 <head>
 <meta charset="UTF-8">
 <title>HTML 5, CSS 3, jQuery Log-in & Registration</title>
 <link href='http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
 
 
+
 <script>
+
 $(document).ready(function() {
-
- $("#cc").click(function() {
-var k =$('#ch').val();
-alert(k);
-var fr="";
-$('input[type=checkbox]').each(function () {
-           if (this.checked) {
-               fr=fr + $(this).val() + ";"; 
-           }
-});
-$('#fr').val(fr);
- $("#submit_button").click();
- });
-
-
-    $("a").click(function() {
-      $("div.fc3 a").css("background-color", "blue");
-           $(this).css("background-color", "yellow");
-    var a= $(this).data('index');
-    
-    var bb=$(this).text();
-    
-      var b = "<ziggeoplayer ziggeo-width='300' ziggeo-video=" + a + "></ziggeoplayer>";
- $('#zp').html(b);
-  $("#ch").val(bb);
- $("#challenge_id").val(a);
-
-    });
+  
+     
+  
 });
 </script>
-
 <style>
 /*
 *    RESET
@@ -248,87 +225,70 @@ form button {
 width:100%;
 }
 
-
-
-
-.fc {
-  display: flex;
-}
-
-.fc1{
- flex:1;
-}
-.fc2{
-flex:1;
-background-color: white;
-}
-.fc3{
-  flex:1;  
-
-}
 </style>
 </head>
  
 <body class="home_page_top"  >
-<button id="cc" style="height:50px;background-color:red">Challenge!</button>
 
-     <div class="fc">
-         <div class="fc3" style="background-color:white">
-             Choose Challenge
-    {{#each videos}}
+<div style="display:none">
+ <form action="/save_challenge" method="post">
+    <input type="text" name="challenge_text" id="challenge_text" />
+     <input type="text" name="challenge_id" id="challenge_id" />
+    <button  id="test" type="submit" class="btn btn-default">Save</button>
+</form>
+</div>
+
+<div class="overlay2" style="display: none;">
+   <div class="login-wrapper2">
+        <div class="login-content2" id="loginTarget2">
     
-                          <div><p> <a  data-index={{id}}   class="btn" >  {{challenge}} </a></p></div>
-                   <!--
-                              <span> <a name='challenge' id={{id}} class="btn" href="/view_video2/{{id}}">  {{challenge}} </a></span>
-                       -->
-                       {{/each}}
+  <input disabled id="input_recorder"/>
+     <div>  
+       
+          <form> 
+             <ziggeorecorder ziggeo-theme="modern" ziggeo-width="300"  ziggeo-height="300" id="recorder"></ziggeorecorder>
+          </form>
+           </div>
+           </div>
+           </div>
+     </div>
 
 
+
+
+
+ <div class="flex-container">
+
+         <div class="b1"></div>
+          <div class="b2" style="display:{{player}};">         
+              <div >
+              <ziggeoplayer  ziggeo-width="200px" ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
+              
+             
+           </div>
+           </div>
+           <div style="display:{{player}};" class="b3">
+             <p>Challenge</p>
+              {{#each buddies}}
+              <p>  <a class="btn" href="/challenge_this_friend/{{friend}}">{{friend}}</a></p>
+                
+              {{/each}}
+           </div>
+            <div class="b4">
+        <div style="display:{{challenged}};">     
+              <a class="btn" href="/accept_challenge/{{id}}">Accept Challenge</a>
+               <a class="btn" href="/reject_challenge/{{id}}">Reject Challenge</a>
+               <a class="btn" href="/challenge_completed/{{id}}">Challenge Completed</a>
+      
          </div>
-   
-
-    <div class="f2">
- <div style="background-color:white" >
-Challenge Friend
-
-{{#each friend_request}}
-
-<p><input type="checkbox" id={{this}} name="subscribe" value={{this}}>
-    <label for={{this}}>{{this}}</label>
-</p>
-{{/each}}
-    </div>
-</div>
-
-
-
-   <div class="fc3" >
-       <div >
-       <form action="/challenge_folks" method="post" style="display: none;" >
-     <div> <input  name="ch" type="text" id="ch" style="color:Black"/></div>
-     <div>  <input name="fr" type="text" id="fr" style="color:Black"/></div>
-         <div>  <input name="challenge_id" type="text" id="challenge_id" style="color:Black"/></div>
-       <button type="submit" id="submit_button">Submit</button>
-        </form>
-    </div>
-<div id="zp">
-
-
-</div>
-
-   </div>
-
+            </div>
 
 
         </div>
-
-
-       
-
-
 
 
 
 
 
 </body>
+</html>

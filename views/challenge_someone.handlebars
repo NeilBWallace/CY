@@ -1,116 +1,279 @@
 
-<html>
+<!doctype html>
+<html >
 <head>
- <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-<link rel="stylesheet" href="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.css" />
-<script src="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
-   <script>ZiggeoApi.token="r1d3ffca0738877b5b993904b579130f";
-ZiggeoApi.v2app().on("ready",function(){
-  var recorderElement = $("#recorder");
-var recorder=ZiggeoApi.V2.Recorder.findByElement(recorderElement);
-recorder.on("verified",function(){
+<meta charset="UTF-8">
+<title>HTML 5, CSS 3, jQuery Log-in & Registration</title>
+<link href='http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
 
-var a=recorder.get("video");
 
- document.getElementById("challenge_id").value =a;
-document.getElementById('test').click();
 
+<script>
+
+$(document).ready(function() {
+  
+      if( document.getElementById("challenge").value !='none')
+      {
+
+                 event.preventDefault();
+                $(".overlay").fadeToggle("fast");
+             
+         
+                 
+      }
+
+ var buttons = $("#next").click(function(e) {
+ 
+      // get user input
+      var yes = buttons.index(this) === 0;
+          event.preventDefault();
+           $(".overlay").fadeToggle("fast");
+     document.getElementById("challenge_text").value= document.getElementById("challenge").value       
+     
+   document.getElementById("input_recorder").value= document.getElementById("challenge").value       
+            $(".overlay2").show();
+  });
+
+
+    $("#loginLink").click(function( event ){
+           event.preventDefault();
+           $(".overlay").fadeToggle("fast");
+     });
+     
+    $(".overlayLink").click(function(event){
+        event.preventDefault();
+        var action = $(this).attr('data-action');
+         
+        $("#loginTarget").load("ajax/" + action);
+         
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(".close").click(function(){
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(document).keyup(function(e) {
+        if(e.keyCode == 27 && $(".overlay").css("display") != "none" ) { 
+            event.preventDefault();
+            $(".overlay").fadeToggle("fast");
+        }
+    });
 });
-
-});
-
-
 </script>
-
 <style>
-
-.b {
+/*
+*    RESET
+*/
+*{
+    box-sizing: border-box;
+    margin: 0;
+    outline: none;
+    padding: 0;
+}
+ 
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+ 
+/*
+*    GLOBAL
+*/
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+}
+ 
+body {
+    background-color: #f3f3f3;
+    color: rgb(165,165,165);
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+ 
+a.close {
+    background-color: rgb(204,204,204);
+    border-radius: 50%;
+    color: rgb(255,255,255);
     display: block;
-    width: 115px;
-    height: 25px;
-    background-color: #4E9CAF !important;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
+    font-family: 'Varela Round', sans-serif;
+    font-size: .8em;
+    padding: .2em .5em;
+    position: absolute;
+    top: 1.25rem;
+    transition: all 400ms ease;
+    right: 1.25rem;
+}
+     
+    a.close:hover {
+        background-color: #1bc5b3;
+        cursor: pointer;
+    }
+ 
+/*
+*    LOG-IN BOX
+*/
+
+div.overlay2 {
+    background-color: rgba(0,0,0,.25);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
-.b1{
-  flex:1;
+div.overlay2 {
+    background-color: rgba(0,0,0,.25);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
-.b2{
-  flex:1;
-  background:white;
-  padding:5px;
+
+div.overlay {
+    background-color: rgba(0,0,0,.25);
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
-.b3{
-  flex:1;
-  background:white;
-  padding:5px;
-  width:200px;
+ 
+    div.overlay > div.login-wrapper {
+        align-self: center;
+        background-color: rgba(0,0,0,.25);
+        border-radius: 2px;
+        padding: 6px;
+        width: 450px;
+    }
+   
+   
+    div.overlay2> div.login-wrapper2 {
+        align-self: center;
+        background-color: rgba(0,0,0,.25);
+        border-radius: 2px;
+        padding: 6px;
+        width: 450px;
+    }
+   
+
+      div.overlay2 > div.login-wrapper2 > div.login-content2{
+            background-color: rgb(255,255,255);
+            border-radius: 2px;
+            padding: 24px;    
+            position: relative;
+        }
+        div.overlay > div.login-wrapper > div.login-content {
+            background-color: rgb(255,255,255);
+            border-radius: 2px;
+            padding: 24px;    
+            position: relative;
+        }
+         
+  div.overlay2 > div.login-wrapper2 > div.login-content2 > h3 {
+                color: rgb(0,0,0);
+                font-family: 'Varela Round', sans-serif;
+                font-size: 1.8em;
+                margin: 0 0 1.25em;
+                padding: 0;
+            }
+
+            div.overlay > div.login-wrapper > div.login-content > h3 {
+                color: rgb(0,0,0);
+                font-family: 'Varela Round', sans-serif;
+                font-size: 1.8em;
+                margin: 0 0 1.25em;
+                padding: 0;
+            }
+/*
+*    FORM
+*/
+form label {
+    color: rgb(0,0,0);
+    display: block;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.25em;
+    margin: .75em 0;    
 }
-.b4{
-  flex:1;
+ 
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="number"],
+    form input[type="search"],
+    form input[type="password"],
+    form textarea {
+        background-color: rgb(255,255,255);
+        border: 1px solid rgb( 186, 186, 186 );
+        border-radius: 1px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+        display: block;
+        font-size: .65em;
+        margin: 6px 0 12px 0;
+        padding: .8em .55em;    
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
+        transition: all 400ms ease;
+        width: 90%;
+    }
+     
+    form input[type="text"]:focus,
+    form input[type="email"]:focus,
+    form input[type="number"]:focus,
+    form input[type="search"]:focus,
+    form input[type="password"]:focus,
+    form textarea:focus,
+    form select:focus { 
+        border-color: #4195fc;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 8px #4195fc;
+    }
+     
+        form input[type="text"]:invalid:focus,
+        form input[type="email"]:invalid:focus,
+        form input[type="number"]:invalid:focus,
+        form input[type="search"]:invalid:focus,
+        form input[type="password"]:invalid:focus,
+        form textarea:invalid:focus,
+        form select:invalid:focus { 
+            border-color: rgb(248,66,66);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 8px rgb(248,66,66);
+        }
+     
+form button {
+    background-color: #50c1e9;
+    border: 1px solid rgba(0,0,0,.1);
+    color: rgb(255,255,255);
+    font-family: 'Varela Round', sans-serif;
+    font-size: .85em;
+    padding: .55em .9em;
+    transition: all 400ms ease;    
 }
+ 
+    form button:hover {
+        background-color: #1bc5b3;
+        cursor: pointer;
+    }
+
+.home_page_top {
+    background-image: url('../home_page_top.png');
+   background-repeat: no-repeat;
+   background-size:100%;
+width:100%;
+}
+
 </style>
 </head>
-<body class="home_page_top" >
-<script type="text/javascript">
-$(document).ready(function () {
-
-if( document.getElementById("input_recorder").value !='none')
-{
-  var person = prompt("Please enter your Challenge", "");
-
-  if (person == null || person == "") {
-      window.history.go(-1); return false;
-  } else {
-      document.getElementById("challenge_text").value =person;
-      document.getElementById("challenge").value =person;
-      
  
-  }
-} 
-});
- 
-
-</script>
-<style>
-  .fc{
- display: flex;
-  align-items: center;
-  justify-content: center;
-  }
-  .t{
-    flex:2;
-  }
-  .y{
-
-      flex:1;
-  }
-  .z{
-    flex:1;
-  }
-</style>
-  <div class="fc">
-     <div class="t">
-       <div style="margin-left:50px">
-         <input style="background-color:white;width:100px;" disabled id="challenge" />
-      </div>
-       </div>
-     <div class="y">
-        <div id="div_recorder" style="display:{{rec}}">      
-        <ziggeorecorder ziggeo-theme="modern" ziggeo-width="300"  ziggeo-height="300" id="recorder"></ziggeorecorder>
-      <input disabled id="input_recorder" value="{{rec}}" style="border:0"/>
-        
- 
-        </div>     
-     </div>
-     <div class="z">
-
-     </div>
-  </div>
+<body class="home_page_top"  >
 
 <div style="display:none">
  <form action="/save_challenge" method="post">
@@ -119,38 +282,47 @@ if( document.getElementById("input_recorder").value !='none')
     <button  id="test" type="submit" class="btn btn-default">Save</button>
 </form>
 </div>
-  <div class="flex-container">
 
-         <div class="b1"></div>
-          <div class="b2" style="display:{{player}};">         
-              <div >
-              <ziggeoplayer  ziggeo-width="200px" ziggeo-video="{{token}}" ziggeo-theme="modern"></ziggeoplayer>
-              
-             
+<div class="overlay2" style="display: none;">
+   <div class="login-wrapper2">
+        <div class="login-content2" id="loginTarget2">
+    
+  <input disabled id="input_recorder"/>
+     <div>  
+       
+          <form> 
+             <ziggeorecorder ziggeo-theme="modern" ziggeo-width="300"  ziggeo-height="300" id="recorder"></ziggeorecorder>
+          </form>
            </div>
            </div>
-           <div style="display:{{player}};" class="b3">
-             <p>Challenge</p>
-              {{#each buddies}}
-              <p>  <a class="btn" href="/challenge_this_friend/{{friend}}">{{friend}}</a></p>
-                
-              {{/each}}
            </div>
-            <div class="b4">
-        <div style="display:{{challenged}};">     
-              <a class="btn" href="/accept_challenge/{{id}}">Accept Challenge</a>
-               <a class="btn" href="/reject_challenge/{{id}}">Reject Challenge</a>
-               <a class="btn" href="/challenge_completed/{{id}}">Challenge Completed</a>
-      
-         </div>
-            </div>
+     </div>
 
 
+
+
+<div class="overlay" style="display: none;">
+    <div class="login-wrapper">
+        <div class="login-content" id="loginTarget">
+            <a class="close">x</a>
+    <form>
+        
+
+            <h4>Describe your challenge</h>
+                 <label for="username">
+                   
+                    <input type="text" name="challenge" id="challenge" placeholder="Challenge must be between 8 and 20 characters"  required />
+                </label>
+               
+                <button name="next" id="next" type="submit">Next</button>
+            </form>
         </div>
+    </div>
+</div>
 
-<div style="display:{{challenged}}">
- 
-     <ziggeoplayer  ziggeo-width="200px"  ziggeo-height="400px" ziggeo-video="{{id}}" ziggeo-theme="modern"></ziggeoplayer>
-  </div>    
+
+
+
+
 </body>
 </html>
