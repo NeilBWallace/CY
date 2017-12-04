@@ -66,11 +66,17 @@ function home_page(req,res){
                        var a =[];
                        buddies2.forEach(function(child){
                            console.log("users" + child.user);
+                          if(req.user.username != child.user)
+                          {
                            a.push(child.user);
+                          }
                           });
                        buddies1.forEach(function(child){
                            console.log("users" + child.user);
+                           if(req.user.username != child.user)
+                           {        
                            a.push(child.user);
+                           }
                           });
                 req.session.made_buddies=a;
                   console.log('ll' + a);
@@ -566,13 +572,17 @@ router.post('/challenge_folks', ensureAuthenticated, function(req, res){
     
   //  console.log('ddd' + req.session.user_id);
   var fr= req.body.fr;
+  console.log('qqqqq' + fr);
   var f="";
     var array = fr.split(';');
 
     for(let i=0;i<array.length;i++)
     {
         var a = array[i];
-         var challenge = new c({
+        
+       if (a.length>0)
+       {
+        var challenge = new c({
            challenger: req.session.username,  
            challenged:a,             
             id: req.body.challenge_id,
@@ -584,9 +594,9 @@ router.post('/challenge_folks', ensureAuthenticated, function(req, res){
             }else
            {
             console.log('Saved ok');
-           }
+              }
         });
-    
+    }
     }
     home_page(req,res);
  });    
@@ -596,18 +606,29 @@ router.get('/edit_profile', ensureAuthenticated, function(req, res){
  });      
    
 router.get ('/videos',ensureAuthenticated, function (req, res){
-	 Challenge.find({"user_id":req.session.user_id},function(err, c) {
-         console.log('qqq' + c + 'rrr' +req.session.made_buddies);
+    
+         
+	 Challenge.find({"user_id":req.session.user_id},function(err, challenges) {
+       
+        
+        
+        
+          c.find({"challenger":  req.session.username},function(err, who_is_already_challenged) {
+            console.log('pppppp' + who_is_already_challenged);
+     
+
     	res.render('videos', {
                 page_title: 'Challenge You All Videos',
                 need_ziggeo: 1,
-                videos: c,
+                videos: challenges,
                 user: req.user,
                 Challenge:req.session.challenges,
                 pic:req.session.pic,
                 friend_request:req.session.made_buddies,
                 user: req.user,
-             
+                ch:challenges,
+                wh:who_is_already_challenged
+        });             
             });
 });
 });
