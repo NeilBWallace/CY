@@ -1211,8 +1211,7 @@ console.log('Getting hobbies');
 			});
 		})
 		
-
-.		
+	
 		router.get('/delete_hobby/:id', function(req, res) {
 			Hobby.findById(req.params.id, function(err, hobby) {
 				if (!err) {
