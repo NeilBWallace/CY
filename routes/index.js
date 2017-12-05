@@ -1416,7 +1416,7 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
        console.log('error uploading file');
        res.render('index', {
            
-             msg: err,
+            
              user: req.user,
              Challenge:req.session.challenges,
              pic:req.session.pic,
