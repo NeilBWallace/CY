@@ -1414,9 +1414,7 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
    cloudinary.uploader.upload(req.file.image, function(result) {
     if (result.error) {
        console.log('error uploading file');
-       res.render('index', {
-           
-            
+       res.render('index', {    
              user: req.user,
              Challenge:req.session.challenges,
              pic:req.session.pic,
