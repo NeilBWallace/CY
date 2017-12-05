@@ -1212,105 +1212,7 @@ console.log('Getting hobbies');
 		})
 		
 
-router.post('/update_group', (req, res) => {
-    console.log('group' + req.body.group1+ 'abc' +  req.body.group2 + req.body.group3 + req.session.user_id );
-           var id = req.session.user_id;
-         
-           AddGroup.findOne({"user":req.session.user_id}, function(err, group) {
-            if (group==null){
-                var h = new AddGroup({
-                                          group1:   req.body.group1,
-                                           group2:    req.body.group2,
-                                           group3:   req.body.group3,
-                                           user:     req.session.user_id
-                                       }).save(function(err) {
-                                          console.log('problem creating groups for user' + err);
-                                       });     
-                                   }else
-                                    {
-                                   group.group1 = req.body.group1;
-                                   group.group2 = req.body.group2;
-                                 group.hobby3 = req.body.group3;
-                   				group.save();
-                                    };
-                                   req.session.group1=req.body.group1;
-                                    req.session.group2=req.body.group2;
-                                    req.session.group3=req.body.group3;
-                   				edit_profile(req,res);
-                           
-                               });
-                            });
-
-
-
-
-		
-//		router.get('/update_group', function(req, res) {
-//            var id = req.user._id;
-//            console.log('user_id' + req.user._id + "sdfdsg" + req.body.group1 + "sdfsd" + req.params.group1);
-          
-  //          AddGroup.findById(id, function(err, group) {
-		            
-	//	         if (group==null){
- //               	var h = new AddGroup({
- //                       group1:   req.body.group1,
- //                       group2:    req.body.group2,
- //                       group3:   req.body.group3,
- //                       user:     req.user._id
- //                   }).save(function(err) {
- //                         console.log('problem creating groups for user' + err);
- //                   });     
- //               }else
- //                {
- //               group.group1 = req.body.group1;
- //               group.group2 = req.body.group2;
- //             group.hobby3 = req.body.group3;
-//				group.save();
-//                 };
-//                 req.session.group1=req.body.group1;
-//                 req.session.group2=req.body.group2;
-//                 req.session.group3=req.body.group3;
-//				edit_profile(req,res);
-		
-//			});
-		
-		
-//		})
-		
-		
-		router.post('/update_hobby', function(req, res) {
-            var id = req.user._id;
-            console.log('user_id' + req.user._id);
-          
-            AddHobby.findById(id, function(err, hobby) {
-		            
-		         if (hobby==null){
-                	var h = new AddHobby({
-                        hobby1:   req.body.hobby1,
-                        hobby2:    req.body.hobby2,
-                        hobby3:   req.body.hobby3,
-                        user:     req.user._id
-                    }).save(function(err) {
-                          console.log('problem creating hobbies for user' + err);
-                    });     
-                }else
-                 {
-                hobby.hobby1 = req.body.hobby1;
-                hobby.hobby2 = req.body.hobby2;
-                hobby.hobby3 = req.body.hobby3;
-				hobby.save();
-                 };
-                 req.session.hobby1=req.body.hobby1;
-                 req.session.hobby2=req.body.hobby2;
-                 req.session.hobby3=req.body.hobby3;
-				edit_profile(req,res);
-		
-			});
-		
-		
-		})
-		
-		
+.		
 		router.get('/delete_hobby/:id', function(req, res) {
 			Hobby.findById(req.params.id, function(err, hobby) {
 				if (!err) {
@@ -1510,7 +1412,7 @@ function successDecode (success_id){
   
 router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (req, res) => {
   
-   cloudinary.uploader.upload(req.file.path, function(result) {
+   cloudinary.uploader.upload(req.file.image, function(result) {
     if (result.error) {
        console.log('error uploading file');
        res.render('index', {
