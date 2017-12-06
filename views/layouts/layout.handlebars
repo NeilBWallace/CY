@@ -511,6 +511,20 @@ width:100%;
 
 </style>
 
+<script>
+$(document).ready(function() {
+
+  
+$('.header-menu-number').each(function () {
+     var a= $(this).text();
+     if(a ==0)
+     {
+        $(this).remove();
+     }
+});
+
+});
+</script>
                     
         
 </head>
@@ -531,17 +545,19 @@ width:100%;
      
                       <li>
                         <a class="header-menu-tab gr" href="../"><span  class="icon fa fa-home g"></span></a>
-                     
+                         <a class="header-menu-number" href="/see_completed_challenges">{{challengescompleted.length}}</a>
+         
+                   
                     </li>
         
                         <li>
-                        <a class="header-menu-tab" href="/see_challenge_request"><span class="icon fa fa-comment-o g"></span></a>
+                        <a class="header-menu-tab" href=""><span class="icon fa fa-comment-o g"></span></a>
                         <a class="header-menu-number" href="/see_challenge_request">{{Challenge.length}}</a>
                     </li>
                     
                  <li>
                  
-                        <a class="header-menu-tab" href="/see_friend_request"><span class="icon fa fa-user-plus g"></span></a>
+                        <a class="header-menu-tab" href=""><span class="icon fa fa-user-plus g"></span></a>
                       <a class="header-menu-number" href="/see_friend_request">{{friend_request.length}}</a>
                   </li>
 

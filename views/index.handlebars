@@ -66,11 +66,11 @@ width:40px;
  <div class="fc">
      <div class='b2'>
 <div class="profile-picture big-profile-picture clear">  
-            <img width="80px" alt="picture" src="{{pic}}" />
+          <a style="" href="../edit_profile">   <img width="80px" alt="picture" src="{{pic}}" /></a>
         </div>
      </div>
         <div class='b2'>
-<h1 class="user-name">{{user.username}}</h1>
+<h1 class="user-name">  <a style="" href="../edit_profile">{{user.username}}</a></h1>
      </div>
  </div>
   </div>
@@ -111,10 +111,10 @@ width:40px;
         
            </div>     
            <div class="b0" style="background-color:white">
-              {{challengesaccepted.length}}
+          <a  href="/see_completed_challenges">   {{challengescompleted.length}}</a>
            </div>
            <div class="b0" style="background-color:white">
-             
+          <a  href="/see_accepted_challenges"> {{challengesaccepted.length}}</a>
            </div>
           </div>
     </div>   
@@ -139,18 +139,21 @@ width:40px;
           </div>
          <div class="fc1" >
             <div class="b0" style="background-color:white">
-              friends
+           <a href="/my_friends">friends</a>
+    
            </div>     
            <div class="b0" style="background-color:white">
-            <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div>
+           <a style="" href="../edit_profile"> <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div></a>
            </div>
            <div class="b0" style="background-color:white">
-             <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div>
+              <a style="" href="../edit_profile"> <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div></a>
            </div>
           </div>
            <div class="fc1" >
             <div class="b0" style="background-color:white">
-              {{Buddies.length}}
+             <a href="/my_friends"> {{Buddies.length}}</a>
+    
+             
            </div>     
            <div class="b0" style="background-color:white">
        

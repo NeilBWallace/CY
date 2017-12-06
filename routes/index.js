@@ -83,7 +83,10 @@ function home_page(req,res){
                    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
                        {
                          req.session.friends=fr;
-                      
+                         c.find({"challenged":req.user.username,"status":"Challenge completed"},function(err,cp)
+                         {
+                             console.log('Challenges Completed Total' +  cp);
+                             req.session.challenge_completed=cp;
                          c.find({"challenged":req.user.username,"status":"Challenge made"},function(err,ch)
                          {
                             req.session.challenges = ch;
@@ -108,7 +111,8 @@ function home_page(req,res){
                                     group3:req.session.group3,
                                     location:u.location,
                                     hobbies:hobbies,
-                                    challengesaccepted:ca
+                                    challengesaccepted:ca,
+                                    challengescompleted:cp
                               });
                      
                            });
@@ -116,7 +120,7 @@ function home_page(req,res){
                         });
                       
                       
-                      
+                    });   
                       
                       
                         });
@@ -190,31 +194,6 @@ router.post('/save_challenge', (req, res) => {
 
 
 
-
-router.get('/my_open_challenges', (req, res) => {
-
-
-    var a =  c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
-        
-        console.log('ooo' + a);
-        
-          
-         //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
-         ///   {
-         //       console.log('qqq' + c);
-               res.render('see_challenge_request',{
-                  challenges: a,
-                    username:req.user.username,
-                    user: req.user,
-                    Challenge:req.session.challenges,
-                    pic:req.session.pic,
-                    friend_request:req.session.friends,
-               });
-         //       });      
-                });
-
- console.log('my challenges');
-});
 
 router.get('/my_friends', (req, res) => {
 
@@ -329,12 +308,108 @@ router.get('/', ensureAuthenticated, function(req, res){
 home_page(req,res);
 });
 
+router.get('/see_accepted_challenges', ensureAuthenticated, function(req, res){
+    
+
+
+ c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
+    
+   
+    var b =[];
+    a.forEach(function(child){
+        console.log("users" + child.id);
+        b.push(child.id);
+       });
+console.log('9999' +b);
+       Challenge.find( { "id" :  { $in : b } }, function(err,u)
+       { 
+          console.log('jjjk' + u);
+     
+
+
+  
+ //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
+ ///   {
+ //       console.log('qqq' + c);
+       res.render('see_accepted_challenges',{
+          challenges: a,
+            username:req.user.username,
+            user: req.user,
+            Challenge:req.session.challenges,
+            pic:req.session.pic,
+            friend_request:req.session.friends,
+            k:u
+       });
+ //       });      
+        });
+   /// });
+    });
+    });
+
+
+
+    router.get('/see_completed_challenges', ensureAuthenticated, function(req, res){
+        
+    
+    
+     c.find({"status":"Challenge completed","challenged":req.session.username},function(err, a) {
+        
+       
+        var b =[];
+        a.forEach(function(child){
+            console.log("users" + child.id);
+            b.push(child.id);
+           });
+    console.log('9999' +b);
+           Challenge.find( { "id" :  { $in : b } }, function(err,u)
+           { 
+              console.log('jjjk' + u);
+         
+    
+    
+      
+     //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
+     ///   {
+     //       console.log('qqq' + c);
+           res.render('see_completed_challenges',{
+              challenges: a,
+                username:req.user.username,
+                user: req.user,
+                Challenge:req.session.challenges,
+                pic:req.session.pic,
+                friend_request:req.session.friends,
+                k:u
+           });
+     //       });      
+            });
+       /// });
+        });
+        });
+    
+    
+
+
+
+
 
 router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
     
-  var a =  c.find({"status":"Challenge made","challenged":req.session.username},function(err, a) {
 
-console.log('ooo' + a);
+
+ c.find({"status":"Challenge made","challenged":req.session.username},function(err, a) {
+    
+   
+    var b =[];
+    a.forEach(function(child){
+        console.log("users" + child.id);
+        b.push(child.id);
+       });
+console.log('9999' +b);
+       Challenge.find( { "id" :  { $in : b } }, function(err,u)
+       { 
+          console.log('jjjk' + u);
+     
+
 
   
  //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
@@ -347,11 +422,12 @@ console.log('ooo' + a);
             Challenge:req.session.challenges,
             pic:req.session.pic,
             friend_request:req.session.friends,
+            k:u
        });
  //       });      
         });
    /// });
-    
+    });
     });
 
    router.get('/see_c/:id', ensureAuthenticated, function(req, res){
@@ -455,6 +531,9 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                         });
                         });
                     });
+
+
+
                     router.get('/challenge_completed/:id', ensureAuthenticated, function(req, res){
                         
                   
@@ -1410,8 +1489,8 @@ function successDecode (success_id){
   var upload = multer({ storage: storage, fileFilter: imageFilter})
   
 router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (req, res) => {
-  
-   cloudinary.uploader.upload(req.file.image, function(result) {
+  console.log('zzzz' + req);
+   cloudinary.uploader.upload(req.file.path, function(result) {
     if (result.error) {
        console.log('error uploading file');
        res.render('index', {    
