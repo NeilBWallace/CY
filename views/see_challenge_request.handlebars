@@ -1,124 +1,21 @@
 
 
-<head>
-<meta charset="UTF-8">
-<title>HTML 5, CSS 3, jQuery Log-in & Registration</title>
-<link href='http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-
-
-<script>
-$(document).ready(function() {
+  <body class="home_page_top">
 
 
 
-
- $("#cc").click(function() {
-
-
-
-
-var k =$('#ch').val();
-
-var fr="";
-$('input[type=checkbox]').each(function () {
-           if (this.checked) {
-               fr=fr + $(this).val() + ";"; 
-           }
-});
-$('#fr').val(fr);
- $("#submit_button").click();
- });
-
-
-    $("a").click(function() {
-         var a= $(this).data('index');
-
- $('input[type=checkbox]').each(function () {
-          $(this).prop('checked',false);
-                    $(this).prop('disabled', false);
-      
- });
-
-
-
-$("#w").find('a').each(function(){
-   
-var bc= $(this).attr('data-index' );
-
-      if(a == bc){
-    var done= $(this).attr('class');
-      
-  $('input[type=checkbox]').each(function () {
-    //  this.prop('checked', true);
-               if (done== this.id) {
-
-                $(this).prop('disabled', true);
-              
-               }
-           //     });
-
-
-
-         //  }
-  });
-      }
-
-});
-
-      $("div.fc3 a").css("background-color", "blue");
-           $(this).css("background-color", "yellow");
-    var a= $(this).data('index');
-    
-    var bb=$(this).text();
-    
-      var b = "<ziggeoplayer ziggeo-width='300' ziggeo-video=" + a + "></ziggeoplayer>";
- $('#zp').html(b);
-  $("#ch").val(bb);
- $("#challenge_id").val(a);
-
-    });
-});
-</script>
-
-</head>
-
-<body class="home_page_top"  >
-
-     <div class="fc">
-         <div class="fc3" style="background-color:white">
-             Choose Challenge
-
-           
-    {{#each k}}
-    
-                          <div id="d"><p> <a  data-index="{{id}}"> View {{challenge}} </a><a href='/accept_challenge/{{id}}'>Accept Challenge</a> <a href='/reject_challenge/{{id}}'>Reject Challenge</a> <a href='/challenge_completed/{{id}}'>Challenge Completed</a> </p></div>
-                   <!--
-                              <span> <a name='challenge' id={{id}} class="btn" href="/view_video2/{{id}}">  {{challenge}} </a></span>
-                       -->
+            <div class="middle-container container">
+                <div class="menu-box block"> 
+                    <h2 class="titular">You have been challenged</h2>
+                            
+                    <ul class="menu-box-menu">
+                       {{#each challenges}}
+         
+                       <li class="menu-box-tab">
+                          {{status}}    <span>        <a href="/see_c/{{id}}" class="btn btn-xs btn-warning">View Challenge</a> </span>
+                          </li>
                        {{/each}}
-
-
-         </div>
-   
-
-
-
-
-   <div class="fc3" >
-       <div >
-       <form action="/challenge_folks" method="post" style="display:none">
-     <div> <input  name="ch" type="text" id="ch" style="color:Black"/></div>
-     <div>  <input name="fr" type="text" id="fr" style="color:Black"/></div>
-         <div>  <input name="challenge_id" type="text" id="challenge_id" style="color:Black"/></div>
-       <button type="submit" id="submit_button">Submit</button>
-        </form>
-    </div>
-<div id="zp">
-
-
-</div>
-
-   </div>
-
-        </div>
+                    </ul>
+                </div>
+             </div>
 </body>

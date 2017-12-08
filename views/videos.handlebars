@@ -1,151 +1,227 @@
 
-
+<!doctype html>
+<html >
 <head>
 <meta charset="UTF-8">
 <title>HTML 5, CSS 3, jQuery Log-in & Registration</title>
-<link href='http://fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
 
+<style>
+    .f{
+        display:flex;
+    }
+    .b{
+        box-sizing:border-box;
+        flex:1;
+    }
+     .bb{
+        box-sizing:border-box;
+        flex:2;
+    }
+
+/*Style for menu links*/
+.b li a {
+    display:block;
+    min-width:140px;
+  
+    text-align: center;
+   
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #fff;
+    background: #2f3036;
+    text-decoration: none;
+}
+/*Hover state for top level links*/
+.b li:hover a {
+    background: #19c589;
+}
+
+/*Hover state for top level links*/
+.b li:active a {
+   
+}
+
+/*Style for dropdown links*/
+.b li:hover ul a {
+    background: #f3f3f3;
+    color: #2f3036;
+    height: 40px;
+    line-height: 40px;
+}
+/*Hover state for dropdown links*/
+,b li:hover ul a:hover {
+    background: #19c589;
+    color: #fff;
+}
+
+
+</style>
 
 <script>
 $(document).ready(function() {
 
+        $("#cc").click(function() 
+          {
+            var k =$('#ch').val();
+             var fr="";
+             $('input[type=checkbox]').each(function () {
+                if (this.checked) {
+                    fr=fr + $(this).val() + ";"; 
+                 }
+              });
+            
+              $('#fr2').val(fr);
+              $("#submit_button").click();
+            });
 
 
-
- $("#cc").click(function() {
-
-
-
-
-var k =$('#ch').val();
-
-var fr="";
-$('input[type=checkbox]').each(function () {
-           if (this.checked) {
-               fr=fr + $(this).val() + ";"; 
-           }
-});
-$('#fr').val(fr);
- $("#submit_button").click();
- });
-
-
-    $("a").click(function() {
-         var a= $(this).data('index');
-
- $('input[type=checkbox]').each(function () {
-          $(this).prop('checked',false);
-                    $(this).prop('disabled', false);
-      
- });
-
-
-
-$("#w").find('a').each(function(){
-   
-var bc= $(this).attr('data-index' );
-
-      if(a == bc){
-    var done= $(this).attr('class');
-      
-  $('input[type=checkbox]').each(function () {
-    //  this.prop('checked', true);
-               if (done== this.id) {
-
-                $(this).prop('disabled', true);
-              
-               }
-           //     });
-
-
-
-         //  }
+ $("#d a").click(function() {
+  
+  $("#d").find('a').each(function(){   
+  $(this).css("background-color", "white");
   });
-      }
 
-});
+  $('input[type=checkbox]').each(function () {
+          $(this).prop('checked',false);
+          $(this).prop('disabled', false);
+         });
 
-      $("div.fc3 a").css("background-color", "blue");
-           $(this).css("background-color", "yellow");
-    var a= $(this).data('index');
-    
-    var bb=$(this).text();
-    
-      var b = "<ziggeoplayer ziggeo-width='300' ziggeo-video=" + a + "></ziggeoplayer>";
- $('#zp').html(b);
-  $("#ch").val(bb);
- $("#challenge_id").val(a);
+var a= $(this).data('index');
 
+  $("#w").find('a').each(function(){   
+
+
+        var bc= $(this).attr('data-index' );
+        if(a == bc){
+            var done= $(this).attr('class');
+            $('input[type=checkbox]').each(function () {
+             //  this.prop('checked', true);
+             if (done== this.id) {
+                $(this).prop('disabled', true);
+               }
+          });
+        };
+      });
+
+         $("#fr").show();
+
+
+        var bb=$(this).text();
+      var b = "<ziggeoplayer ziggeo-width='300' ziggeo-height='300' ziggeo-video=" + a + "></ziggeoplayer>";
+        $('#zp').html(b);
+        $("#ch").val(bb);
+        $("#challenge_id").val(a);
+        
     });
+ 
+    $("#loginLink").click(function( event ){
+           event.preventDefault();
+           $(".overlay").fadeToggle("fast");
+     });
+     
+    $(".overlayLink").click(function(event){
+        event.preventDefault();
+        var action = $(this).attr('data-action');
+         
+        $("#loginTarget").load("ajax/" + action);
+         
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(".close").click(function(){
+        $(".overlay").fadeToggle("fast");
+    });
+     
+    $(document).keyup(function(e) {
+        if(e.keyCode == 27 && $(".overlay").css("display") != "none" ) { 
+            event.preventDefault();
+            $(".overlay").fadeToggle("fast");
+        }
+    });
+
+
+
 });
 </script>
-
 </head>
  
 <body class="home_page_top"  >
-<button id="cc" style="height:50px;background-color:red">Challenge!</button>
 
-     <div class="fc">
-         <div class="fc3" style="background-color:white">
-             Choose Challenge
-    {{#each videos}}
-    
-                          <div id="d"><p> <a  data-index="{{id}}"   class="{{challenge}}">  {{challenge}} </a></p></div>
+
+<div class="overlay" style="">
+    <div class="login-wrapper" style="height:250px;width:800px">
+        <div class="login-content" id="loginTarget">
+       <!--
+            <a HREF="javascript:history.back()" class="close">x</a>
+      -->
+
+
+                  <div class="f">
+                     
+                     <div class="b" style="overflow: scroll;height:250px">
+                         <h2> My Challenges</h2>
+                         <ul id="menu">
+                          {{#each videos}}
+                                             
+                         <li><div id="d"> <a  data-index="{{id}}"   class="{{challenge}}">  {{challenge}} </a></div></li>
                    <!--
                               <span> <a name='challenge' id={{id}} class="btn" href="/view_video2/{{id}}">  {{challenge}} </a></span>
                        -->
                        {{/each}}
+                         </ul>
+                         
+                         </div>
+                    <div id="zp" class="bb" style="height:250px;background-color:black;padding:5px;margin-right:5px"> 
+                      
+
+                        
+                        </div>
+                    <div id="fr" class="b">
+
+                                    Challenge Friend
+                                     <ul id="menu">
+                                    {{#each friend_request}}
+                                    <li>
+                                    <a><input type="checkbox" id={{this}} name="subscribe" value={{this}}>
+                                        <label for={{this}}>{{this}}</label></a>
+                                    </li>
+                                    {{/each}}
+                                    </ul>
+
+  <div class="f">
+                     <div class="b"></div>
+                     <div class="b" style="text-align:center;margin:10px;">
+                      <button style="color:white;background-color: #19c589" class="pulse-button" id="cc" >Challenge!</button>
+                      <button type="button" onclick="javascript:history.back()">Back</button>
+                  
+                      </div>
+                        <div class="b"></div>
+                  </div>
+
+                            </div>
 
 
-         </div>
-   
 
-    <div class="f2">
- <div style="background-color:white" >
-Challenge Friend
+
+                   </div>
+
+              
+               
+
+             
+      </div>
+                
+</div>
+
+
+  <form action="/challenge_folks" method="post" style="display:none">
+     <div> <input  name="ch" type="text" id="ch" style="color:Black"/></div>
+     <div>  <input name="fr2" type="text" id="fr2" style="color:Black"/></div>
+         <div>  <input name="challenge_id" type="text" id="challenge_id" style="color:Black"/></div>
+       <button type="submit" id="submit_button">Submit</button>
+        </form>
+
 <div id="w" style="display:none">
 {{#each wh}}
 <a data-index={{id}} class="{{challenged}}">{{id}}{{challenged}}</a>
 {{/each}}
 </div>
-{{#each friend_request}}
-
-<p><input type="checkbox" id={{this}} name="subscribe" value={{this}}>
-    <label for={{this}}>{{this}}</label>
-</p>
-{{/each}}
-    </div>
-</div>
-
-
-
-   <div class="fc3" >
-       <div >
-       <form action="/challenge_folks" method="post" style="display:none">
-     <div> <input  name="ch" type="text" id="ch" style="color:Black"/></div>
-     <div>  <input name="fr" type="text" id="fr" style="color:Black"/></div>
-         <div>  <input name="challenge_id" type="text" id="challenge_id" style="color:Black"/></div>
-       <button type="submit" id="submit_button">Submit</button>
-        </form>
-    </div>
-<div id="zp">
-
-
-</div>
-
-   </div>
-
-
-
-        </div>
-
-
-       
-
-
-
-
-
-
-
-</body>
