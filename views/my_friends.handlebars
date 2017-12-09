@@ -1,10 +1,11 @@
 
   <style type="text/css">
-.home_page_top {
-    background-image: url('../purple_background.png');
-   background-repeat: no-repeat;
-   background-size:100%;
-
+html { 
+background: url(../home_page_top.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .c{
@@ -31,20 +32,28 @@
 }
 </style>
  
+<html>
+  <body>
 
-  <body class="home_page_top">
-       <div class="box1">
-      <h1 style="text-align:center">My Friends</h1>
-      </div>
-                              <div class="c">
+<div class="overlay" >
+    <div class="login-wrapper">
+        <div class="login-content" id="loginTarget">
+            <a HREF="javascript:history.back()" class="close">x</a>
+   
+                        <H1> My Friends </H1>
 
                         {{#each myfriends}}
-                    <div class="box1">
-                             <img height="50px" src='{{pic}}'/>
-                             <div style="text-align:center"><a href='/browse_profile/{{username}}'>{{username}}</a></div>
-                         </div>
+                          <div> <img height="50px" src='{{pic}}'/><a href='/browse_profile/{{username}}'>{{username}}</a></div>
                        {{/each}}
                                 
-                </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+                
            
 </body>
+</html>

@@ -200,7 +200,7 @@ router.get('/my_friends', (req, res) => {
     Friends.find({"friend":req.user.username,status:"are now friends!"},function(err,buddies1)
     {
 
-       
+      
 
 
         Friends.find({"user":req.user.username,status:"are now friends!"},function(err,buddies2)
@@ -208,11 +208,17 @@ router.get('/my_friends', (req, res) => {
             var a =[];
             buddies2.forEach(function(child){
                 console.log("users" + child.user);
+                if(child.user != req.session.username)
+                {
                 a.push(child.user);
+                };
                });
             buddies1.forEach(function(child){
                 console.log("users" + child.user);
+                if(child.user != req.session.username)
+                {
                 a.push(child.user);
+                };
                });
             User.find( { "username" :  { $in : a } }, function(err,u)
               {
@@ -314,7 +320,17 @@ router.get('/see_accepted_challenges', ensureAuthenticated, function(req, res){
 
  c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
     
-   
+    var challenger=[];
+    a.forEach(function(child){
+         challenger.push(child.challenger);
+    });
+
+
+console.log('www' + challenger);
+User.find( { username : challenger  },function(err, challengers) {
+              
+
+
     var b =[];
     a.forEach(function(child){
         console.log("users" + child.id);
@@ -338,11 +354,12 @@ console.log('9999' +b);
             Challenge:req.session.challenges,
             pic:req.session.pic,
             friend_request:req.session.friends,
-            k:u
+            k:u,
+            challenger:challengers
        });
  //       });      
         });
-   /// });
+     });
     });
     });
 
@@ -395,10 +412,23 @@ console.log('9999' +b);
 router.get('/see_challenge_request', ensureAuthenticated, function(req, res){
     
 
-
- c.find({"status":"Challenge made","challenged":req.session.username},function(err, a) {
+       
+        c.find({"status":"Challenge made","challenged":req.session.username},function(err, a) {
     
-   
+           var challenger=[];
+            a.forEach(function(child){
+                 challenger.push(child.challenger);
+            });
+
+
+        console.log('www' + challenger);
+       User.find( { username : challenger  },function(err, challengers) {
+              
+
+
+
+
+              console.log('challenger' + challengers);
     var b =[];
     a.forEach(function(child){
         console.log("users" + child.id);
@@ -411,7 +441,7 @@ console.log('9999' +b);
      
 
 
-  
+        
  //   c.find({"challenged":req.session.username},{"status":"Challenge made"},function(err,c)
  ///   {
  //       console.log('qqq' + c);
@@ -422,12 +452,13 @@ console.log('9999' +b);
             Challenge:req.session.challenges,
             pic:req.session.pic,
             friend_request:req.session.friends,
-            k:u
+            k:u,
+            challenger:challengers
        });
- //       });      
+        });      
         });
-   /// });
     });
+    
     });
 
    router.get('/see_c/:id', ensureAuthenticated, function(req, res){
@@ -563,12 +594,12 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                     });
               
                   
-                    router.get('/reject_challenge/:id', ensureAuthenticated, function(req, res){
+                    router.post('/reject_challenge', ensureAuthenticated, function(req, res){
                         
                   
                 
                 
-                    c.findOne({challenged: req.session.username,id:req.params.id},function(err,foundObject)
+                    c.findOne({challenged: req.session.username,id:req.body.reject_id},function(err,foundObject)
                     {
                         if(err)
                         {
@@ -594,13 +625,13 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                 
                 
                 
-                  
-  router.get('/accept_challenge/:id', ensureAuthenticated, function(req, res){
+         
+  router.post('/accept_challenge', ensureAuthenticated, function(req, res){
         
   
 
 
-    c.findOne({challenged: req.session.username,id:req.params.id},function(err,foundObject)
+    c.findOne({challenged: req.session.username,id:req.body.challenge_id},function(err,foundObject)
     {
         if(err)
         {
