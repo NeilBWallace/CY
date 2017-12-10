@@ -1,5 +1,5 @@
 
-<body class="home_page_top">
+<body>
 
      <div class="flex-container">
 
@@ -11,13 +11,12 @@
            
         
          <div class="box-34" style="background-color:white">
+           <h1>Friend Request</h1>
                                {{#each friend}}
                        <li class="menu-box-tab">
                               <span>        
    <a class="btn btn-xs btn-warning" href="/browse_profile/{{this.user}}">View  </a>{{this.user}}  is requesting to be your friend 
-   <a href="/make_friends/{{this.user}}" class="btn btn-xs btn-warning">Accept</a>
-   <a href="/reject_friends" class="btn btn-xs btn-warning">Reject</a>
-        </span>
+          </span>
                           </li>
                        {{/each}}
       

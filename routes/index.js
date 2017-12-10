@@ -46,6 +46,84 @@ function edit_profile(req,res){
 }
 
 
+
+function browse_profile(req,res,id){
+    var already_friends="";
+    accrej=req.session.accrej;
+    var a=[];
+     Friends.find({"friend":id,status:"are now friends!"},function(err,buddies1)
+    {
+        buddies1.forEach(function(child){
+            console.log("users1" + child.user);
+            if(req.user.username != child.user)
+            {        
+            a.push(child.user);
+            }
+           });
+       console.log("b1" +buddies1);
+              if (buddies1.length>0)
+              {
+                  already_friends="One of your friends!";
+              };
+      
+        Friends.find({"user":id,status:"are now friends!"},function(err,buddies2)
+        {
+
+               
+            buddies2.forEach(function(child){
+                console.log("users2" + child.friend);
+               if(req.user.username != child.friend)
+               {
+                a.push(child.friend);
+               }
+               });
+            if (buddies2.length>0)
+            {
+                already_friends="One of your friends!";
+            };
+            console.log('already friends' + already_friends);
+            c.find({"challenged":id,"status":"Challenge completed"},function(err,cp)
+            {
+        
+            c.find({"challenged":id,"status":"Challenge made"},function(err,ch)
+            {
+             
+               
+               c.find({"challenged":id,"status":"Challenge accepted"},function(err,ca){
+          		User.find({"username":id},function(err, arrayOfUsers) {
+			
+				res.render('browse_profile', {
+                    Buddies:a,
+                    friend: arrayOfUsers,
+                    user: req.user,
+                    Challenge:req.session.challenges,
+                    pic:req.session.pic,
+                    friend_request:req.session.friends,
+                    already_friends:already_friends,
+                    challengesaccepted:ca,
+                    challengescompleted:cp,
+                    accrej:accrej
+                });
+			});
+			});
+		});
+    });
+});
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 function home_page(req,res){
     Hobby.find(function(err, hobbies) {
         User.findOne({username:req.user.username},function(err,u){
@@ -58,26 +136,28 @@ function home_page(req,res){
                req.session.group2=u.group2;
                req.session.group3=u.group3;
 
-
+               var a =[];
                Friends.find({"friend":req.user.username,status:"are now friends!"},function(err,buddies1)
                {
+                buddies1.forEach(function(child){
+                    console.log("users1" + child.user);
+                    if(req.user.username != child.user)
+                    {        
+                    a.push(child.user);
+                    }
+                   });
+
                    Friends.find({"user":req.user.username,status:"are now friends!"},function(err,buddies2)
                    {
-                       var a =[];
+                      
                        buddies2.forEach(function(child){
-                           console.log("users" + child.user);
-                          if(req.user.username != child.user)
+                           console.log("users2" + child.friend);
+                          if(req.user.username != child.friend)
                           {
-                           a.push(child.user);
+                           a.push(child.friend);
                           }
                           });
-                       buddies1.forEach(function(child){
-                           console.log("users" + child.user);
-                           if(req.user.username != child.user)
-                           {        
-                           a.push(child.user);
-                           }
-                          });
+                    
                 req.session.made_buddies=a;
                   console.log('ll' + a);
                    Friends.find({"friend":req.user.username,status:"is requesting to be your friend!"},function(err,fr)
@@ -207,10 +287,10 @@ router.get('/my_friends', (req, res) => {
         {
             var a =[];
             buddies2.forEach(function(child){
-                console.log("users" + child.user);
-                if(child.user != req.session.username)
+                console.log("users" + child.friend);
+                if(child.friend != req.session.username)
                 {
-                a.push(child.user);
+                a.push(child.friend);
                 };
                });
             buddies1.forEach(function(child){
@@ -363,15 +443,23 @@ console.log('9999' +b);
     });
     });
 
-
-
     router.get('/see_completed_challenges', ensureAuthenticated, function(req, res){
         
     
     
-     c.find({"status":"Challenge completed","challenged":req.session.username},function(err, a) {
+     c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
         
-       
+        var challenger=[];
+        a.forEach(function(child){
+             challenger.push(child.challenger);
+        });
+    
+    
+    console.log('www' + challenger);
+    User.find( { username : challenger  },function(err, challengers) {
+                  
+    
+    
         var b =[];
         a.forEach(function(child){
             console.log("users" + child.id);
@@ -395,13 +483,16 @@ console.log('9999' +b);
                 Challenge:req.session.challenges,
                 pic:req.session.pic,
                 friend_request:req.session.friends,
-                k:u
+                k:u,
+                challenger:challengers
            });
      //       });      
             });
-       /// });
+         });
         });
         });
+    
+    
     
     
 
@@ -493,24 +584,25 @@ router.get ('/view_challenge/:id', function (req, res){
      		});
         });
 
+        
+    
+
+
+
+router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
+    
+          var id =req.params.id;
+          browse_profile(req,res,id);
+            });
+
 router.post('/browse_profile', ensureAuthenticated,function (req, res){
 
 //	console.log('Getting friends');
-	//
-			User.find({"username":req.body.q},function(err, arrayOfUsers) {
-			   console.log('users' + arrayOfUsers)
-			
-				res.render('browse_profile', {
-                    friend: arrayOfUsers,
-                    user: req.user,
-                    Challenge:req.session.challenges,
-                    pic:req.session.pic,
-                    friend_request:req.session.friends 
-                    
-			});
-			});
-		});
-    
+    //
+    var id = req.body.q
+    browse_profile(req,res,id);
+  
+});
         router.get ('/view_video2/:id',ensureAuthenticated ,function (req, res){
             console.log('view video2' + req.session.friends);
             req.session.token=req.params.id;
@@ -544,31 +636,7 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
                      });
                     });
 
-
-        router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
-            
-         	console.log('Getting friends');
-                //
-                        User.find({"username":req.params.id},function(err, arrayOfUsers) {
-                           console.log('users' + arrayOfUsers)
-                        
-                            res.render('browse_profile', {
-                                friend: arrayOfUsers,
-                                viewing_friend_requester:1,
-                                user: req.user,
-                                Challenge:req.session.challenges,
-                                pic:req.session.pic,
-                                friend_request:req.session.friends 
-                        });
-                        });
-                    });
-
-
-
                     router.get('/challenge_completed/:id', ensureAuthenticated, function(req, res){
-                        
-                  
-                
                 
                     c.findOne({challenged: req.session.username,id:req.params.id},function(err,foundObject)
                     {
@@ -742,39 +810,6 @@ router.get ('/videos',ensureAuthenticated, function (req, res){
             });
 });
 });
-
-//router.get ('/videos',ensureAuthenticated, function (req, res){
-	
-	
-
-  //  ZiggeoSdk.Videos.index ({tags:req.user.username}, {
- //       success: function (index) {
-	             // console.log(index);
-
-	//		res.render('videos', {
-      //          ziggeo_api_token: 'r1e4a85dd1e7c33391c1514d6803b975',
-   //             page_title: 'Challenge You All Videos',
-   //             need_ziggeo: 1,
-   //             videos: index,
-   //             user: req.user,
-   //             Challenge:req.session.challenges,
-   //             pic:req.session.pic,
-   //             friend_request:req.session.friends,
-   //             user: req.user,
-   //             Challenge:req.session.challenges,
-   //             pic:req.session.pic,
-   //             friend_request:req.session.friends 
-   //         })
-   //         return true;
-   //     },
-   //     failure: function (args, error) {
-   //         console.log("failed: " + error);
-   //         renderError(1)
-   //         return false;
-   //     }
-//    });
-//});
-
 router.get ('/video/:videoId', function (req, res){
     var video_id = req.params.videoId
     res.render ('video',{
@@ -915,6 +950,7 @@ router.get ('/download-video/:videoId', function (req, res){
 
 router.get ('/download-image/:videoId', function (req, res){
     var video_id = req.params.videoId
+    
     ZiggeoSdk.Videos.download_image(video_id, function(data){
         var file_name = 'temp_video/'+video_id+'.jpg';
         Fs.writeFile(file_name, data, function(err){
@@ -1234,27 +1270,6 @@ router.get('/find_friends', (req, res) => {
   
   });
   
-  
-
-
-//
-//router.get ('/find_friends', function (req, res){
-//        console.log('Find friends');
-//		find_friends(res);
-//     		});
-
-//router.get ('/friends', function (req, res){
-
-//	console.log('Getting friends');
-	//
-	//		User.find(function(err, arrayOfUsers) {
-	//		   console.log('users' + arrayOfUsers)
-			
-	//			res.render('friends', {
-	//				friends: arrayOfUsers
-//				});
-//			});
-//		});
 	
 
 	
@@ -1567,54 +1582,6 @@ router.post('/upload_user_profile',ensureAuthenticated,upload.single('image'), (
     });
     });
 
-//console.log('attempting upload');  
- //   upload(req, res, (err) => {
- //     if(err){
- //       res.render('index', {
- //         msg: err
- //       });
- //     } else {
-  //      if(req.file == undefined){
-  //        res.render('edit_profile', {
-  //          msg: 'Error: No File Selected!'
-  //        });
-  //      } else {
-
-  //          User.findOne({_id: req.user._id},function(err,foundObject)
-  //          {
-  //                  if(err)
-  //                  {
-  //                      console.log(err);
-  //                  }else
-  //                  {
-  //                      console.log(foundObject);
-  //                      foundObject.pic=req.file.filename
-  //                      foundObject.save(function(err,updatedObject){
-  //                          if(err){
-  //                              console.log(err);
-  //                              res.status(500).send();
-  //                          }else
-  //                          {
-  //                              console.log(updatedObject);
-                      
-    //                        }
- //                                     });
-///
-   //                 }
-     //       });
-
-
-
-
-//          res.render('edit_profile', {
-//            msg: 'File Uploaded!',
-//            file: `uploads/${req.file.filename}`
-//          });
-//        }
-//      }
-//    });
-//  });
-  
 
 
 

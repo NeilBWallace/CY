@@ -17,11 +17,18 @@ display: flex;
 -ms-flex-align: center;
 -webkit-align-items: center;
 align-items: center;
+
+
+   
+
+
 }
 .b0,.b1,.b4{
     flex:1;
    font-size:10px;
    text-align:center;
+
+
 }
 .b2{
     flex:2;
@@ -35,14 +42,51 @@ width:40px;
 }
 </style>
 
-<body class="home_page_top">
+
+<script>
+$(document).ready(function() {
+
+$('#send_request').hide();
+$('#make_friends').hide();
+$('#reject_friends').hide();
+
+ var ca=$('#ca').attr('class');
+
+ $('#caa').text(ca);
+
+ var cc=$('#cc').attr('class');
+ $('#ccc').text(cc);
+
+
+var s=$('#already_friend').attr('class');
+
+if( s=='One of your friends!')
+{
+  $('#already_friends').show();
+
+}else
+{
+$('#send_request').show();
+};
+
+
+
+
+
+});
+
+
+  </script>
+
+
+<body>
 
 
 <div class="fc">
   <div class='b0'></div>
   <div class='b1'></div>
   <div class='b2'>
-         
+        
 
  
   </div>
@@ -54,17 +98,27 @@ width:40px;
 
 <div class="fc">
   <div class='b0'></div>
-  <div class='b1'></div>
+  <div class='b1'>
+         
+
+  </div>
   <div class='b2'>
-    {{#each friend}}
+           <button style="display:none" id="already_friend" class="{{already_friends}}">{{already_friends}}</button>
+   
  <div class="fc">
      <div class='b2'>
+       
+       {{#each friend}}
 <div class="profile-picture big-profile-picture clear">  
-         <img width="80px" alt="picture" src="{{pic}}" />
+          <img width="80px" alt="picture" src="{{pic}}" />
         </div>
      </div>
         <div class='b2'>
-<h1 class="user-name">  {{username}}</a>
+<h1 class="user-name">  <a style="" href="../edit_profile">{{username}}</a></h1>
+      <a href="/request_make_friends/{{username}}" id="send_request">Send Friend Request</a>
+    <a id="make_friends" href="/make_friends/{{username}}" class="btn btn-xs btn-warning">Accept</a>
+   <a id="reject_friends" href="/reject_friends" class="btn btn-xs btn-warning">Reject</a>
+
      </div>
  </div>
   </div>
@@ -102,12 +156,12 @@ width:40px;
           </div>
            <div class="fc1" >
             <div class="b0" style="background-color:white">
-       
+        
            </div>     
-           <div class="b0" style="background-color:white">
+           <div id="ccc" class="b0" style="background-color:white">
           {{challengescompleted.length}}
            </div>
-           <div class="b0" style="background-color:white">
+           <div id="caa" class="b0" style="background-color:white">
          {{challengesaccepted.length}}
            </div>
           </div>
@@ -118,7 +172,6 @@ width:40px;
 
 <div class="fc">
  <div class='b0'></div>
- 
   <div class='b1'></div>
     <div class='b2'>
         <div class="fc1" >
@@ -138,15 +191,16 @@ width:40px;
     
            </div>     
            <div class="b0" style="background-color:white">
-           <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div>
+          <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div>
            </div>
            <div class="b0" style="background-color:white">
-               <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div>
+             <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div>
            </div>
           </div>
            <div class="fc1" >
             <div class="b0" style="background-color:white">
-             <a href="/my_friends"> {{Buddies.length}}</a>
+              {{/each}}
+             {{Buddies.length}}
     
              
            </div>     
@@ -171,10 +225,9 @@ width:40px;
 
      <div class="fc1" >
             <div class="b0">
-             <a  href="/request_make_friends/{{id}}">Send Friend Request</a>
-            </div>
+               </div>
                <div class="b0">
-            </div>
+               </div>
      </div>
      
                        
@@ -182,7 +235,13 @@ width:40px;
 <div class='b3' style="background-color:#57DF0C;border-bottom-right-radius:10px;" >  </div>
   <div class='b4'></div>
 </div>
+ <div id="cca" class="{{challengescompleted.length}}" style="background-color:white;display:none">
+      
 
-
-
-</body> {{/each}}
+        <div id="cc" class="{{challengescompleted.length}}" style="background-color:white;display:none">
+          
+           </div>
+           <div id="ca" class="{{challengesaccepted.length}}" style="background-color:white;display:none">
+        
+           </div>
+</body>

@@ -342,4 +342,10 @@ h1, h2, p, a, span{
 								text-decoration: none;
 								background: #50597b;
 							}
-				
+							html { 
+								background: url(../background2.jpg) no-repeat center center fixed; 
+								  -webkit-background-size: cover;
+								  -moz-background-size: cover;
+								  -o-background-size: cover;
+								  background-size: cover;
+								}

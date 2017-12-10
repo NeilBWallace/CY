@@ -62,7 +62,7 @@ $(document).ready(function() {
 </script>
 </head>
  
-<body class="home_page_top"  >
+<body   >
 
 <div style="display:none">
  <form action="/save_challenge" method="post">
@@ -72,18 +72,17 @@ $(document).ready(function() {
 </form>
 </div>
 
-<div class="overlay2" style="display: none;">
-   <div class="login-wrapper2">
+<div class="overlay2" style="display: none; ">
+   <div class="login-wrapper2" style="background-color:white;">
+       <div><a HREF="javascript:history.back()" class="close">x</a></div>
+     <div>  <input    style ="border:none;text-align:center;font-size:20px;" disabled id="input_recorder"/></div>
+ 
         <ziggeorecorder ziggeo-theme="modern" ziggeo-width="300"  ziggeo-height="300" id="recorder"></ziggeorecorder>
     
 
-        <div class="login-content2" id="loginTarget2">
-    
-  <input disabled id="input_recorder"/>
-     <div>  
+     
        
-          <form> 
-           </form>
+         
            </div>
            </div>
            </div>
@@ -93,8 +92,8 @@ $(document).ready(function() {
 
 
 <div class="overlay" style="display: none;">
-    <div class="login-wrapper">
-        <div class="login-content" id="loginTarget">
+    <div class="login-wrapper" style="background-color:white">
+        <div style="background-color:white" class="login-content" id="loginTarget">
             <a HREF="javascript:history.back()" class="close">x</a>
     <form>
         
