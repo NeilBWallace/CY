@@ -45,11 +45,34 @@ function edit_profile(req,res){
     
 }
 
+router.get('/browse_profile2/:id', ensureAuthenticated,function (req, res){
+    
+           console.log('broswe profile2');
+          var id =req.params.id;
+          browse_profile(req,res,id,"1");
+            });    
 
 
-function browse_profile(req,res,id){
+router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
+
+  var id =req.params.id;
+  browse_profile(req,res,id,"0");
+    });
+
+router.post('/browse_profile', ensureAuthenticated,function (req, res){
+
+//	console.log('Getting friends');
+//
+var id = req.body.q
+console.log('id' + id);
+browse_profile(req,res,id,"0");
+
+});
+
+function browse_profile(req,res,id,accrej){
     var already_friends="";
-    accrej=req.session.accrej;
+ 
+    console.log('accrej' + accrej);
     var a=[];
      Friends.find({"friend":id,status:"are now friends!"},function(err,buddies1)
     {
@@ -584,25 +607,10 @@ router.get ('/view_challenge/:id', function (req, res){
      		});
         });
 
-        
-    
 
 
-
-router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
-    
-          var id =req.params.id;
-          browse_profile(req,res,id);
-            });
-
-router.post('/browse_profile', ensureAuthenticated,function (req, res){
-
-//	console.log('Getting friends');
-    //
-    var id = req.body.q
-    browse_profile(req,res,id);
-  
-});
+       
+   
         router.get ('/view_video2/:id',ensureAuthenticated ,function (req, res){
             console.log('view video2' + req.session.friends);
             req.session.token=req.params.id;
@@ -1122,9 +1130,6 @@ function challengefriend(req,res){
                         }else
                         {
 
-                            
-
-
                             console.log(foundObject);
                             foundObject.status="are now friends!"
                             foundObject.save(function(err,updatedObject){
@@ -1140,14 +1145,39 @@ function challengefriend(req,res){
                                           });
 
                         }
-                });
-
-
-         
+                });         
                         });
 
 
 
+                        router.get ('/reject_friends/:id', function (req, res){
+                            
+                                    console.log('rejected friends' + req.params.id) ;
+                               Friends.findOne({user: req.params.id},function(err,foundObject)
+                                {
+                                        if(err)
+                                        {
+                                        }else
+                                        {
+                
+                                            console.log(foundObject);
+                                            foundObject.status="rejected friendship"
+                                            foundObject.save(function(err,updatedObject){
+                                                if(err){
+                                                    console.log("1111" +err);
+                                                    res.status(500).send();
+                                            }else
+                                                
+                                            {
+                                                    home_page(req,res);
+                
+                                                }
+                                                          });
+                
+                                        }
+                                });         
+                                        });
+                
 
 router.post('/search', (req, res) => {
      consoloe.log("sdfsdfs" + req);

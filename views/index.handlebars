@@ -28,6 +28,12 @@ align-items: center;
     background:white;
    text-align:center;
 }
+
+.b22{
+    flex:2;
+    background:white;
+   text-align:center;
+}
 .b3{
  background:white;
 box-sizing: border-box;
@@ -42,15 +48,27 @@ width:40px;
   <div class='b0'></div>
   <div class='b1'></div>
   <div class='b2'>
-      <form id="search" action="/browse_profile" method="post" class="form-inline">
-                   <span>
-                        <button style="background-color:white;border:none;width:40px;" type="submit" > <img  style="width:40px" class="img" src="../glass.png" > </button>
-                         <input required type="text" style="width:200px" id="q" name="q" placeholder="Search...">            
-                      </span>
+   
+      <form id="search" action="/browse_profile" method="post" >
+               
+<!--
+                  <button type="submit" align="right" style="background:url(../glass.png) no-repeat;" /> 
+ -->
+ <div class="fc">
+        <div class="b1">
+                     <button  align="right" type="submit" style="height:50px;width:50px;background:url(../glass.png) no-repeat;"  /> 
+      </div>
+      <div class="b1">
+     
+                     <input  align="left" required type="text" style="width:200px" id="q" name="q" placeholder="Search...">            
+
+
+          </div>
+          </div>       
                     </form>       
 
- 
-  </div>
+        </div>
+  
   <div class='b3'>  
      <a style="" href="../edit_profile"><img class="img" src="../green_cog.png" ></a> 
 </div>
