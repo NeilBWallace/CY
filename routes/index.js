@@ -65,7 +65,7 @@ router.post('/browse_profile', ensureAuthenticated,function (req, res){
 //
 var id = req.body.q
 console.log('id' + id);
-browse_profile(req,res,id,"0");
+browse_profile(req,res,id,"2");
 
 });
 
@@ -74,6 +74,10 @@ function browse_profile(req,res,id,accrej){
  
     console.log('accrej' + accrej);
     var a=[];
+    if(accrej=="2")
+     {
+         id=req.session.username;
+     };
      Friends.find({"friend":id,status:"are now friends!"},function(err,buddies1)
     {
         buddies1.forEach(function(child){
