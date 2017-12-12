@@ -61,6 +61,7 @@ router.get('/browse_profile/:id', ensureAuthenticated,function (req, res){
 
 router.post('/browse_profile', ensureAuthenticated,function (req, res){
 
+//browsing from search function
 //	console.log('Getting friends');
 //
 var id = req.body.q
@@ -74,40 +75,82 @@ function browse_profile(req,res,id,accrej){
  
     console.log('accrej' + accrej);
     var a=[];
-    if(accrej=="2")
-     {
-         id=req.session.username;
-     };
+
+    Friends.findOne({"friend":id,"user": req.session.username,status:"rejected friendship"},function(err,rf1)
+    {   
+        console.log('rf1' + rf1);
+        if(rf1)
+      {
+            already_friends ="Friend request declined";
+       
+    };
+    Friends.findOne({"friend":req.session.username,"user":id,status:"rejected friendship"},function(err,rf2)
+    {
+        
+        if(rf2)
+        {
+       
+            already_friends ="friend request declined";
+     
+          }; 
+    Friends.findOne({"friend":id,"user": req.session.username,status:"is requesting to be your friend!"},function(err,frs1)
+    {   
+        console.log('frs1' + frs1);
+        if(frs1)
+      {
+            already_friends ="friend request sent";
+       
+    };
+    Friends.findOne({"friend":req.session.username,"user":id,status:"is requesting to be your friend!"},function(err,frs2)
+    {
+        
+        if(frs1)
+        {
+       
+            already_friends ="friend request sent";
+     
+          }; 
+    Friends.findOne({"friend":id,"user": req.session.username,status:"are now friends!"},function(err,b1)
+    {   
+        console.log('b1' + b1);
+        if(b1)
+      {
+            already_friends ="One of your friends!";
+       
+    };
+    Friends.findOne({"friend":req.session.username,"user":id,status:"are now friends!"},function(err,b2)
+    {
+        
+        if(b2)
+        {
+       
+            already_friends ="One of your friends!";
+     
+          };
      Friends.find({"friend":id,status:"are now friends!"},function(err,buddies1)
     {
+            //find the person's friends
         buddies1.forEach(function(child){
             console.log("users1" + child.user);
-            if(req.user.username != child.user)
+            if(id != child.user)
             {        
             a.push(child.user);
             }
            });
-       console.log("b1" +buddies1);
-              if (buddies1.length>0)
-              {
-                  already_friends="One of your friends!";
-              };
+     
       
         Friends.find({"user":id,status:"are now friends!"},function(err,buddies2)
         {
 
-               
+               //find the person's friends
             buddies2.forEach(function(child){
                 console.log("users2" + child.friend);
-               if(req.user.username != child.friend)
+               if(id != child.friend)
                {
                 a.push(child.friend);
                }
                });
-            if (buddies2.length>0)
-            {
-                already_friends="One of your friends!";
-            };
+         
             console.log('already friends' + already_friends);
             c.find({"challenged":id,"status":"Challenge completed"},function(err,cp)
             {
@@ -117,11 +160,12 @@ function browse_profile(req,res,id,accrej){
              
                
                c.find({"challenged":id,"status":"Challenge accepted"},function(err,ca){
-          		User.find({"username":id},function(err, arrayOfUsers) {
-			
+   
+                User.findOne({"username":id},function(err, arrayOfUsers) {
+			           console.log('user' + arrayOfUsers)
 				res.render('browse_profile', {
                     Buddies:a,
-                    friend: arrayOfUsers,
+                    us: arrayOfUsers,
                     user: req.user,
                     Challenge:req.session.challenges,
                     pic:req.session.pic,
@@ -137,7 +181,14 @@ function browse_profile(req,res,id,accrej){
     });
 });
     });
+});
+    });
+});
+    });
+});
+    });
 };
+   
 
 
 
@@ -207,7 +258,7 @@ function home_page(req,res){
                               {
                                     pic:req.user.pic,
                                     username: req.user.username,
-                                    friend_request:fr,
+                                    friend_request:req.session.friends,
                                     Challenge:req.session.challenges,
                                     Buddies:a,
                                     hobby1: req.session.hobby1,
@@ -266,7 +317,17 @@ router.post('/update_location', (req, res) => {
                     }else
                     {
                      req.session.location=req.body.location;                      
-                      home_page(req,res);
+           
+              req.session.group1=req.body.group1;
+               req.session.group2=req.body.group2;
+                req.session.group3=req.body.group3;
+                req.session.hobby1=req.body.hobby1;
+                req.session.hobby2=req.body.hobby2;
+               req.session.hobby3=req.body.hobby3;
+                     
+                     
+                     
+                     edit_profile(req,res);
 
                     }
                               });
@@ -474,7 +535,7 @@ console.log('9999' +b);
         
     
     
-     c.find({"status":"Challenge accepted","challenged":req.session.username},function(err, a) {
+     c.find({"status":"Challenge completed","challenged":req.session.username},function(err, a) {
         
         var challenger=[];
         a.forEach(function(child){
@@ -648,7 +709,7 @@ router.get ('/view_challenge/:id', function (req, res){
                      });
                     });
 
-                    router.get('/challenge_completed/:id', ensureAuthenticated, function(req, res){
+                    router.get('/challenge_completed', ensureAuthenticated, function(req, res){
                 
                     c.findOne({challenged: req.session.username,id:req.params.id},function(err,foundObject)
                     {
@@ -703,7 +764,34 @@ router.get ('/view_challenge/:id', function (req, res){
                     });
                 
                 
+                    router.post('/complete_challenge', ensureAuthenticated, function(req, res){
+                        
+                  
                 
+                
+                    c.findOne({challenged: req.session.username,id:req.body.complete_id},function(err,foundObject)
+                    {
+                        if(err)
+                        {
+                            console.log("Challenge Completed" + err);
+                        }else
+                        {
+                            console.log("object found:" + foundObject);
+                            foundObject.status="Challenge completed";
+                                foundObject.save(function(err,updatedObject){
+                                if(err){
+                                    console.log(err);
+                                    res.status(500).send();
+                                }else
+                                {
+                                    home_page(req,res);
+                                    }
+                                          });
+                
+                        }
+                });
+                    });
+                    
                 
          
   router.post('/accept_challenge', ensureAuthenticated, function(req, res){
@@ -814,10 +902,13 @@ router.get ('/videos',ensureAuthenticated, function (req, res){
                 user: req.user,
                 Challenge:req.session.challenges,
                 pic:req.session.pic,
-                friend_request:req.session.made_buddies,
+                fr:req.session.made_buddies,
                 user: req.user,
                 ch:challenges,
-                wh:who_is_already_challenged
+                wh:who_is_already_challenged,
+                friend_request:req.session.friends,
+                
+           
         });             
             });
 });
@@ -1015,14 +1106,14 @@ if(req.user.username != id)
            }else
            {
             console.log('Saved ok');
-            res.render('index');
+            home_page(req,res);
            }
 		});
 
     }
     else
     {
-      res.render('index');
+     home_page(req,res);
     }
     });
 

@@ -39,12 +39,12 @@ background: url(../background2.jpg) no-repeat center center fixed;
                 <div class="inputBox">
                              <span><i class="fa fa-user" aria-hidden="true"></i></span>
         
-                      <input type="text"  name="username" placeholder="Username">
+                      <input type="text"  name="username" placeholder="Username"maxlength="30" required pattern="[a-zA-Z0-9]+[a-zA-Z0-9 ]+" >
                    </div>
                   <div class="inputBox">
                                <span><i class="fa fa-lock" aria-hidden="true"></i></span>
      
-                      <input type="password"  name="password" placeholder="Password">
+                      <input type="password"  name="password" placeholder="Password" maxlength="30" required pattern="[a-zA-Z0-9]+[a-zA-Z0-9 ]+">
          
                   </div>
                     <div class="row center"> 

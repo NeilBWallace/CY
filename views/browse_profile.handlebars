@@ -58,11 +58,11 @@ $('#reject_friends').hide();
  $('#ccc').text(cc);
 
 
-var s=$('#already_friend').attr('class');
+var s=$('#already_friends').attr('class');
 
-alert('s' + s);
-if( s=='One of your friends!')
+if( s.length>1)
 {
+  
   $('#already_friends').show();
 
 }else
@@ -70,7 +70,7 @@ if( s=='One of your friends!')
 $('#send_request').show();
 };
 
-alert('acccrej' + accrej);
+
 var accrej= $('#accrej').attr('class');
 if(accrej==1)
 {
@@ -112,24 +112,23 @@ $('#send_request').hide();
 
   </div>
   <div class='b2'>
-           <button style="display:none" id="already_friend" class="{{already_friends}}">{{already_friends}}</button>
+           <button style="display:none" id="already_friends" class="{{already_friends}}">{{already_friends}}</button>
    
  <div class="fc">
      <div class='b2'>
        
-       {{#each friend}}
 <div class="profile-picture big-profile-picture clear">  
-          <img width="80px" alt="picture" src="{{pic}}" />
+          <img width="80px" alt="picture" src="{{us.pic}}" />
         </div>
      </div>
         <div class='b2'>
             
 <h1 class="user-name"> 
 
-   <a  style="" href="../edit_profile">{{username}}</a></h1>
-      <a href="/request_make_friends/{{username}}" id="send_request">Send Friend Request</a>
-    <a id="make_friends" href="/make_friends/{{username}}" class="btn btn-xs btn-warning">Accept</a>
-   <a id="reject_friends" href="/reject_friends/{{username}}" class="btn btn-xs btn-warning">Reject</a>
+   <a  style="" href="../edit_profile">{{us.username}}</a></h1>
+      <a href="/request_make_friends/{{us.username}}" id="send_request"  class="btn">Befriend</a>
+    <a id="make_friends" href="/make_friends/{{us.username}}" class="btn btn-xs btn-warning">Accept</a>
+   <a id="reject_friends" href="/reject_friends/{{us.username}}" class="btn btn-xs btn-warning">Reject</a>
 
      </div>
  </div>
@@ -157,7 +156,7 @@ $('#send_request').hide();
           </div>
          <div class="fc1" >
             <div class="b0" style="background-color:white">
-              {{location}}
+              {{us.location}}
            </div>     
            <div class="b0" style="background-color:white">
                Mastered Challenges
@@ -168,7 +167,7 @@ $('#send_request').hide();
           </div>
            <div class="fc1" >
             <div class="b0" style="background-color:white">
-        
+          
            </div>     
            <div id="ccc" class="b0" style="background-color:white">
           {{challengescompleted.length}}
@@ -203,17 +202,20 @@ $('#send_request').hide();
     
            </div>     
            <div class="b0" style="background-color:white">
-          <div> {{hobby1}}</div><div>{{hobby2}}</div><div>{{hobby3}}</div>
+          <div> {{us.hobby1}}</div><div>{{us.hobby2}}</div><div>{{us.hobby3}}</div>
            </div>
            <div class="b0" style="background-color:white">
-             <div> {{group1}}</div><div>{{group2}}</div><div>{{group3}}</div>
+             <div> {{us.group1}}</div><div>{{us.group2}}</div><div>{{us.group3}}</div>
            </div>
           </div>
            <div class="fc1" >
             <div class="b0" style="background-color:white">
-              {{/each}}
+       
+       
+          
+           
              {{Buddies.length}}
-    
+          
              
            </div>     
            <div class="b0" style="background-color:white">

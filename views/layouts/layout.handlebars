@@ -24,6 +24,19 @@
 <script src="https://assets-cdn.ziggeo.com/v1-stable/ziggeo.js"></script>
    
     <script>
+
+    $(document).ready(function() {
+          if($('#ad').attr('class')=="admin")
+          {
+           $('#ad').show();
+          }
+    });
+
+
+
+
+
+
       ZiggeoApi.token="r1d3ffca0738877b5b993904b579130f";
       ZiggeoApi.v2app().on("ready",function(){
       var recorderElement = $("#recorder");
@@ -31,7 +44,7 @@
 if(recorder)
 {
 recorder.on("verified",function(){
-alert('ok!');
+
 var a=recorder.get("video");
 
  document.getElementById("challenge_id").value =a;
@@ -75,12 +88,12 @@ document.getElementById('test').click();
                     
                  <li>
                  
-                        <a class="header-menu-tab" href="/see_friend_request"><span class="icon fa fa-user-plus g"></span></a>
+                        <a  class="header-menu-tab" href="/see_friend_request"><span class="icon fa fa-user-plus g"></span></a>
                       <a class="header-menu-number" href="/see_friend_request">{{friend_request.length}}</a>
                   </li>
 
                    <li>
-                      <a class="header-box-tab" href="/admin"><span class="icon fontawesome-envelope g"></span></a>                            
+                      <a id="adm" style="display:none" class="header-menu-tab" href="/admin"><span class="icon fa fa-user g"></span></a>                            
                   </li>
       
                     <li>
@@ -102,6 +115,8 @@ document.getElementById('test').click();
             </header>
   {{/if}}
 
+
+<input id="ad" class="{{user.username}}" style="display:none"/>
 {{{body}}}
 
 

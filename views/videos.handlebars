@@ -22,7 +22,8 @@
 .b li a {
     display:block;
     min-width:140px;
-  
+  list-style-position:inside;
+    border: 1px solid goldenrod;
     text-align: center;
    
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -42,7 +43,7 @@
 
 /*Style for dropdown links*/
 .b li:hover ul a {
-    background: #f3f3f3;
+  
     color: #2f3036;
     height: 40px;
     line-height: 40px;
@@ -58,6 +59,12 @@
 
 <script>
 $(document).ready(function() {
+
+ $("#fr").hide(); 
+ $('#cc').hide();
+ 
+
+
 
         $("#cc").click(function() 
           {
@@ -75,10 +82,8 @@ $(document).ready(function() {
 
 
  $("#d a").click(function() {
-  
-  $("#d").find('a').each(function(){   
-  $(this).css("background-color", "white");
-  });
+  $('#cc').hide(); 
+$('#fr').show(); 
 
   $('input[type=checkbox]').each(function () {
           $(this).prop('checked',false);
@@ -87,9 +92,11 @@ $(document).ready(function() {
 
 var a= $(this).data('index');
 
+
+
   $("#w").find('a').each(function(){   
 
-
+       
         var bc= $(this).attr('data-index' );
         if(a == bc){
             var done= $(this).attr('class');
@@ -97,10 +104,24 @@ var a= $(this).data('index');
              //  this.prop('checked', true);
              if (done== this.id) {
                 $(this).prop('disabled', true);
-               }
+               };
           });
         };
       });
+
+      
+      $('input[type=checkbox]').each(function () {
+             //  this.prop('checked', true);
+             $('#cf').text('All challenged');
+              if($(this).prop('disabled')==false)
+              {
+                $('#cf').text('Challenge Friends'); 
+               $('#cc').show();
+              };
+              
+          });   
+
+
 
          $("#fr").show();
 
@@ -154,9 +175,10 @@ var a= $(this).data('index');
             <a HREF="javascript:history.back()" class="close">x</a>
       -->
 
-
+   <button type="button" onclick="javascript:history.back()">Back</button>
+                  
                   <div class="f">
-                     
+                  
                      <div class="b" style="overflow: scroll;height:250px">
                          <h2> My Challenges</h2>
                          <ul id="menu">
@@ -177,9 +199,9 @@ var a= $(this).data('index');
                         </div>
                     <div id="fr" class="b">
 
-                                    Challenge Friend
+                                 <div id="cf">   Challenge Friend</div>
                                      <ul id="menu">
-                                    {{#each friend_request}}
+                                    {{#each fr}}
                                     <li>
                                     <a><input type="checkbox" id={{this}} name="subscribe" value={{this}}>
                                         <label for={{this}}>{{this}}</label></a>
@@ -189,14 +211,13 @@ var a= $(this).data('index');
 
   <div class="f">
                      <div class="b"></div>
-                     <div class="b" style="text-align:center;margin:10px;">
-                      <button style="color:white;background-color: #19c589" class="pulse-button" id="cc" >Challenge!</button>
-                      <button type="button" onclick="javascript:history.back()">Back</button>
-                  
+                     <div  class="b" style="text-align:center;margin:10px;">
+                      <button  style="color:white;background-color: #19c589" class="pulse-button" id="cc" >Challenge!</button>
+                    
                       </div>
                         <div class="b"></div>
                   </div>
-
+  
                             </div>
 
 

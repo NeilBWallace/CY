@@ -59,10 +59,13 @@
 <script>
 $(document).ready(function() {
 
+
+$('#cc').hide();
+$('#rc').hide();
         $("#cc").click(function() 
           {
          //   var k =$('#ch').val();
-          $("#submit_button").click();
+          $("#complete_button").click();
             });
 
         $("#rc").click(function() 
@@ -121,6 +124,8 @@ $(document).ready(function() {
 
  $("#d a").click(function() {
   
+  $('#cc').show();
+  $('#rc').show();
 var a= $(this).data('index');
 
   $("#w").find('a').each(function(){   
@@ -145,6 +150,7 @@ var a= $(this).data('index');
         $("#ch").val(bb);
         $("#challenge_id").val(a);
          $("#reject_id").val(a);
+           $("#complete_id").val(a);
     });
  
     $("#loginLink").click(function( event ){
@@ -219,7 +225,7 @@ var a= $(this).data('index');
   <div class="f">
                      <div class="b"></div>
                      <div class="b" style="text-align:center;margin:10px;">
-                      <button style="color:white;background-color: #19c589" class="pulse-button" id="cc" >Accept Challenge!</button>
+                      <button style="color:white;background-color: #19c589" class="pulse-button" id="cc" >Complete Challenge!</button>
                  
                          <button style="color:white;background-color: #19c589" class="pulse-button" id="rc" >Reject Challenge!</button>
               
@@ -249,7 +255,10 @@ var a= $(this).data('index');
           <div>  <input name="reject_id" type="text" id="reject_id" style="color:Black"/></div>
        <button type="submit" id="reject_button">Submit</button>
         </form>
- 
+ <form action="/complete_challenge" method="post" style="display:none">
+          <div>  <input name="complete_id" type="text" id="complete_id" style="color:Black"/></div>
+       <button type="submit" id="complete_button">Submit</button>
+        </form>
 
 <div id="w" style="display:none">
 {{#each wh}}

@@ -11,6 +11,48 @@
 
 $(document).ready(function() {
   
+$("#image_id").on("change", function(){
+ 
+  $("#change_image").click();
+});
+
+$("#location").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#group1").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#group2").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#group3").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#hobby1").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#hobby2").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+$("#hobby3").on("change", function(){
+ 
+  $("#submit").click();
+});
+
+
+
       if( document.getElementById("challenge").value !='none')
       {
 
@@ -71,23 +113,23 @@ $(document).ready(function() {
 <div class="overlay" style="display: none;">
     <div class="login-wrapper" style="width:500px">
         <div class="login-content" id="loginTarget">
-            <a HREF="javascript:history.back()" class="close">x</a>
+            <a HREF="/" class="close">x</a>
     <form action="/upload_user_profile" method="POST" enctype="multipart/form-data">
          <div class="profile-picture big-profile-picture clear">  
                             <img width="80px" alt="picture" src="{{pic}}" />
             </div>
-                      <input type="file" id="image" name="image" accept="image/*" required>
-                      <button class="">Change Image</button>
+                      <input value="{{pic}}" id="image_id" type="file" id="image" name="image" accept="image/*" required>
+                      <button style="display:none" id="change_image" class="">Change Image</button>
 
                           </form>
           
                  
                    
-                    <input style="display:none" type="text" name="challenge" id="challenge" placeholder="Challenge must be between 8 and 20 characters"   />
+                    <input style="display:none" type="text" name="challenge" id="challenge" placeholder="Challenge must be between 8 and 20 characters"   minllength="8" maxlength="20" required pattern="[a-zA-Z0-9]+[a-zA-Z0-9 ]+" />
                <form method="post" action="/update_location"> 
              
                <label>Location:</label>
-                  <input style="width:100px" id="location" type="text" name="location" value={{location}}>
+                  <input value="{{location}}" style="width:100px" id="location" type="text" name="location"  maxlength="30" required pattern="[a-zA-Z0-9]+[a-zA-Z0-9 ]+">
               <label>Groups:</label>
                <select class="input-field" id="group1" name="group1">
                 <option selected="selected">
@@ -138,7 +180,7 @@ $(document).ready(function() {
                         <option value="{{hobby}}">{{hobby}}</option>
                         {{/each}}
                         </select>
-                    <button type="submit" > Submit</button>     
+                    <button style="display:none" id="submit" type="submit" > Submit</button>     
                </form>      
                
               

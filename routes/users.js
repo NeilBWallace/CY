@@ -52,13 +52,30 @@ router.post('/register', function(req, res){
 		});
 
 		User.createUser(newUser, function(err, user){
-			if(err) throw err;
-			console.log(user);
+			if(err){
+				
+				var e=err.toString();
+			var b=	e.indexOf('username_1 dup key') ;
+		  var f= 	e.indexOf('email_1 dup key') ;
+			// returns  0
+				if(b !=-1) {
+			err="Username is already taken. Please try again."
+					};
+					if(f !=-1) {
+						err="email is already taken. Please try again."
+								};
+				res.render('register',{
+					errors:err
+				});
+			}else
+			{
+				req.flash('success_msg', 'You are registered and can now login');
+				
+						res.redirect('/users/login');
+			}
 		});
 
-		req.flash('success_msg', 'You are registered and can now login');
-
-		res.redirect('/users/login');
+	
 	}
 });
 
